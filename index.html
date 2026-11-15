@@ -1,8 +1,19 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#132843">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trendos">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Trendos Camp & Catering Management v5</title>
 <style>
 :root{
@@ -208,12 +219,7 @@ input:disabled,select:disabled{background:var(--gray50);color:var(--gray400)}
 .tab:hover:not(.active){color:var(--navy)}
 
 /* ── Auth screen ── */
-#auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--navy)}
-.auth-card{background:#fff;border-radius:var(--radius-lg);padding:36px 40px;width:340px;box-shadow:var(--shadow-md);text-align:center}
-.auth-logo{font-size:22px;font-weight:900;color:var(--navy);margin-bottom:4px}
-.auth-logo span{color:var(--pink)}
-.auth-sub{font-size:12px;color:var(--gray400);margin-bottom:28px}
-.auth-card h2{font-size:16px;color:var(--navy);margin-bottom:18px}
+
 
 /* ── Misc ── */
 .empty-state{text-align:center;padding:48px 20px;color:var(--gray400)}
@@ -234,6 +240,121 @@ input:disabled,select:disabled{background:var(--gray50);color:var(--gray400)}
 .text-muted{color:var(--gray400)}
 .fw-bold{font-weight:700}
 .mono{font-family:var(--font-mono)}
+
+/* ══ Sign-in page ══ */
+:root{--display:'Readex Pro',var(--font);--steel:#8fa3bc;--night:#132843}
+#auth-screen{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,460px);min-height:100vh;min-height:100dvh;background:#fff}
+.auth-hero{background:var(--night);color:#fff;padding:56px clamp(28px,5vw,72px) 40px;display:flex;flex-direction:column;gap:40px;position:relative;overflow:hidden;justify-content:space-between}
+.auth-brand .wordmark{font-family:var(--display);font-weight:700;font-size:clamp(44px,6vw,76px);line-height:.95;letter-spacing:-.02em}
+.auth-brand .wordmark-ar{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.6vw,32px);color:#f4b7d6;margin-top:10px;text-align:left}
+.auth-lede{font-size:16px;line-height:1.55;color:#c6d2e1;max-width:30em;margin-top:18px}
+.camp-plan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,30px);align-items:start;flex:1;align-content:center;max-width:980px}
+.cp-block{border-top:2px solid rgba(255,255,255,.18);padding-top:8px}
+.cp-label{font-family:var(--display);font-size:13px;color:#9fb1c8;margin-bottom:8px;display:flex;justify-content:space-between}
+.cp-label b{color:#fff;font-weight:600}
+.cp-rooms{--bed:clamp(7px,.8vw,12px);display:flex;flex-wrap:wrap;gap:calc(var(--bed)*.6)}
+.cp-room{display:grid;grid-template-columns:repeat(3,var(--bed));grid-auto-rows:var(--bed);gap:2px;padding:3px;border-radius:3px;background:rgba(255,255,255,.05)}
+.cp-room.r2{grid-template-columns:repeat(2,var(--bed))}
+.cp-bed{border-radius:1.5px;box-shadow:inset 0 0 0 1px rgba(143,163,188,.45)}
+.cp-bed.on{background:var(--pink);box-shadow:none;animation:bedIn .5s ease-out both}
+@keyframes bedIn{from{background:transparent;box-shadow:inset 0 0 0 1px rgba(143,163,188,.45);transform:scale(.6)}to{background:var(--pink);transform:none}}
+@media (prefers-reduced-motion:reduce){.cp-bed.on{animation:none}}
+.plan-key{display:flex;gap:18px;font-size:12.5px;color:#9fb1c8;align-items:center}
+.plan-key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.plan-key .k-occ{background:var(--pink)}.plan-key .k-free{box-shadow:inset 0 0 0 1px var(--steel)}
+.auth-panel{display:flex;align-items:center;justify-content:center;padding:40px 28px;background:#fff}
+.auth-card{width:100%;max-width:340px}
+.auth-card h1{font-family:var(--display);font-weight:600;font-size:28px;color:var(--navy);letter-spacing:-.01em}
+.auth-card .auth-sub{font-size:14px;color:var(--gray500);margin:6px 0 26px;line-height:1.5}
+.auth-card .form-label{font-size:12.5px;color:var(--gray600);margin-bottom:5px;display:block}
+.auth-card input{padding:11px 13px;font-size:15px;border-radius:8px}
+.auth-card input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(194,0,106,.12)}
+.auth-card #login-btn{width:100%;justify-content:center;padding:12px;font-size:15px;border-radius:8px;margin-top:4px}
+.auth-card #login-err{font-size:13px}
+body:not(.signed-in) #tabbar,body:not(.signed-in) #side-scrim{display:none!important}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+@media (max-width:860px){
+  #auth-screen{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .auth-hero{padding:calc(26px + env(safe-area-inset-top)) 22px 22px;gap:18px}
+  .auth-brand{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .auth-brand .wordmark{font-size:40px}.auth-brand .wordmark-ar{font-size:22px;margin-top:0}
+  .auth-lede{font-size:14px;margin-top:4px;flex-basis:100%}
+  .camp-plan{gap:10px;flex:none}.cp-rooms{--bed:3.5px;gap:3px}
+  .cp-room{padding:1px;gap:1px;border-radius:2px}.cp-label{font-size:11px;margin-bottom:5px}.cp-label span{display:none}.cp-block{padding-top:6px}
+  .plan-key{font-size:11.5px}
+  .auth-panel{padding:26px 22px calc(30px + env(safe-area-inset-bottom));align-items:flex-start}
+  .auth-card{max-width:none}
+}
+
+/* ══ Headings use the display face ══ */
+.page-title,#topbar .logo{font-family:var(--display);letter-spacing:-.01em}
+
+/* ══ Mobile app shell ══ */
+.menu-btn{display:none;background:none;border:none;color:#fff;font-size:22px;line-height:1;padding:6px 8px;margin-left:-6px;cursor:pointer;border-radius:6px}
+#side-scrim{display:none}
+#tabbar{display:none}
+.res-cards{display:none}
+.quick-actions{display:flex;gap:10px;flex-wrap:wrap;margin:-6px 0 20px}
+.quick-actions .btn{padding:10px 16px;font-size:13.5px;background:#fff;color:var(--navy);box-shadow:var(--shadow)}
+.quick-actions .btn:hover{color:var(--pink)}
+.quick-actions .btn .qa-i{font-size:16px}
+@media (max-width:900px){
+  .menu-btn{display:inline-flex}
+  #topbar{padding:0 12px;padding-top:env(safe-area-inset-top);height:calc(var(--topbar) + env(safe-area-inset-top))}
+  #layout{margin-top:calc(var(--topbar) + env(safe-area-inset-top))}
+  #topbar .logo span{display:none}
+  #topbar .user-pill{padding:3px}#topbar .user-pill .uname{display:none}
+  .sync-pill.saved #sync-text,.sync-pill.local #sync-text{display:none}
+  .sync-pill{padding:7px 9px}
+  #sidebar{transform:translateX(-102%);transition:transform .22s ease;width:270px;z-index:130;top:calc(var(--topbar) + env(safe-area-inset-top));box-shadow:4px 0 24px rgba(0,0,0,.25);padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+  body.menu-open #sidebar{transform:none}
+  body.menu-open #side-scrim{display:block;position:fixed;inset:0;background:rgba(10,20,35,.45);z-index:125}
+  .nav-item{padding:12px 18px;font-size:14px}
+  #layout{height:auto;display:block}
+  #content{margin-left:0;overflow:visible;padding:14px 14px calc(84px + env(safe-area-inset-bottom))}
+  #ro-banner{margin:-14px -14px 14px}
+  #tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:120;background:#fff;border-top:1px solid var(--gray200);padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(19,40,67,.08)}
+  #tabbar button{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--gray500);padding:4px 2px;cursor:pointer;font-family:var(--font)}
+  #tabbar button .ti{font-size:20px;line-height:1.1}
+  #tabbar button.on{color:var(--pink);font-weight:600}
+  #tabbar button.tb-main .ti{width:46px;height:46px;border-radius:50%;background:var(--pink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin-top:-20px;box-shadow:0 4px 12px rgba(194,0,106,.35)}
+  .two-col,.three-col{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+  .metric-card{padding:12px}
+  .page-header{margin-bottom:14px}
+  .wf-steps{overflow-x:auto;scroll-snap-type:x mandatory}.wf-step{min-width:150px;scroll-snap-align:start}
+  .room-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+  #toast-box{left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom))}.toast{max-width:none}
+}
+@media (max-width:600px){
+  .page-title{font-size:19px}
+  .page-header>div:last-child:not(:first-child){width:100%}
+  .page-header .btn{flex:1 1 auto;justify-content:center}
+  .modal-backdrop.open{align-items:stretch}
+  .modal,.modal-lg,.modal-xl{width:100vw;max-height:none;height:100dvh;border-radius:0;display:flex;flex-direction:column}
+  .modal-header{padding:calc(14px + env(safe-area-inset-top)) 16px 14px}
+  .modal-body{flex:1;overflow-y:auto;padding:16px}
+  .modal-footer{flex-wrap:wrap;padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+  .modal-footer .btn{flex:1 1 40%;justify-content:center;min-height:44px}
+  .form-row{grid-template-columns:1fr!important}
+  input,select,textarea{font-size:16px}
+  .btn-sm{padding:7px 12px}
+  .kv{grid-template-columns:105px 1fr}
+  .quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .quick-actions .btn{justify-content:flex-start;min-height:48px;text-align:left}
+  .filters>input{width:100%!important;flex:1 1 100%}.filters>select{width:auto!important;flex:1 1 30%;min-width:0}
+  .res-table{display:none}
+  .res-cards{display:flex;flex-direction:column;gap:10px}
+  .res-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start}
+  .res-card .rc-room{font-family:var(--display);font-weight:600;color:var(--navy);font-size:15px;min-width:52px}
+  .res-card .rc-name{font-weight:600;font-size:14.5px}
+  .res-card .rc-meta{grid-column:2/4;font-size:12.5px;color:var(--gray500);line-height:1.5}
+  .res-card .rc-meta a{color:var(--teal)}
+  .res-card .rc-actions{grid-column:1/4;display:flex;gap:8px;margin-top:6px}
+  .res-card .rc-actions .btn{flex:1;justify-content:center;min-height:38px}
+  .res-card input[type=checkbox]{width:20px;height:20px}
+  .drr-sheet{min-width:980px}
+}
 /* ── Cloud / sync additions (v5.2) ── */
 .sync-pill{font-size:11px;color:#fff;background:rgba(255,255,255,.12);border-radius:20px;padding:5px 11px;display:flex;align-items:center;gap:6px;white-space:nowrap;cursor:default}
 .sync-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--gray400)}
@@ -248,10 +369,13 @@ input:disabled,select:disabled{background:var(--gray50);color:var(--gray400)}
 #ro-banner{display:none;background:var(--gold-light);color:#7a5a0f;border-bottom:1px solid #ecd9a8;padding:8px 20px;font-size:12.5px;margin:-20px -20px 16px}
 body.readonly #ro-banner{display:block}
 body.readonly #content .btn-primary,body.readonly #content .btn-danger,body.readonly #content .btn-xs:not(.btn-outline){display:none!important}
-.auth-note{font-size:11.5px;color:var(--gray500);margin-top:14px;line-height:1.5}
+.auth-note{font-size:12px;color:var(--gray500);margin-top:16px;line-height:1.6}
 .auth-note a,.link{color:var(--teal);cursor:pointer;text-decoration:underline}
 .kv{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;font-size:12.5px;margin-bottom:14px}
 .kv div:nth-child(odd){color:var(--gray500)}
+.seg{display:inline-flex;background:var(--gray100);border-radius:9px;padding:3px;margin-bottom:14px;gap:2px;max-width:100%;overflow-x:auto}
+.seg button{border:none;background:none;padding:7px 14px;border-radius:7px;font-size:13px;color:var(--gray600);cursor:pointer;white-space:nowrap;font-family:var(--font)}
+.seg button.on{background:#fff;color:var(--navy);font-weight:600;box-shadow:var(--shadow)}
 .modal-xl{width:min(96vw,1120px)}
 body.readonly .edit-only{display:none!important}
 table.mci td{padding:3px 4px}table.mci input,table.mci select{padding:5px 7px;font-size:12.5px}
@@ -271,29 +395,42 @@ table.mci td{padding:3px 4px}table.mci input,table.mci select{padding:5px 7px;fo
 <body>
 <!-- Auth Screen -->
 <div id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-logo">Trendos <span>v5</span></div>
-    <div class="auth-sub">Camp & Catering Management · Jubail KSA</div>
-    <h2>Sign In</h2>
-    <div class="form-group" style="margin-bottom:12px;text-align:left">
-      <label class="form-label" id="login-user-label">Username</label>
-      <input type="text" id="login-user" placeholder="admin" value="admin" autocomplete="username">
+  <section class="auth-hero">
+    <div class="auth-brand">
+      <div class="wordmark">Trendos</div>
+      <div class="wordmark-ar" lang="ar" dir="rtl">تريندوس</div>
+      <p class="auth-lede">Accommodation, catering and billing for the camp at Jubail Industrial City.</p>
     </div>
-    <div class="form-group" style="margin-bottom:20px;text-align:left">
-      <label class="form-label">Password</label>
-      <input type="password" id="login-pass" placeholder="••••••" value="1234" autocomplete="current-password" onkeyup="if(event.key==='Enter')doLogin()">
+    <div class="camp-plan" id="camp-plan" role="img" aria-label="Camp plan of blocks A to D, with occupied and free beds"></div>
+    <div class="plan-key"><span><i class="k-occ"></i>Occupied bed</span><span><i class="k-free"></i>Free bed</span></div>
+  </section>
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h1>Sign in</h1>
+      <p class="auth-sub">Use the username or email your administrator gave you.</p>
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label" id="login-user-label" for="login-user">Username or email</label>
+        <input type="text" id="login-user" placeholder="admin" value="admin" autocomplete="username" autocapitalize="none" spellcheck="false">
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label class="form-label" for="login-pass">Password</label>
+        <input type="password" id="login-pass" placeholder="Your password" autocomplete="current-password" onkeyup="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="btn btn-primary" id="login-btn" onclick="doLogin()">Sign in</button>
+      <p id="login-err" style="color:var(--red);margin-top:12px;display:none">Invalid credentials</p>
+      <div class="auth-note" id="auth-note"></div>
     </div>
-    <button class="btn btn-primary" id="login-btn" style="width:100%" onclick="doLogin()">Sign In</button>
-    <p id="login-err" style="color:var(--red);font-size:12px;margin-top:10px;display:none">Invalid credentials</p>
-    <div class="auth-note" id="auth-note"></div>
-  </div>
+  </section>
 </div>
+<div id="side-scrim" onclick="toggleMenu(false)"></div>
+<nav id="tabbar" aria-label="Main"></nav>
 <div id="loading"><span id="loading-msg">Loading…</span></div>
 <div id="toast-box"></div>
 
 <!-- Main App -->
 <div id="main-app" style="display:none">
   <div id="topbar">
+    <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-label="Open menu">☰</button>
     <div class="logo">Trendos <span>Camp & Catering · Jubail</span></div>
     <div class="spacer"></div>
     <div class="sync-pill local" id="sync-pill" onclick="syncPillClick()"><span class="dot"></span><span id="sync-text">Local demo</span></div>
@@ -309,10 +446,11 @@ table.mci td{padding:3px 4px}table.mci input,table.mci select{padding:5px 7px;fo
       <div class="nav-section">Camp</div>
       <div class="nav-item" onclick="nav('rooms')"><span class="icon">🏢</span>Rooms & Blocks</div>
       <div class="nav-item" onclick="nav('residents')"><span class="icon">👥</span>Residents</div>
-      <div class="nav-item" onclick="nav('movement')"><span class="icon">🔄</span>Movement Log</div>
+      <div class="nav-item" onclick="nav('movement')"><span class="icon">🔄</span>Movement In / Out</div>
       <div class="nav-section">Billing</div>
       <div class="nav-item" onclick="nav('rates')"><span class="icon">📋</span>Rate Agreements</div>
       <div class="nav-item" onclick="nav('mandays')"><span class="icon">📅</span>Mandays Report</div>
+      <div class="nav-item" onclick="nav('revenue')"><span class="icon">💰</span>Revenue</div>
       <div class="nav-item" onclick="nav('monthend')"><span class="icon">🗓️</span>Monthly Closing</div>
       <div class="nav-item" onclick="nav('invoices')"><span class="icon">🧾</span>Invoices</div>
       <div class="nav-section">Food</div>
@@ -347,6 +485,7 @@ table.mci td{padding:3px 4px}table.mci input,table.mci select{padding:5px 7px;fo
       <div id="page-settings" style="display:none"></div>
       <div id="page-users" style="display:none"></div>
       <div id="page-roles" style="display:none"></div>
+      <div id="page-revenue" style="display:none"></div>
       <div id="page-drr" style="display:none"></div>
     </div>
   </div>
@@ -381,6 +520,7 @@ const MODULES=[
   {k:'movement',label:'Movement Log'},
   {k:'rates',label:'Rate Agreements'},
   {k:'mandays',label:'Mandays Report'},
+  {k:'revenue',label:'Revenue'},
   {k:'monthend',label:'Monthly Closing'},
   {k:'invoices',label:'Invoices'},
   {k:'catering',label:'Catering'},
@@ -391,7 +531,7 @@ const MODULES=[
 ];
 const PAGE_MODULE={drr:'reports',users:'_admin',roles:'_admin'};
 // which module's "edit" right allows changing each kind of record (mirrored in the database rules)
-const COL_MODULE={blocks:['rooms'],rooms:['rooms'],residents:['residents'],movements:['movement'],rates:['rates'],
+const COL_MODULE={blocks:['rooms'],rooms:['rooms'],residents:['residents'],movements:['movement','residents'],rates:['rates'],
   monthEndPeriods:['monthend'],closings:['monthend'],invoices:['invoices','monthend'],cateringExtras:['catering'],
   subleaseContracts:['sublease'],subleaseProviders:['sublease'],companies:['companies'],settings:['settings','monthend','invoices']};
 const BUILTIN_ROLES=[
@@ -399,13 +539,20 @@ const BUILTIN_ROLES=[
   {id:'manager',name:'Manager',builtin:true,perms:Object.fromEntries(MODULES.map(m=>[m.k,m.k==='settings'?'view':'edit']))},
   {id:'viewer',name:'Viewer',builtin:true,perms:Object.fromEntries(MODULES.map(m=>[m.k,'view']))},
 ];
+// Ready-made roles (editable / deletable like any role you create)
+const PRESET_ROLES=[
+  {id:'entry-staff',name:'Entry Staff',builtin:false,perms:{dashboard:'view',rooms:'view',residents:'edit',movement:'view'}},
+  {id:'supervisor',name:'Supervisor',builtin:false,perms:{dashboard:'view',rooms:'view',residents:'edit',movement:'edit',rates:'view',mandays:'view',revenue:'view',monthend:'edit',invoices:'edit',catering:'edit',sublease:'view',reports:'view',companies:'view',settings:'view'}},
+];
 function isAdmin(){return currentUser&&currentUser.role==='admin'}
 function can(mod,level){
   if(!currentUser)return false;if(isAdmin())return true;
   if(mod==='_admin')return false;
-  const p=(currentUser.perms||{})[mod]||'none';
+  const p=effPerm(currentUser.perms||{},mod);
   return level==='edit'?p==='edit':p!=='none';
 }
+// a screen added after a role was made follows the closest older screen (Revenue follows Mandays)
+function effPerm(perms,k){return perms[k]||(k==='revenue'?perms.mandays:null)||'none'}
 function canEditCollection(c){
   if(isAdmin())return true;
   if(c==='meta')return Object.values(currentUser.perms||{}).includes('edit');
@@ -620,8 +767,8 @@ function refreshView(force){
   const busy=document.getElementById('active-modal')||(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#content')&&/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName));
   if(busy&&!force){Store.pendingRefresh=true;setSync('fresh');return}
   Store.pendingRefresh=false;
-  const c=document.getElementById('content');const st=c.scrollTop;
-  nav(currentPage);c.scrollTop=st;
+  const c=document.getElementById('content');const st=c.scrollTop,wy=window.scrollY;
+  nav(currentPage);c.scrollTop=st;window.scrollTo(0,wy);
   setSync(Store.mode==='local'?'local':Store.readOnly?'readonly':Store.dirty?'saving':'saved');
 }
 function setReadOnly(reason){
@@ -660,6 +807,7 @@ const LocalAuth={
       this.save(a);
     }
     BUILTIN_ROLES.forEach(b=>{if(!a.roles.some(r=>r.id===b.id))a.roles.push(JSON.parse(JSON.stringify(b)))});
+    if(!a.presets){PRESET_ROLES.forEach(b=>{if(!a.roles.some(r=>r.id===b.id))a.roles.push(JSON.parse(JSON.stringify(b)))});a.presets=1;this.save(a)}
     return a;
   },
   save(a){localStorage.setItem(this.KEY,JSON.stringify(a))},
@@ -701,7 +849,7 @@ function renderAuthMode(){
   }
 }
 function loginErr(msg){const el=document.getElementById('login-err');el.textContent=msg;el.style.display='block'}
-function loginBusy(on){const b=document.getElementById('login-btn');b.disabled=on;b.textContent=on?'Signing in…':'Sign In'}
+function loginBusy(on){const b=document.getElementById('login-btn');b.disabled=on;b.textContent=on?'Signing in…':'Sign in'}
 
 async function doLogin(){
   document.getElementById('login-err').style.display='none';
@@ -767,6 +915,7 @@ async function enterApp(){
   catch(e){hideLoading();currentUser=null;loginErr('Could not load data: '+(e.message||e));return}
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('main-app').style.display='block';
+  document.body.classList.add('signed-in');
   document.getElementById('top-avatar').textContent=(currentUser.name||'?')[0].toUpperCase();
   document.getElementById('top-uname').textContent=currentUser.name;
   applyNavPermissions();
@@ -789,7 +938,8 @@ async function doLogout(){
   if(Store.mode==='cloud'&&Store.sb){await Store.unsubscribe();await Store.sb.auth.signOut()}
   try{sessionStorage.removeItem('trendos_local_session')}catch(e){}
   currentUser=null;db={};Store.synced=new Map();Store.readOnly=false;document.body.classList.remove('readonly');
-  document.getElementById('auth-screen').style.display='flex';document.getElementById('main-app').style.display='none';
+  document.getElementById('auth-screen').style.display='grid';document.getElementById('main-app').style.display='none';
+  document.body.classList.remove('signed-in','menu-open');
   renderAuthMode();
 }
 
@@ -1059,7 +1209,7 @@ function seedData(){
 let currentPage='dashboard';
 function nav(page){
   if(currentUser&&!can(pageModule(page),'view')){toast('Your role does not have access to that screen','err');return}
-  currentPage=page;
+  currentPage=page;toggleMenu(false);
   const viewOnly=currentUser&&!Store.readOnly&&!can(pageModule(page),'edit');
   document.body.classList.toggle('readonly',Store.readOnly||!!viewOnly);
   if(!Store.readOnly)document.getElementById('ro-banner').textContent=viewOnly?'View only — your role can see this screen but not change it.':'';
@@ -1067,6 +1217,7 @@ function nav(page){
   document.querySelectorAll('[id^="page-"]').forEach(el=>el.style.display='none');
   const pageEl=document.getElementById('page-'+page);
   if(pageEl){pageEl.style.display='block';renderPage(page,pageEl)}
+  renderTabbar();window.scrollTo(0,0);const ct=document.getElementById('content');if(ct)ct.scrollTop=0;
 }
 function renderPage(page,el){
   switch(page){
@@ -1085,6 +1236,7 @@ function renderPage(page,el){
     case'settings':renderSettings(el);break;
     case'users':renderUsers(el);break;
     case'roles':renderRoles(el);break;
+    case'revenue':renderRevenue(el);break;
     case'drr':renderDRR(el);break;
   }
 }
@@ -1178,15 +1330,20 @@ function renderDashboard(el){
 
   el.innerHTML=`
 <div class="page-header">
-  <div><div class="page-title">🏠 Dashboard</div><div class="page-sub">Trendos Camp & Catering · ${fmtDate(today())}</div></div>
-  ${can('monthend','view')?`<button class="btn btn-outline btn-sm" onclick="nav('monthend')">🗓️ Monthly Closing</button>`:''}
+  <div><div class="page-title">🏠 Dashboard</div><div class="page-sub">${['Good morning','Good afternoon','Good evening'][new Date().getHours()<12?0:new Date().getHours()<17?1:2]}, ${esc((currentUser.name||'').split(' ')[0])}. Camp status for ${fmtDate(today())}.</div></div>
+</div>
+<div class="quick-actions">
+${can('residents','edit')?`<button class="btn" onclick="openResidentModal()"><span class="qa-i">👤</span>Check in</button><button class="btn" onclick="openMultiCheckin()"><span class="qa-i">👥</span>Multi check-in</button><button class="btn" onclick="nav('residents')"><span class="qa-i">⇥</span>Check out</button>`:''}
+${can('movement','view')?`<button class="btn" onclick="openMovement('today')"><span class="qa-i">🔄</span>Movement In / Out</button>`:''}
+${can('reports','view')?`<button class="btn" onclick="openDRR({})"><span class="qa-i">🗒️</span>Daily Rental Records</button>`:''}
+${can('monthend','view')?`<button class="btn" onclick="nav('monthend')"><span class="qa-i">🗓️</span>Monthly Closing</button>`:''}
 </div>
 <div class="metrics">
   <div class="metric-card pink"><div class="metric-label">Active Residents</div><div class="metric-value">${active.length}</div><div class="metric-sub">of ${totalBeds} beds total</div></div>
   <div class="metric-card teal"><div class="metric-label">Occupancy Rate</div><div class="metric-value">${occupancy}%</div><div class="metric-sub">${rooms.length} billable rooms</div></div>
   <div class="metric-card navy"><div class="metric-label">Companies</div><div class="metric-value">${Object.keys(compCounts).length}</div><div class="metric-sub">active on site</div></div>
-  <div class="metric-card gold"><div class="metric-label">MTD Revenue</div><div class="metric-value">SAR ${fmt(projectedRev,0)}</div><div class="metric-sub">${todayDay} days billed</div></div>
-  <div class="metric-card green"><div class="metric-label">Projected Monthly</div><div class="metric-value">SAR ${fmt(projected,0)}</div><div class="metric-sub">${remaining} days remaining</div></div>
+  ${can('revenue','view')?`<div class="metric-card gold" style="cursor:pointer" onclick="nav('revenue')"><div class="metric-label">MTD Revenue</div><div class="metric-value">SAR ${fmt(projectedRev,0)}</div><div class="metric-sub">${todayDay} days billed · by company in Revenue</div></div>
+  <div class="metric-card green" style="cursor:pointer" onclick="nav('revenue')"><div class="metric-label">Projected Monthly</div><div class="metric-value">SAR ${fmt(projected,0)}</div><div class="metric-sub">${remaining} days remaining</div></div>`:''}
 </div>
 
 <div class="two-col">
@@ -1231,22 +1388,14 @@ ${['2x1','3x1','4x1','6x1'].map(cat=>{
 </div></div>
 </div></div>
 
-<div class="card">
-<div class="card-header"><span class="card-title">MTD Revenue by Company</span><button class="btn btn-sm btn-outline" onclick="nav('mandays')">Full Report →</button></div>
-<div class="scroll-x"><table>
-<thead><tr><th>Company</th><th>Room Cat</th><th>Tier</th><th>Person-Days</th><th class="text-right">Rate/Day</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT 15%</th><th class="text-right">Total</th></tr></thead>
-<tbody>${dayRows.map(r=>{const vat=r.amount*.15;return`<tr>
-<td>${r.companyShort}</td><td><span class="badge badge-navy">${r.roomCat}</span></td>
-<td><span class="badge tier-${r.tier[0]}">${r.tier}</span></td>
-<td class="num">${r.personDays}</td><td class="num">${fmt(r.rate)}</td>
-<td class="num">${fmt(r.amount)}</td><td class="num">${fmt(vat)}</td>
-<td class="num fw-bold">${fmt(r.amount+vat)}</td></tr>`}).join('')||'<tr><td colspan="8" class="text-center text-muted">No billing data</td></tr>'}
-</tbody>
-<tfoot><tr><td colspan="3" class="fw-bold">TOTAL</td><td class="num">${dayRows.reduce((s,r)=>s+r.personDays,0)}</td><td></td>
-<td class="num">${fmt(dayRows.reduce((s,r)=>s+r.amount,0))}</td>
-<td class="num">${fmt(dayRows.reduce((s,r)=>s+r.amount*.15,0))}</td>
-<td class="num">${fmt(dayRows.reduce((s,r)=>s+r.amount*1.15,0))}</td></tr></tfoot>
-</table></div></div>`;
+${can('movement','view')?(()=>{const t=today();const ins=db.residents.filter(r=>r.checkIn===t),outs=db.residents.filter(r=>r.checkOut===t);
+const li=(r,k)=>`<tr><td><span class="badge ${k==='in'?'badge-green':'badge-orange'}">${k==='in'?'In':'Out'}</span></td><td>${esc(r.name)}</td><td>${esc(r.company)}</td><td>${esc(r.roomNo)}</td></tr>`;
+return`<div class="card"><div class="card-header"><span class="card-title">Movement today</span><button class="btn btn-sm btn-outline" onclick="openMovement('today')">Movement In / Out</button></div>
+<div class="card-body" style="display:flex;gap:28px;flex-wrap:wrap;padding-bottom:6px">
+<div><div class="metric-label">Checked in</div><div class="metric-value" style="color:var(--green)">${ins.length}</div></div>
+<div><div class="metric-label">Checked out</div><div class="metric-value" style="color:var(--orange)">${outs.length}</div></div>
+<div><div class="metric-label">In camp now</div><div class="metric-value">${active.length}</div></div></div>
+${ins.length+outs.length?`<div class="scroll-x"><table><tbody>${ins.slice(0,6).map(r=>li(r,'in')).join('')}${outs.slice(0,6).map(r=>li(r,'out')).join('')}</tbody></table></div>`:'<div class="card-body text-muted" style="padding-top:0;font-size:13px">No check-ins or check-outs yet today.</div>'}</div>`})():''}`;
 }
 
 // ─── ROOMS PAGE ───
@@ -1401,7 +1550,7 @@ function renderResidents(el){
     <button class="btn btn-primary btn-sm" onclick="openResidentModal()">+ Check In</button>
   </div>
 </div>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
+<div class="filters" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
   <input id="res-search" placeholder="Search name / doc / room / phone…" value="${esc(filter.search)}" oninput="setResFilter('search',this.value)" style="width:240px">
   <select onchange="setResFilter('company',this.value)" style="width:150px">
     <option value="">All Companies</option>
@@ -1417,7 +1566,7 @@ function renderResidents(el){
     <option value="inactive" ${filter.active==='inactive'?'selected':''}>Checked Out</option>
   </select>
 </div>
-<div class="card"><div class="scroll-x"><table>
+<div class="card res-table"><div class="scroll-x"><table>
 <thead><tr><th class="edit-only" style="width:28px"><input type="checkbox" style="width:auto" title="Select all shown" onchange="resSelectAll(this.checked)"></th><th>Room</th><th>Name</th><th>Doc No</th><th>Phone</th><th>Nationality</th><th>Company</th><th>Block</th><th>Type</th><th>Check In</th><th>Check Out</th><th>Food</th><th></th></tr></thead>
 <tbody>${list.map(r=>{const room=getRoom(r.roomNo);const act=isAct(r);const sl=room&&isSubLeaseRoom(room);return`<tr>
 <td class="edit-only">${act?`<input type="checkbox" style="width:auto" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${r.id}',this.checked)">`:''}</td>
@@ -1429,7 +1578,17 @@ function renderResidents(el){
 <td style="white-space:nowrap">
 <button class="btn btn-xs btn-ghost" onclick="editResident('${r.id}')">Edit</button>
 ${act?`<button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${r.id}'])">Check Out</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="13" class="text-center text-muted">No residents found</td></tr>'}
-</tbody></table></div></div>`;
+</tbody></table></div></div>
+<div class="res-cards">${list.slice(0,el._shown||60).map(r=>{const room=getRoom(r.roomNo);const act=isAct(r);const sl=room&&isSubLeaseRoom(room);return`<div class="res-card">
+<div class="rc-room">${esc(r.roomNo)}</div>
+<div class="rc-name">${esc(r.name)}</div>
+<div>${act&&can('residents','edit')?`<input type="checkbox" class="edit-only" aria-label="Select ${esc(r.name)}" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${r.id}',this.checked)">`:act?'':'<span class="badge badge-gray">Out</span>'}</div>
+<div class="rc-meta"><span class="badge badge-navy">${esc(r.company)}</span> ${room?esc(room.cat):''}${sl?' <span class="badge badge-orange">Sub-lease</span>':''}<br>
+Iqama ${esc(r.docNo)}${r.phone?` · <a href="tel:${esc(r.phone.replace(/\s/g,''))}">${esc(r.phone)}</a>`:''}<br>
+In ${fmtDate(r.checkIn)}${r.checkOut?` · Out ${fmtDate(r.checkOut)}`:''}${r.nationality?` · ${esc(r.nationality)}`:''}</div>
+${can('residents','edit')?`<div class="rc-actions"><button class="btn btn-sm btn-outline" onclick="editResident('${r.id}')">Edit</button>${act?`<button class="btn btn-sm btn-outline" onclick="openBulkCheckout(['${r.id}'])">Check out</button>`:''}</div>`:''}
+</div>`}).join('')||'<div class="empty-state"><p>No residents match this search</p></div>'}
+${list.length>(el._shown||60)?`<button class="btn btn-outline" style="justify-content:center" onclick="const e=document.getElementById('page-residents');e._shown=(e._shown||60)+60;renderResidents(e)">Show more (${list.length-(el._shown||60)} left)</button>`:''}</div>`;
   el._list=list.filter(isAct).map(r=>r.id);
 }
 function setResFilter(key,val){
@@ -1578,21 +1737,143 @@ function mciSubmit(){
   saveDB();closeModal();toast(`${rows.length} residents checked in`,'ok');nav('residents');
 }
 
-// ─── MOVEMENT LOG ───
+// ─── MOVEMENT IN / OUT ───
+function movRange(p){
+  const t=today(),d=new Date(t+'T00:00:00');const iso=x=>x.toISOString().slice(0,10);
+  const add=(n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return iso(new Date(Date.UTC(x.getFullYear(),x.getMonth(),x.getDate())))};
+  const y=d.getFullYear(),m=d.getMonth();
+  const first=(yy,mm)=>`${yy}-${String(mm+1).padStart(2,'0')}-01`,last=(yy,mm)=>`${yy}-${String(mm+1).padStart(2,'0')}-${String(new Date(yy,mm+1,0).getDate()).padStart(2,'0')}`;
+  switch(p.preset){
+    case'today':return[t,t];
+    case'yesterday':return[add(-1),add(-1)];
+    case'7d':return[add(-6),t];
+    case'month':return[first(y,m),t];
+    case'lastmonth':{const pm=new Date(y,m-1,1);return[first(pm.getFullYear(),pm.getMonth()),last(pm.getFullYear(),pm.getMonth())]}
+    default:return[p.from||t,p.to||t];
+  }
+}
+function movData(p){
+  const[from,to]=movRange(p);
+  const ok=r=>{if(p.company&&r.company!==p.company)return false;if(p.block){const rm=getRoom(r.roomNo);if(!rm||rm.block!==p.block)return false}return true};
+  const ins=db.residents.filter(r=>ok(r)&&r.checkIn&&r.checkIn>=from&&r.checkIn<=to).sort((a,b)=>b.checkIn.localeCompare(a.checkIn)||a.roomNo.localeCompare(b.roomNo,undefined,{numeric:true}));
+  const outs=db.residents.filter(r=>ok(r)&&r.checkOut&&r.checkOut>=from&&r.checkOut<=to).sort((a,b)=>b.checkOut.localeCompare(a.checkOut)||a.roomNo.localeCompare(b.roomNo,undefined,{numeric:true}));
+  const days=dateRange(from,to).reverse();
+  const daily=days.map(d=>{const i=ins.filter(r=>r.checkIn===d).length,o=outs.filter(r=>r.checkOut===d).length;return{d,i,o,net:i-o,camp:db.residents.filter(r=>ok(r)&&presentOn(r,d)).length}});
+  return{from,to,ins,outs,daily};
+}
+function openMovement(preset){const el=document.getElementById('page-movement');el._p=Object.assign(el._p||{},{preset,tab:'inout'});nav('movement')}
 function renderMovement(el){
-  el.innerHTML=`
-<div class="page-header">
-  <div><div class="page-title">🔄 Movement Log</div></div>
-  <button class="btn btn-primary btn-sm" onclick="openMovModal()">+ Log Movement</button>
-</div>
+  const p=el._p=el._p||{preset:'today',company:'',block:'',tab:'inout'};
+  const tabs=`<div class="seg" role="tablist">
+<button class="${p.tab==='inout'?'on':''}" onclick="movSet('tab','inout')">Check-ins & check-outs</button>
+<button class="${p.tab==='log'?'on':''}" onclick="movSet('tab','log')">Mob / Demob log</button></div>`;
+  if(p.tab==='log'){
+    el.innerHTML=`
+<div class="page-header"><div><div class="page-title">🔄 Movement In / Out</div><div class="page-sub">Mob / demob entries per company. Check-ins and check-outs add entries here automatically.</div></div>
+<button class="btn btn-primary btn-sm" onclick="openMovModal()">+ Log Movement</button></div>
+${tabs}
 <div class="card"><div class="scroll-x"><table>
 <thead><tr><th>Date</th><th>Company</th><th>Activity</th><th>Count</th><th>Category</th><th>Remarks</th><th></th></tr></thead>
-<tbody>${(db.movements||[]).sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr>
-<td>${fmtDate(m.date)}</td><td>${m.company}</td>
-<td><span class="badge ${m.activity==='Mob'?'badge-green':'badge-orange'}">${m.activity}</span></td>
-<td class="num">${m.count}</td><td>${m.category}</td><td>${m.remarks||''}</td>
+<tbody>${(db.movements||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr>
+<td>${fmtDate(m.date)}</td><td>${esc(m.company)}</td>
+<td><span class="badge ${m.activity==='Mob'?'badge-green':'badge-orange'}">${esc(m.activity)}</span></td>
+<td class="num">${m.count}</td><td>${esc(m.category||'')}</td><td>${esc(m.remarks||'')}</td>
 <td><button class="btn btn-xs btn-danger" onclick="delMovement('${m.id}')">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No movements logged</td></tr>'}
 </tbody></table></div></div>`;
+    return;
+  }
+  const D=movData(p);const single=D.from===D.to;
+  const label=single?fmtDate(D.from):`${fmtDate(D.from)} to ${fmtDate(D.to)}`;
+  const row=(r,k)=>{const rm=getRoom(r.roomNo);const nights=k==='out'&&r.checkIn?Math.max(0,Math.round((new Date(r.checkOut)-new Date(r.checkIn))/864e5)):null;
+    return`<tr><td>${fmtDate(k==='in'?r.checkIn:r.checkOut)}</td><td class="fw-bold">${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td><span class="badge badge-navy">${esc(r.company)}</span></td><td>${esc(r.roomNo)}</td><td>${rm?esc(rm.block):''}${rm&&isSubLeaseRoom(rm)?' <span class="badge badge-orange">SL</span>':''}</td><td>${rm?esc(rm.cat):''}</td>${k==='out'?`<td class="num">${nights}</td>`:`<td>${esc(r.phone||'')}</td>`}</tr>`};
+  el.innerHTML=`
+<div class="page-header"><div><div class="page-title">🔄 Movement In / Out</div><div class="page-sub">Who checked in and who checked out · ${label}</div></div>
+<div style="display:flex;gap:8px"><button class="btn btn-outline btn-sm" onclick="movPrint()">📄 Print / PDF</button><button class="btn btn-ghost btn-sm" onclick="movCSV()">📝 Excel (CSV)</button></div></div>
+${tabs}
+<div class="filters" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
+<select onchange="movSet('preset',this.value)" style="width:150px">${[['today','Today'],['yesterday','Yesterday'],['7d','Last 7 days'],['month','This month'],['lastmonth','Last month'],['custom','Choose dates']].map(([v,l])=>`<option value="${v}" ${p.preset===v?'selected':''}>${l}</option>`).join('')}</select>
+${p.preset==='custom'?`<input type="date" value="${D.from}" onchange="movSet('from',this.value)" style="width:150px"><input type="date" value="${D.to}" onchange="movSet('to',this.value)" style="width:150px">`:''}
+<select onchange="movSet('company',this.value)" style="width:150px"><option value="">All companies</option>${db.companies.map(c=>`<option value="${esc(c.short)}" ${p.company===c.short?'selected':''}>${esc(c.short)}</option>`).join('')}</select>
+<select onchange="movSet('block',this.value)" style="width:150px"><option value="">All blocks</option>${db.blocks.map(b=>`<option value="${esc(b.code)}" ${p.block===b.code?'selected':''}>${esc(b.code)}${b.type==='sublease'?' (sub-lease)':''}</option>`).join('')}</select>
+</div>
+<div class="metrics">
+<div class="metric-card green"><div class="metric-label">Checked in</div><div class="metric-value">${D.ins.length}</div><div class="metric-sub">${single?'on this day':'in this period'}</div></div>
+<div class="metric-card orange"><div class="metric-label">Checked out</div><div class="metric-value">${D.outs.length}</div><div class="metric-sub">${single?'on this day':'in this period'}</div></div>
+<div class="metric-card navy"><div class="metric-label">Net change</div><div class="metric-value">${D.ins.length-D.outs.length>0?'+':''}${D.ins.length-D.outs.length}</div><div class="metric-sub">in minus out</div></div>
+<div class="metric-card teal"><div class="metric-label">In camp</div><div class="metric-value">${D.daily.length?D.daily[0].camp:0}</div><div class="metric-sub">on ${fmtDate(D.to)}</div></div>
+</div>
+${!single?`<div class="card"><div class="card-header"><span class="card-title">Day by day</span></div><div class="scroll-x" style="max-height:320px;overflow-y:auto"><table>
+<thead><tr><th>Date</th><th class="text-right">In</th><th class="text-right">Out</th><th class="text-right">Net</th><th class="text-right">In camp</th></tr></thead>
+<tbody>${D.daily.map(x=>`<tr><td>${fmtDate(x.d)}</td><td class="num" style="color:var(--green)">${x.i||''}</td><td class="num" style="color:var(--orange)">${x.o||''}</td><td class="num">${x.net?(x.net>0?'+':'')+x.net:''}</td><td class="num">${x.camp}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+<div class="card"><div class="card-header"><span class="card-title">Checked in (${D.ins.length})</span></div><div class="scroll-x"><table>
+<thead><tr><th>Date in</th><th>Name</th><th>Iqama</th><th>Company</th><th>Room</th><th>Block</th><th>Type</th><th>Phone</th></tr></thead>
+<tbody>${D.ins.map(r=>row(r,'in')).join('')||'<tr><td colspan="8" class="text-center text-muted">Nobody checked in</td></tr>'}</tbody></table></div></div>
+<div class="card"><div class="card-header"><span class="card-title">Checked out (${D.outs.length})</span></div><div class="scroll-x"><table>
+<thead><tr><th>Date out</th><th>Name</th><th>Iqama</th><th>Company</th><th>Room</th><th>Block</th><th>Type</th><th class="text-right">Nights</th></tr></thead>
+<tbody>${D.outs.map(r=>row(r,'out')).join('')||'<tr><td colspan="8" class="text-center text-muted">Nobody checked out</td></tr>'}</tbody></table></div></div>`;
+}
+function movSet(k,v){const el=document.getElementById('page-movement');el._p[k]=v;if(k==='preset'&&v==='custom'){const[f,t]=movRange({preset:'month'});el._p.from=el._p.from||f;el._p.to=el._p.to||t}renderMovement(el)}
+function movCSV(){
+  const p=document.getElementById('page-movement')._p;const D=movData(p);
+  const rows=[['Movement','Date','Name','Iqama','Company','Room','Block','Room type','Phone','Check-in date','Check-out date']];
+  const add=(r,k)=>{const rm=getRoom(r.roomNo);rows.push([k,k==='IN'?r.checkIn:r.checkOut,r.name,r.docNo,r.company,r.roomNo,rm?rm.block:'',rm?rm.cat:'',r.phone||'',r.checkIn||'',r.checkOut||''])};
+  D.ins.forEach(r=>add(r,'IN'));D.outs.forEach(r=>add(r,'OUT'));
+  rows.push([]);rows.push(['Date','In','Out','Net','In camp']);D.daily.forEach(x=>rows.push([x.d,x.i,x.o,x.net,x.camp]));
+  downloadCSV(rows,`movement-in-out-${D.from}${D.from!==D.to?'_to_'+D.to:''}.csv`);
+}
+function movPrint(){
+  const p=document.getElementById('page-movement')._p;const D=movData(p);
+  const t=(title,list,k)=>`<h2>${title} (${list.length})</h2><table><thead><tr><th>Date</th><th>Name</th><th>Iqama</th><th>Company</th><th>Room</th><th>Block</th><th>Type</th></tr></thead><tbody>${list.map(r=>{const rm=getRoom(r.roomNo);return`<tr><td>${fmtDate(k==='in'?r.checkIn:r.checkOut)}</td><td>${esc(r.name)}</td><td>${esc(r.docNo)}</td><td>${esc(r.company)}</td><td>${esc(r.roomNo)}</td><td>${rm?esc(rm.block):''}</td><td>${rm?esc(rm.cat):''}</td></tr>`}).join('')||'<tr><td colspan="7">None</td></tr>'}</tbody></table>`;
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>Movement In / Out ${D.from} ${D.to}</title><style>body{font-family:Arial,sans-serif;font-size:11px;padding:18px}h1{color:#1e3a5f;font-size:16px;margin:0}h2{font-size:13px;color:#1e3a5f;margin:18px 0 6px}p{color:#555}table{width:100%;border-collapse:collapse}th{background:#1e3a5f;color:#fff;padding:5px 7px;text-align:left}td{padding:4px 7px;border-bottom:1px solid #ddd}</style></head><body>
+<h1>Movement In / Out — ${esc(db.settings.company.nameEn)}</h1><p>${D.from===D.to?fmtDate(D.from):fmtDate(D.from)+' to '+fmtDate(D.to)}${p.company?' · '+esc(p.company):''}${p.block?' · Block '+esc(p.block):''} · Checked in ${D.ins.length} · Checked out ${D.outs.length} · Net ${D.ins.length-D.outs.length}</p>
+${t('Checked in',D.ins,'in')}${t('Checked out',D.outs,'out')}</body></html>`);
+  w.document.close();setTimeout(()=>w.print(),300);
+}
+
+// ─── REVENUE ───
+function renderRevenue(el){
+  const now=new Date();el._yr=el._yr||now.getFullYear();el._mo=el._mo||now.getMonth()+1;
+  const B=periodBounds(`${el._yr}-${String(el._mo).padStart(2,'0')}`);const t=today();
+  const current=t>=B.start&&t<=B.end;const upto=current?t:B.end;const future=t<B.start;
+  const rows=future?[]:computeMandays(B.start,upto);const vr=db.settings.vatRate/100;
+  const byC={};rows.forEach(r=>{const c=byC[r.companyShort]=byC[r.companyShort]||{pd:0,amt:0};c.pd+=r.personDays;c.amt+=r.amount});
+  const comp=Object.entries(byC).sort((a,b)=>b[1].amt-a[1].amt);
+  const total=rows.reduce((s2,r)=>s2+r.amount,0),pdays=rows.reduce((s2,r)=>s2+r.personDays,0);
+  const daysDone=future?0:dateRange(B.start,upto).length,daysAll=dateRange(B.start,B.end).length;
+  const projected=current&&daysDone?total/daysDone*daysAll:total;
+  const max=comp.length?comp[0][1].amt:1;
+  el.innerHTML=`
+<div class="page-header"><div><div class="page-title">💰 Revenue</div><div class="page-sub">${current?'Month to date':B.label} · ${fmtDate(B.start)} to ${fmtDate(upto)} · excl. VAT unless stated</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<select onchange="revSet('mo',this.value)" style="width:130px">${MONTHS_FULL.map((mn,i)=>`<option value="${i+1}" ${el._mo===i+1?'selected':''}>${mn}</option>`).join('')}</select>
+<select onchange="revSet('yr',this.value)" style="width:100px">${[2025,2026,2027,2028].map(y2=>`<option ${el._yr===y2?'selected':''}>${y2}</option>`).join('')}</select>
+<button class="btn btn-ghost btn-sm" onclick="revCSV()">📝 Excel (CSV)</button></div></div>
+<div class="metrics">
+<div class="metric-card gold"><div class="metric-label">${current?'MTD revenue':'Revenue'}</div><div class="metric-value">SAR ${fmt(total,0)}</div><div class="metric-sub">${daysDone} of ${daysAll} days</div></div>
+${current?`<div class="metric-card green"><div class="metric-label">Projected month</div><div class="metric-value">SAR ${fmt(projected,0)}</div><div class="metric-sub">at the current daily pace</div></div>`:''}
+<div class="metric-card navy"><div class="metric-label">Incl. VAT ${db.settings.vatRate}%</div><div class="metric-value">SAR ${fmt(total*(1+vr),0)}</div><div class="metric-sub">VAT SAR ${fmt(total*vr,0)}</div></div>
+<div class="metric-card teal"><div class="metric-label">Person-days</div><div class="metric-value">${pdays.toLocaleString()}</div><div class="metric-sub">${comp.length} companies</div></div>
+</div>
+<div class="card"><div class="card-header"><span class="card-title">${current?'MTD revenue':'Revenue'} by company</span>${can('mandays','view')?`<button class="btn btn-sm btn-outline" onclick="nav('mandays')">Mandays report</button>`:''}</div>
+<div class="scroll-x"><table>
+<thead><tr><th>Company</th><th style="width:30%">Share</th><th class="text-right">Person-days</th><th class="text-right">Amount</th><th class="text-right">VAT</th><th class="text-right">Total</th>${current?'<th class="text-right">Projected</th>':''}</tr></thead>
+<tbody>${comp.map(([co,c])=>`<tr><td class="fw-bold">${esc(co)}</td>
+<td><div style="display:flex;align-items:center;gap:8px"><div class="rev-bar-track" style="flex:1;margin:0"><div class="rev-bar-fill" style="width:${Math.round(c.amt/max*100)}%"></div></div><span style="font-size:12px;min-width:36px;text-align:right">${total?Math.round(c.amt/total*100):0}%</span></div></td>
+<td class="num">${c.pd}</td><td class="num">${fmt(c.amt)}</td><td class="num">${fmt(c.amt*vr)}</td><td class="num fw-bold">${fmt(c.amt*(1+vr))}</td>${current?`<td class="num">${fmt(daysDone?c.amt/daysDone*daysAll:0)}</td>`:''}</tr>`).join('')||`<tr><td colspan="${current?7:6}" class="text-center text-muted">No billing for this month</td></tr>`}</tbody>
+<tfoot><tr><td colspan="2">TOTAL</td><td class="num">${pdays}</td><td class="num">${fmt(total)}</td><td class="num">${fmt(total*vr)}</td><td class="num">${fmt(total*(1+vr))}</td>${current?`<td class="num">${fmt(projected)}</td>`:''}</tr></tfoot></table></div></div>
+<div class="card"><div class="card-header"><span class="card-title">By company, room type and occupancy</span></div><div class="scroll-x"><table>
+<thead><tr><th>Company</th><th>Room Cat</th><th>Tier</th><th class="text-right">Person-Days</th><th class="text-right">Rate/Day</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th></tr></thead>
+<tbody>${rows.map(r=>`<tr><td>${esc(r.companyShort)}</td><td><span class="badge badge-navy">${esc(r.roomCat)}</span></td><td><span class="badge tier-${r.tier[0]}">${r.tier}</span></td>
+<td class="num">${r.personDays}</td><td class="num">${fmt(r.rate)}</td><td class="num">${fmt(r.amount)}</td><td class="num">${fmt(r.amount*vr)}</td><td class="num fw-bold">${fmt(r.amount*(1+vr))}</td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No billing data</td></tr>'}</tbody></table></div></div>`;
+  el._rows=rows;el._label=`${B.start}_to_${upto}`;
+}
+function revSet(k,v){const el=document.getElementById('page-revenue');el['_'+k]=parseInt(v);renderRevenue(el)}
+function revCSV(){
+  const el=document.getElementById('page-revenue');const vr=db.settings.vatRate/100;
+  const out=[['Company','Room category','Occupancy tier','Person-days','Rate/day','Amount excl VAT','VAT','Total']];
+  (el._rows||[]).forEach(r=>out.push([r.companyShort,r.roomCat,r.tier,r.personDays,r.rate,r.amount.toFixed(2),(r.amount*vr).toFixed(2),(r.amount*(1+vr)).toFixed(2)]));
+  downloadCSV(out,`revenue-${el._label}.csv`);
 }
 function openMovModal(){
   showModal('Log Movement',`
@@ -1605,7 +1886,7 @@ function openMovModal(){
 <div class="form-group"><label class="form-label">Remarks</label><input id="mv-rem"></div></div>`,
   [{label:'Save',primary:true,action:()=>{
     db.movements.push({id:uid(),date:document.getElementById('mv-date').value,company:document.getElementById('mv-co').value,activity:document.getElementById('mv-act').value,count:parseInt(document.getElementById('mv-cnt').value)||1,category:document.getElementById('mv-cat').value,remarks:document.getElementById('mv-rem').value});
-    saveDB();closeModal();renderPage('movement',document.getElementById('page-movement'));
+    saveDB();closeModal();const el=document.getElementById('page-movement');el._p=Object.assign(el._p||{},{tab:'log'});renderPage('movement',el);
   }},{label:'Cancel',action:closeModal}]);
 }
 function delMovement(id){if(!confirm('Delete?'))return;db.movements=db.movements.filter(m=>m.id!==id);saveDB();renderPage('movement',document.getElementById('page-movement'))}
@@ -2470,7 +2751,7 @@ async function renderRoles(el){
 <button class="btn btn-primary btn-sm" onclick="openRoleModal()">+ New Role</button></div>
 <div class="card"><div class="scroll-x"><table>
 <thead><tr><th>Screen</th>${roles.map(r=>`<th style="text-align:center">${esc(r.name)}<div style="font-weight:400;font-size:11px;color:var(--gray500)">${users.filter(u=>u.role===r.id).length} user(s)</div></th>`).join('')}</tr></thead>
-<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':cell((r.perms||{})[m.k])}</td>`).join('')}</tr>`).join('')}
+<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':cell(effPerm(r.perms||{},m.k))}</td>`).join('')}</tr>`).join('')}
 <tr><td>Users, roles, backups restore</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':'<span class="text-muted">—</span>'}</td>`).join('')}</tr></tbody>
 <tfoot><tr><td></td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="text-muted" style="font-size:11px">Full access</span>':`<button class="btn btn-sm btn-outline" onclick="openRoleModal('${esc(r.id)}')">Edit</button>`}</td>`).join('')}</tr></tfoot>
 </table></div></div>
@@ -2483,7 +2764,7 @@ function openRoleModal(id){
 <div class="form-row"><div class="form-group"><label class="form-label req">Role name</label><input id="ro-name" value="${esc(r?r.name:'')}" placeholder="e.g. Accountant, Camp Supervisor"></div>
 <div class="form-group"><label class="form-label">Set all screens to</label><div style="display:flex;gap:6px">${['none','view','edit'].map(v=>`<button class="btn btn-sm btn-ghost" onclick="document.querySelectorAll('.ro-perm[value=${v}]').forEach(x=>x.checked=true)">${v==='none'?'None':v==='view'?'View':'Edit'}</button>`).join('')}</div></div></div>
 <table><thead><tr><th>Screen</th><th style="text-align:center">None</th><th style="text-align:center">View</th><th style="text-align:center">Edit</th></tr></thead>
-<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${['none','view','edit'].map(v=>`<td style="text-align:center"><input type="radio" class="ro-perm" name="ro-${m.k}" value="${v}" style="width:auto" ${(perms[m.k]||'none')===v?'checked':''}></td>`).join('')}</tr>`).join('')}</tbody></table>`,
+<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${['none','view','edit'].map(v=>`<td style="text-align:center"><input type="radio" class="ro-perm" name="ro-${m.k}" value="${v}" style="width:auto" ${effPerm(perms,m.k)===v?'checked':''}></td>`).join('')}</tr>`).join('')}</tbody></table>`,
   [{label:r?'Save role':'Create role',primary:true,action:async()=>{
     const name=document.getElementById('ro-name').value.trim();if(!name)return alert('Enter a role name');
     const np={};MODULES.forEach(m=>{const x=document.querySelector(`input[name="ro-${m.k}"]:checked`);np[m.k]=x?x.value:'none'});
@@ -3008,8 +3289,47 @@ function downloadCSV(rows,filename){
   URL.revokeObjectURL(url);
 }
 
+
+// ─── SIGN-IN CAMP PLAN (decorative: blocks A–D, beds fill once on load) ───
+function drawCampPlan(){
+  const el=document.getElementById('camp-plan');if(!el||el.childElementCount)return;
+  const blocks=[{code:'A',rooms:Array(16).fill(2)},{code:'B',rooms:Array(14).fill(6)},{code:'C',rooms:[...Array(6).fill(4),...Array(19).fill(6)]},{code:'D',rooms:Array(25).fill(6)}];
+  let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  el.innerHTML=blocks.map(b=>{
+    let beds=0,occ=0;
+    const rooms=b.rooms.map(n=>{const fill=Math.round(n*(0.45+rnd()*0.6));beds+=n;const used=Math.min(n,fill);occ+=used;
+      return`<div class="cp-room${n<=4?' r2':''}">${Array.from({length:n},(_,i)=>`<span class="cp-bed${i<used?' on':''}" style="${i<used?`animation-delay:${(0.15+rnd()*1.4).toFixed(2)}s`:''}"></span>`).join('')}</div>`}).join('');
+    return`<div class="cp-block"><div class="cp-label"><b>Block ${b.code}</b><span>${b.rooms.length} rooms</span></div><div class="cp-rooms">${rooms}</div></div>`;
+  }).join('');
+}
+
+// ─── MOBILE SHELL ───
+function toggleMenu(force){const open=force===undefined?!document.body.classList.contains('menu-open'):force;document.body.classList.toggle('menu-open',open);const b=document.getElementById('menu-btn');if(b)b.setAttribute('aria-expanded',open)}
+function renderTabbar(){
+  const t=document.getElementById('tabbar');if(!t||!currentUser)return;
+  const items=[];
+  if(can('dashboard','view'))items.push({k:'dashboard',i:'🏠',l:'Home'});
+  if(can('residents','view'))items.push({k:'residents',i:'👥',l:'Residents'});
+  if(can('residents','edit'))items.push({k:'_checkin',i:'+',l:'Check in',main:true});
+  if(can('rooms','view'))items.push({k:'rooms',i:'🏢',l:'Rooms'});
+  else if(can('reports','view'))items.push({k:'drr',i:'🗒️',l:'Rental'});
+  items.push({k:'_menu',i:'☰',l:'Menu'});
+  t.innerHTML=items.map(x=>`<button class="${x.main?'tb-main':''} ${currentPage===x.k?'on':''}" onclick="tabGo('${x.k}')" aria-label="${x.l}"><span class="ti">${x.i}</span>${x.l}</button>`).join('');
+}
+function tabGo(k){
+  if(k==='_menu')return toggleMenu();
+  if(k==='_checkin'){
+    toggleMenu(false);
+    return showModal('Check in',`<p style="font-size:14px;color:var(--gray600)">Check in one person, or a whole group at once (you can paste rows from Excel).</p>`,
+      [{label:'👤 One person',primary:true,action:()=>{closeModal();openResidentModal()}},{label:'👥 Group (multi check-in)',action:()=>{closeModal();openMultiCheckin()}},{label:'Cancel',action:closeModal}]);
+  }
+  nav(k);
+}
+window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('active-modal'))closeModal();else toggleMenu(false)}});
+
 // ─── INIT ───
 window.addEventListener('load',async()=>{
+  drawCampPlan();
   Store.init();
   renderAuthMode();
   document.getElementById('app-version').textContent='Trendos v'+APP_VERSION;
@@ -3035,3 +3355,5 @@ window.addEventListener('beforeunload',e=>{if(Store.mode==='cloud'&&Store.dirty)
 </script>
 </body>
 </html>
+
+</body></html>

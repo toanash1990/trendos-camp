@@ -1,0 +1,29 @@
+{
+ "name": "Trendos Camp & Catering",
+ "short_name": "Trendos",
+ "description": "Accommodation, catering and billing for the camp at Jubail Industrial City",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#132843",
+ "theme_color": "#132843",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
