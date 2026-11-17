@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════
---  Trendos Camp Management — Supabase database setup  (v6.0)
+--  Trendos Camp Management — Supabase database setup  (v6.1)
 --  Run in Supabase → SQL Editor → New query → paste all → Run.
 --  Safe to run again, and upgrades a database set up with v5.x.
 -- ═══════════════════════════════════════════════════════════════
@@ -297,5 +297,17 @@ revoke execute on function public.trendos_ai_tick() from public, anon;
 revoke execute on function public.trendos_ai_today() from public, anon;
 grant execute on function public.trendos_ai_tick() to authenticated;
 grant execute on function public.trendos_ai_today() to authenticated;
+
+-- 11. v6.1: customer documents (PDF) in the file store
+-- 11a. The private file store also accepts PDF files (up to 5 MB)
+update storage.buckets
+   set allowed_mime_types = array['image/jpeg','image/png','image/webp','application/pdf'],
+       file_size_limit = 5242880
+ where id = 'trendos-photos';
+
+-- 11b. People who may edit customers can add customer documents (stored under customers/…)
+drop policy if exists trendos_docs_insert on storage.objects;
+create policy trendos_docs_insert on storage.objects for insert to authenticated
+  with check (bucket_id = 'trendos-photos' and name like 'customers/%' and public.trendos_can_edit('companies'));
 
 -- Done. Check: select email, username, role, active from public.trendos_users;

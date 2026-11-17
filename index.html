@@ -740,6 +740,33 @@ body.ai-open #ai-panel{transform:none}
 [dir=rtl] .gsearch kbd{right:auto;left:9px}
 [dir=rtl] #gs-input{padding-left:64px}
 
+/* customers */
+.cust-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.cust-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.cust-card:hover,.cust-card:focus-visible{border-color:var(--pink);outline:none}
+.cc-head{display:flex;align-items:center;gap:10px}
+.cc-logo{width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;letter-spacing:.02em}
+.cc-logo.sm{width:26px;height:26px;font-size:11px;display:inline-grid;vertical-align:middle;margin-inline-end:6px;border-radius:7px}
+.cc-name{flex:1;min-width:0}.cc-name b{display:block;font-size:15px}.cc-name span{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-kpis{display:flex;gap:18px;flex-wrap:wrap}.cc-kpis small{display:block;font-size:11.5px;color:var(--muted)}.cc-kpis b{font-size:15px;font-weight:600}
+.cc-foot{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--gray700);align-items:center}.cc-foot .ico{width:13px;height:13px;vertical-align:-2px}.cc-foot:empty{display:none}
+.cw-steps{display:flex;gap:4px;margin-bottom:16px;overflow-x:auto}
+.cw-st{flex:1;display:flex;align-items:center;gap:8px;border:0;background:var(--gray100);border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--muted);cursor:pointer;white-space:nowrap;font-family:var(--font)}
+.cw-st span{width:22px;height:22px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:700;font-size:11.5px;flex:none;color:var(--muted)}
+.cw-st.on{background:var(--navy);color:#fff}.cw-st.on span{color:var(--navy)}.cw-st.done span{background:var(--green);color:#fff}
+.cw-tbl{width:100%}.cw-tbl input,.cw-tbl select{width:100%;min-width:96px}.cw-tbl td{padding:4px}.cw-tbl .c{text-align:center}.cw-tbl td.c input{width:auto;min-width:0}
+.rate-grid input{width:84px;min-width:0;text-align:end}
+.doc-list{display:flex;flex-direction:column;gap:6px}.doc-item{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:8px;padding:8px 10px}.doc-item>div{flex:1;min-width:0}.doc-item small{display:block;color:var(--muted);font-size:12px}
+.cp-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}.cp-kpis>div{background:var(--gray100);border-radius:10px;padding:10px 12px}.cp-kpis small{display:block;font-size:11.5px;color:var(--muted)}.cp-kpis b{display:block;font-size:18px;margin:2px 0}.cp-kpis span{font-size:11.5px;color:var(--muted)}
+.status-paid{background:var(--green-light);color:var(--green)}
+@media (max-width:600px){.cust-grid{grid-template-columns:1fr}.cw-st:not(.on){flex:none;font-size:0;gap:0;padding:8px}.cw-st:not(.on) span{font-size:11.5px}}
+@media (max-width:600px){.form-row .form-group[style*="span"]{grid-column:1/-1!important}.cw-modal .form-row{grid-template-columns:1fr 1fr}.cw-modal .form-row .form-group{min-width:0}.cw-modal .form-row .form-group input,.cw-modal .form-row .form-group select{min-width:0;width:100%}}
+@media (max-width:380px){.cw-modal .form-row{grid-template-columns:1fr}}
+
+@media (max-width:600px){.cw-tbl:has(.cw-card) thead{display:none}.cw-tbl tr.cw-card{display:grid;grid-template-columns:1fr 1fr;gap:6px;border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:8px;position:relative}
+.cw-tbl tr.cw-card td{padding:0;border:0}.cw-tbl tr.cw-card td.c{display:flex;align-items:center;gap:6px;font-size:12px}.cw-tbl tr.cw-card td.c::after{content:attr(data-l)}
+.cw-tbl tr.cw-card td:last-child{position:absolute;top:-10px;inset-inline-end:-6px}.cw-tbl tr.cw-card td:last-child .btn{background:#fff;border:1px solid var(--line);border-radius:50%}.cw-tbl.cw-tbl{display:block}.cw-tbl tbody{display:block}}
+
 .auth-panel{position:relative}.auth-lang{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'Readex Pro',var(--font)}
 </style>
 <!-- Cloud database client (Supabase). Ignored in local demo mode. -->
@@ -832,7 +859,7 @@ body.ai-open #ai-panel{transform:none}
       <div class="nav-item" onclick="nav('drr')"><span class="icon">🗒️</span>Daily Rental Records</div>
       <div class="nav-item" onclick="nav('reports')"><span class="icon">📊</span>Reports & Export</div>
       <div class="nav-section">Setup</div>
-      <div class="nav-item" onclick="nav('companies')"><span class="icon">🏭</span>Companies</div>
+      <div class="nav-item" onclick="nav('companies')"><span class="icon">🏭</span>Customers</div>
       <div class="nav-item" onclick="nav('settings')"><span class="icon">⚙️</span>Settings & Backup</div>
       <div class="nav-section">Admin</div>
       <div class="nav-item" id="nav-users" style="display:none" onclick="nav('users')"><span class="icon">🔑</span>Users</div>
@@ -875,8 +902,8 @@ body.ai-open #ai-panel{transform:none}
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.0.0';
-const SCHEMA_VERSION=4;
+const APP_VERSION='6.1.0';
+const SCHEMA_VERSION=5;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
 const TABLE='trendos_records';
@@ -2915,7 +2942,7 @@ function openCatModal(){
 async function delCat(id){if(!await uiConfirm('This catering charge will be removed.',{title:'Delete catering charge?',ok:'Delete',danger:true}))return;db.cateringExtras=db.cateringExtras.filter(e=>e.id!==id);saveDB();renderCatering(document.getElementById('page-catering'))}
 
 // ─── COMPANIES PAGE ───
-function renderCompanies(el){
+function _v5_renderCompanies(el){
   el.innerHTML=`
 <div class="page-header">
   <div><div class="page-title">🏭 Companies</div></div>
@@ -2929,7 +2956,7 @@ function renderCompanies(el){
 <td><button class="btn btn-xs btn-ghost" onclick="editComp('${c.id}')">Edit</button></td></tr>`).join('')}
 </tbody></table></div></div>`;
 }
-function openCompModal(co){
+function _v5_openCompModal(co){
   const edit=!!co;
   showModal(edit?'Edit Company':'Add Company',`
 <div class="form-row">
@@ -2948,7 +2975,7 @@ function openCompModal(co){
     saveDB();closeModal();renderCompanies(document.getElementById('page-companies'));
   }},{label:'Cancel',action:closeModal}]);
 }
-function editComp(id){openCompModal(db.companies.find(c=>c.id===id))}
+function _v5_editComp(id){openCompModal(db.companies.find(c=>c.id===id))}
 
 // ─── SETTINGS PAGE ───
 function _v5_renderSettings(el){
@@ -4121,6 +4148,12 @@ function seedData(){
   const phones=['0501234567','0559876543','0533344455','0567788990','0544455667','0598877665'];
   db.residents.slice(0,30).forEach((r,i)=>{if(i%5!==4)r.phone=phones[i%phones.length].slice(0,8)+String(10+i)});
   db.companies.forEach(c=>{if(!c.email&&['NBC','SPARK','TUBER'].includes(c.short))c.email=c.short.toLowerCase()+'@example.com'});
+  const nbc=db.companies.find(c=>c.short==='NBC');if(nbc)Object.assign(nbc,{status:'active',type:'Contractor',crNo:'2050012345',crExpiry:addMonths(t,8),addr:{building:'7421',street:'King Faisal Road',district:'Al Fanateer',city:'Jubail',postal:'35514',additional:'3021'},
+    contacts:[{id:uid(),name:'Mr. Rashid Al-Otaibi',role:'HR / Admin',phone:'0503334455',email:'hr@nbc.example.com',primary:true,notifyCheckin:true,notifyBilling:false},{id:uid(),name:'Accounts team',role:'Accounts / Finance',phone:'',email:'ap@nbc.example.com',primary:false,notifyCheckin:false,notifyBilling:true}],
+    billing:{terms:45,creditLimit:150000,invoiceEmails:'ap@nbc.example.com',poRequired:true,costCenter:'JIC-Project 7',notes:''},pos:[{id:uid(),no:'NBC-PO-2026-118',from:'2026-01-01',to:'2026-12-31',value:400000,notes:''}],
+    contract:{no:'TCC-NBC-2026',start:'2026-01-01',end:ago(-20),beds:20,categories:['2x1','4x1','6x1'],service:'Accommodation+Food',notes:''},docs:[]});
+  if(nbc)Object.assign(nbc,{address:addrText(nbc.addr),email:'ap@nbc.example.com',contact:'Mr. Rashid Al-Otaibi',poNo:'NBC-PO-2026-118'});
+  const sp=db.companies.find(c=>c.short==='SPARK');if(sp)Object.assign(sp,{status:'active',contract:{no:'TCC-SPK-01',start:'2025-09-01',end:'',beds:30,categories:['6x1'],service:'Accommodation+Food',notes:''}});
   saveDB();
 }
 
@@ -4429,7 +4462,7 @@ ${out?`<div class="alert alert-info">Checked out on ${fmtDate(res.checkOut)}. Us
 <div class="form-group"><label class="form-label req">Iqama / document no.</label><input id="rr-doc" inputmode="numeric" value="${esc(res?res.docNo:'')}" placeholder="10 digits, starts with 1 or 2" autocomplete="off"></div>
 <div class="form-group"><label class="form-label">Phone</label><div class="inp-act"><input id="rr-phone" type="tel" placeholder="05XXXXXXXX" value="${esc(res?res.phone||'':'')}">${edit&&res.phone?`<button type="button" class="icon-btn wa" title="WhatsApp" aria-label="WhatsApp ${esc(res.name)}" onclick="waChooser('${res.id}')">${ico('chat')}</button>`:''}</div></div>
 <div class="form-group"><label class="form-label">Nationality</label><input id="rr-nat" value="${esc(res?res.nationality||'':'')}" placeholder="IND / PHL / PAK…"></div>
-<div class="form-group"><label class="form-label req">Company</label><select id="rr-co" onchange="rrCompanyChanged()">${db.companies.map(c=>opt(c.short,c.short,co0===c.short)).join('')}</select></div>
+<div class="form-group"><label class="form-label req">Company</label><select id="rr-co" onchange="rrCompanyChanged()">${custOptions(co0)}</select><div class="room-free" id="rr-co-note"></div></div>
 <div class="form-group"><label class="form-label req">Check-in date</label><input type="date" id="rr-ci" value="${ci0}" onchange="rrRefreshRooms(true)"></div>
 <div class="form-group"><label class="form-label req">Room</label><select id="rr-room" onchange="window._rrRoomTouched=true;rrRoomNote()">${roomOptions(sug.no,ci0,res&&res.id)}</select><div class="room-free" id="rr-room-note"></div></div>
 ${out?`<div class="form-group"><label class="form-label">Check-out date</label><input type="date" id="rr-co-date" value="${res.checkOut}"></div>`:''}
@@ -4448,10 +4481,11 @@ ${msgs.length?`<p class="auth-note">${ico('chat')} Messages: ${msgs.map(m=>`${MS
    ...(out&&can('residents','edit')?[{label:'Undo check-out',action:()=>undoCheckout(res.id)}]:[]),
    ...(edit&&isAdmin()?[{label:'Remove (entered by mistake)',action:()=>removeResident(res.id)}]:[]),
    {label:'Cancel',action:closeModal}]);
-  window._rrRes=res;window._rrSug=sug;rrRoomNote();if(!edit)PhotoDraft.render('rr-ph');
+  window._rrRes=res;window._rrSug=sug;rrRoomNote();rrCoNote();if(!edit)PhotoDraft.render('rr-ph');
   setTimeout(()=>{const n=document.getElementById('rr-name');if(n&&!edit)n.focus()},60);
 }
-function rrCompanyChanged(){if(window._rrRes||window._rrRoomTouched)return rrRoomNote();const s=document.getElementById('rr-room');const d=document.getElementById('rr-ci').value||today();window._rrSug=suggestRoom(document.getElementById('rr-co').value,d);s.innerHTML=roomOptions(window._rrSug.no,d);rrRoomNote()}
+function rrCoNote(){const e=document.getElementById('rr-co-note'),s=document.getElementById('rr-co');if(e&&s){const t=custCheckinNote(s.value,0);e.textContent=t;e.style.color=/hold|closed|over|موقوف|مغلق|تجاوز/.test(t)?'var(--red)':''}}
+function rrCompanyChanged(){rrCoNote();if(window._rrRes||window._rrRoomTouched)return rrRoomNote();const s=document.getElementById('rr-room');const d=document.getElementById('rr-ci').value||today();window._rrSug=suggestRoom(document.getElementById('rr-co').value,d);s.innerHTML=roomOptions(window._rrSug.no,d);rrRoomNote()}
 function rrRefreshRooms(){const s=document.getElementById('rr-room');if(!s)return;const res=window._rrRes;const d=document.getElementById('rr-ci').value||today();
   let keep=s.value;if(!res&&!window._rrRoomTouched){window._rrSug=suggestRoom(document.getElementById('rr-co').value,d);keep=window._rrSug.no}
   s.innerHTML=roomOptions(keep,d,res&&res.id);rrRoomNote()}
@@ -4471,6 +4505,7 @@ async function saveResidentForm(res,next){
   if(iqamaLooksWrong(docType,docNo))warn.push(`"${docNo}" doesn't look like an Iqama number (10 digits starting with 1 or 2).`);
   if(phoneLooksWrong(phone))warn.push(`"${phone}" doesn't look like a phone number (05XXXXXXXX, or + and country code).`);
   if(window._rrScanExpired)warn.push(window._rrScanExpired);
+  if(!edit){const cw=custCheckinWarn(g('rr-co').value,1);if(cw)warn.push(cw)}
   if(warn.length&&!await uiConfirm(warn.join('\n')+'\n\nSave anyway?',{title:'Please check',ok:'Save anyway'}))return;
   const dup=db.residents.find(x=>x.id!==(res&&res.id)&&x.docNo===docNo&&!x.checkOut&&x.active!==false);
   if(dup&&!await uiConfirm(`${dup.name} with document ${docNo} is already checked in (room ${dup.roomNo}).`,{title:'Same document already in camp',ok:'Save anyway'}))return;
@@ -4545,7 +4580,7 @@ function openMultiCheckin(){
   const last=ciLast();const rowsHtml=n=>Array.from({length:n},()=>mciRow()).join('');
   showModal('Multi check-in',`
 <div class="form-row">
-<div class="form-group"><label class="form-label req">Company</label><select id="mc-co">${db.companies.map(c=>opt(c.short,c.short,last.company===c.short)).join('')}</select></div>
+<div class="form-group"><label class="form-label req">Company</label><select id="mc-co">${custOptions(last.company)}</select></div>
 <div class="form-group"><label class="form-label req">Check-in date</label><input type="date" id="mc-date" value="${today()}"></div>
 <div class="form-group"><label class="form-label">Default food type</label><select id="mc-food">${foodOptions(last.food||'')}</select></div>
 </div>
@@ -4597,7 +4632,7 @@ async function mciSubmit(){
   if(errs.length){errs.forEach(([r])=>r.tr.style.background='var(--red-light)');
     box.innerHTML=`<div class="alert alert-warn"><strong>Fix these before checking in:</strong><br>${[...new Set(errs.map(([r,m])=>`Person ${r.i}: ${m}`))].map(esc).join('<br>')}</div>`;box.scrollIntoView({block:'nearest'});return}
   box.innerHTML='';
-  const warns=[];rows.forEach(r=>{if(iqamaLooksWrong('Iqama',r.doc))warns.push(`Person ${r.i}: "${r.doc}" doesn't look like an Iqama number`);if(phoneLooksWrong(r.phone))warns.push(`Person ${r.i}: "${r.phone}" doesn't look like a phone number`)});
+  const warns=[];{const cw=custCheckinWarn(co,rows.length);if(cw)warns.push(cw)}rows.forEach(r=>{if(iqamaLooksWrong('Iqama',r.doc))warns.push(`Person ${r.i}: "${r.doc}" doesn't look like an Iqama number`);if(phoneLooksWrong(r.phone))warns.push(`Person ${r.i}: "${r.phone}" doesn't look like a phone number`)});
   if(warns.length&&!await uiConfirm(warns.join('\n')+'\n\nCheck in anyway?',{title:'Please check',ok:'Check in anyway'}))return;
   const ho=readHandover('mc')||[];const added=[];
   rows.forEach(r=>{const room=getRoom(r.room);const ft=r.food==='*'?defFood:r.food;
@@ -4625,7 +4660,7 @@ function waOpen(id,kind){
 }
 function waChooser(id){const r=db.residents.find(x=>x.id===id);if(!r)return;
   uiDialog({title:'WhatsApp '+r.name,message:`Opens WhatsApp with a ready message to ${r.phone}. You press Send.`,ok:r.checkOut?'Check-out message':'Welcome message',cancel:'Cancel'}).then(y=>{if(y)waOpen(id,r.checkOut?'checkout':'welcome')})}
-async function emailCompany(ids,kind){
+async function emailCompanyBase(ids,kind){
   const list=ids.map(id=>db.residents.find(r=>r.id===id)).filter(Boolean);if(!list.length)return;
   const co=getCompanyByShort(list[0].company)||{short:list[0].company};let to=co.email||'';
   if(!to){to=await uiPrompt(`There is no email address for ${co.short}. Enter it (it is saved with the company).`,{title:'Company email',ok:'Open email',type:'email',placeholder:'hr@company.com'});if(!to)return;if(co.id&&canEditCollection('companies')){co.email=to;saveDB()}}
@@ -5061,6 +5096,7 @@ const HELP={
   movement:['Check-ins and check-outs per day, filtered by company or block.','The Mob / Demob log is filled automatically by check-ins and check-outs.'],
   monthend:['Step 1: validate and lock the mandays for the month.','Then for each customer: verify → add extras → email → confirmation → tax invoice.','<b>Draft with AI</b> writes the customer email from the figures; you read it and send.','Bulk buttons verify, mark sent or invoice all customers at once.'],
   revenue:['Revenue by company for the month, before VAT.','<b>Monthly summary</b> asks AI to write a short management summary from the figures.'],
+  companies:['<b>New customer</b> walks through five steps: company and CR/VAT, national address and contacts, billing and contract, rate card and documents, then a review.','Open a customer to see people in camp against allocated beds, this month\'s billing, outstanding and overdue invoices, POs, documents and history.','Customers on hold or closed are flagged at check-in; contract end, CR expiry, missing POs, overdue invoices and credit limits appear in Today\'s to-do.','Only an administrator can rename a customer\'s short name once it is in use; it then changes everywhere.'],
   settings:['Company details, VAT and invoice numbering.','Items given at check-in, asset types, message texts, automatic WhatsApp and the AI assistant.','Download a backup regularly.'],
 };
 function openHelp(){
@@ -5156,6 +5192,350 @@ if(Lang.cur==='ar'){
   const _dw=dateWords;dateWords=function(v){const s=_dw(v);return arLookup(s)||s};
 }
 
+// ═════════════════════════════════════════════════════════════
+//  CUSTOMERS — detailed customer master (the companies you bill)
+// ═════════════════════════════════════════════════════════════
+Object.assign(ICONS,{file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',pin:'<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'});
+const CUST_STATUS={active:'Active',prospect:'Prospect',hold:'On hold',closed:'Closed'};
+const CUST_BADGE={active:'badge-green',prospect:'badge-teal',hold:'badge-orange',closed:'badge-gray'};
+const CUST_TYPES=['Contractor','Operator / owner','Manpower supplier','Government','Other'];
+const CONTACT_ROLES=['HR / Admin','Accounts / Finance','Site coordinator','Project manager','Camp liaison','Other'];
+const DOC_KINDS=['Commercial Registration (CR)','VAT certificate','National address','Contract','Purchase order','Other'];
+const ALL_CATS=['2x1','3x1','4x1','6x1'];
+// v5 · app 6.1.0 — detailed customer record (status, CR, national address, contacts, billing, POs, contract, documents)
+MIGRATIONS[5]=function(d){(d.companies||[]).forEach(c=>custNormalize(c))};
+function custNormalize(c){
+  if(!c.status)c.status='active';
+  if(!Array.isArray(c.contacts))c.contacts=(c.contact||c.phone||c.email)?[{id:uid(),name:c.contact||'',role:'HR / Admin',phone:c.phone||'',email:c.email||'',primary:true,notifyCheckin:!!c.email,notifyBilling:!!c.email}]:[];
+  if(!c.addr)c.addr={building:'',street:c.address||'',district:'',city:/jubail/i.test(c.address||'')?'Jubail':'',postal:'',additional:''};
+  if(!c.billing)c.billing={terms:30,creditLimit:'',invoiceEmails:c.email||'',poRequired:!!c.poNo,costCenter:'',notes:''};
+  if(!Array.isArray(c.pos))c.pos=c.poNo?[{id:uid(),no:c.poNo,from:'',to:'',value:'',notes:''}]:[];
+  if(!c.contract)c.contract={no:'',start:'',end:'',beds:'',categories:[],service:'Accommodation+Food',notes:''};
+  if(!Array.isArray(c.docs))c.docs=[];
+  if(!Array.isArray(c.log))c.log=[];
+  return c;
+}
+function cust(c){return custNormalize(JSON.parse(JSON.stringify(c||{})))} // safe read copy with all parts present
+const vatLooksWrong=v=>!!v&&!/^3\d{13}3$/.test(String(v).replace(/\s/g,''));
+const crLooksWrong=v=>!!v&&!/^\d{10}$/.test(String(v).replace(/\s/g,''));
+const emailLooksWrong=e=>!!e&&String(e).split(/[;,]/).map(x=>x.trim()).filter(Boolean).some(x=>!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x));
+function addrText(a){a=a||{};const l1=[a.building,a.street].filter(Boolean).join(' '),l2=[a.district,[a.city,[a.postal,a.additional].filter(Boolean).join('-')].filter(Boolean).join(' ')].filter(Boolean).join(', ');return[l1,l2].filter(Boolean).join(', ')}
+function custEmails(c,kind){c=cust(c);const L=c.contacts.filter(x=>x.email&&(kind==='checkin'?x.notifyCheckin:x.notifyBilling)).map(x=>x.email);
+  const bill=String(c.billing.invoiceEmails||'').split(/[;,]/).map(x=>x.trim()).filter(Boolean);return[...new Set(kind==='billing'?[...bill,...L]:L.length?L:bill)]}
+function custPO(c,date){c=cust(c);date=date||today();return c.pos.filter(p=>(!p.from||p.from<=date)&&(!p.to||p.to>=date)).sort((a,b)=>String(b.from).localeCompare(String(a.from)))[0]||null}
+function custOptions(sel){return db.companies.filter(c=>c.status!=='closed'&&c.status!=='prospect'||c.short===sel).map(c=>opt(c.short,c.short+(c.status==='hold'?' (on hold)':c.status==='prospect'?' (prospect)':''),sel===c.short)).join('')}
+function custStats(c,mtd){
+  const t=today();const act=activeResidents(t).filter(r=>r.company===c.short);const byCat={};act.forEach(r=>{const k=(getRoom(r.roomNo)||{}).cat||'?';byCat[k]=(byCat[k]||0)+1});
+  const inv=db.invoices.filter(i=>i.customerId===c.id&&i.status!=='void');const open=inv.filter(i=>i.status!=='paid'&&i.status!=='draft');const terms=Number(cust(c).billing.terms)||30;
+  const overdue=open.filter(i=>daysBetween(i.date,t)>terms);
+  const m=mtd||{};const end=(c.contract||{}).end;
+  return{inCamp:act.length,byCat,alloc:Number((c.contract||{}).beds)||0,pd:m.pd||0,amt:m.amt||0,outstanding:open.reduce((s,i)=>s+(+i.total||0),0),overdue:overdue.reduce((s,i)=>s+(+i.total||0),0),overdueN:overdue.length,invoices:inv,
+    daysLeft:end?daysBetween(t,end):null,docsDue:(c.docs||[]).filter(d=>d.expiry&&daysBetween(t,d.expiry)<=30)}
+}
+function mtdByCustomer(){const t=today();const rows=computeMandays(t.slice(0,8)+'01',t);const o={};rows.forEach(r=>{const k=r.companyShort;o[k]=o[k]||{pd:0,amt:0};o[k].pd+=r.personDays;o[k].amt+=r.amount});return o}
+function custGaps(c){c=cust(c);const g=[];if(!c.vatNo)g.push('VAT no.');if(!c.crNo)g.push('CR no.');if(!c.addr.postal||!c.addr.city)g.push('national address');if(!custEmails(c,'billing').length)g.push('billing email');if(!c.contacts.length)g.push('contact');if(!db.rates.some(r=>r.customerId===c.id))g.push('rates');return g}
+function custLog(c,action){(c.log=c.log||[]).push({at:nowISO(),by:currentUser?currentUser.name:'',action});if(c.log.length>200)c.log.splice(0,c.log.length-200)}
+
+// ─── CUSTOMER LIST ───
+function renderCompanies(el){
+  const f=el._f=el._f||{q:'',st:''};const all=db.companies.map(cust);const q=f.q.toLowerCase();const ed=can('companies','edit');const rev=can('revenue','view');
+  const mtd=mtdByCustomer();const cnt={};all.forEach(c=>cnt[c.status]=(cnt[c.status]||0)+1);
+  const list=all.filter(c=>(!f.st||c.status===f.st)&&(!q||[c.short,c.name,c.nameAr,c.vatNo,c.crNo,...c.contacts.map(x=>x.name+' '+x.email+' '+x.phone)].some(v=>v&&String(v).toLowerCase().includes(q)))).sort((a,b)=>({active:0,hold:1,prospect:2,closed:3}[a.status]-{active:0,hold:1,prospect:2,closed:3}[b.status])||a.short.localeCompare(b.short));
+  const S=Object.fromEntries(list.map(c=>[c.id,custStats(db.companies.find(x=>x.id===c.id),mtd[c.short])]));
+  el.innerHTML=`
+<div class="page-header"><div><div class="page-title">Customers</div><div class="page-sub">${cnt.active||0} active${cnt.prospect?` · ${cnt.prospect} prospect`:''}${cnt.hold?` · ${cnt.hold} on hold`:''} · ${activeResidents().length} people in camp</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="exportCustomers()">${ico('download')} Export CSV</button>${ed?`<button class="btn btn-primary btn-sm" onclick="openCustomerForm()">${ico('plus')} New customer</button>`:''}</div></div>
+<div class="chip-row">${[['','All',all.length],...Object.entries(CUST_STATUS).map(([k,l])=>[k,l,cnt[k]||0])].map(([k,l,n])=>`<button class="chip ${f.st===k?'on':''}" onclick="custF('st','${k}')">${l} <b>${n}</b></button>`).join('')}</div>
+<div style="margin-bottom:12px"><input id="cu-q" placeholder="Search name, VAT, CR, contact…" value="${esc(f.q)}" oninput="custF('q',this.value)" style="width:280px;max-width:100%"></div>
+<div class="cust-grid">${list.map(c=>{const s=S[c.id];const gaps=custGaps(c);const pct=s.alloc?Math.round(s.inCamp/s.alloc*100):0;const po=custPO(c);return`
+<div class="cust-card" role="button" tabindex="0" onclick="openCustomer('${c.id}')">
+<div class="cc-head"><div class="cc-logo">${esc(c.short.slice(0,2))}</div><div class="cc-name"><b>${esc(c.short)}</b><span>${esc(c.name)}</span></div><span class="badge ${CUST_BADGE[c.status]}">${CUST_STATUS[c.status]}</span></div>
+<div class="cc-kpis"><div><small>In camp</small><b>${s.inCamp}${s.alloc?`<span class="text-muted"> / ${s.alloc}</span>`:''}</b></div>${rev?`<div><small>This month</small><b>SAR ${fmt(s.amt,0)}</b></div><div><small>Outstanding</small><b ${s.overdue?'style="color:var(--red)"':''}>SAR ${fmt(s.outstanding,0)}</b></div>`:`<div><small>Person-days (month)</small><b>${s.pd}</b></div>`}</div>
+${s.alloc?`<div class="rev-bar-track" title="${s.inCamp} of ${s.alloc} allocated beds"><div class="rev-bar-fill ${pct>100?'pink':pct>85?'teal':'green'}" style="width:${Math.min(100,pct)}%"></div></div>`:''}
+<div class="cc-foot">${c.contract.end?`<span ${s.daysLeft!=null&&s.daysLeft<=30?'class="badge badge-red"':''}>${ico('calendar')} Contract to ${fmtDate(c.contract.end)}</span>`:''}${po?`<span>${ico('file')} PO ${esc(po.no)}</span>`:c.billing.poRequired?'<span class="badge badge-orange">PO needed</span>':''}${s.overdueN?`<span class="badge badge-red">${s.overdueN} overdue</span>`:''}${gaps.length&&c.status!=='closed'?`<span class="text-muted" title="Missing: ${esc(gaps.join(', '))}">${ico('alert')} ${gaps.length} missing</span>`:''}</div></div>`}).join('')||`<div class="card"><div class="empty-state"><div class="icon">${ico('briefcase')}</div><p>No customers match.</p></div></div>`}</div>`;
+}
+function custF(k,v){const el=document.getElementById('page-companies');el._f[k]=v;renderCompanies(el);if(k==='q'){const i=document.getElementById('cu-q');i.focus();i.setSelectionRange(v.length,v.length)}}
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.cust-card')){e.preventDefault();e.target.click()}});
+function exportCustomers(){
+  const mtd=mtdByCustomer();const rows=[['Short name','Full name','Arabic name','Status','Type','CR no.','CR expiry','VAT no.','National address','Primary contact','Phone','Billing emails','Payment terms (days)','Credit limit (SAR)','Current PO','Contract no.','Contract start','Contract end','Allocated beds','In camp now','Person-days this month','Outstanding (SAR)','Overdue (SAR)','Missing']];
+  db.companies.forEach(c0=>{const c=cust(c0);const s=custStats(c0,mtd[c.short]);const p=c.contacts.find(x=>x.primary)||c.contacts[0]||{};const po=custPO(c);
+    rows.push([c.short,c.name,c.nameAr||'',CUST_STATUS[c.status],c.type||'',c.crNo||'',c.crExpiry||'',c.vatNo||'',addrText(c.addr),p.name||'',p.phone||c.phone||'',custEmails(c,'billing').join('; '),c.billing.terms,c.billing.creditLimit,po?po.no:'',c.contract.no,c.contract.start,c.contract.end,c.contract.beds,s.inCamp,s.pd,Math.round(s.outstanding),Math.round(s.overdue),custGaps(c).join('; ')])});
+  downloadCSV(rows,`customers-${today()}.csv`);
+}
+
+// ─── NEW / EDIT CUSTOMER (step by step) ───
+const CW_STEPS=['Company','Address & contacts','Billing & contract','Rates & documents','Review'];
+let _cw=null;
+function openCompModal(co){openCustomerForm(co&&co.id)}
+function editComp(id){openCustomerForm(id)}
+function openCustomerForm(id,step){
+  if(!can('companies','edit'))return;
+  const src=id?db.companies.find(c=>c.id===id):null;const c=cust(src||{short:'',name:'',status:'active'});
+  _cw={id,step:step||1,docs:c.docs.slice(),rateFrom:''};
+  const cats=c.contract.categories.length?c.contract.categories:id?[...new Set(db.rates.filter(r=>r.customerId===id).map(r=>r.roomCategory))]:[];
+  const contactRow=x=>`<tr class="cw-ct cw-card"><td><input class="ct-name" value="${esc(x.name||'')}" placeholder="Name"></td><td><select class="ct-role">${CONTACT_ROLES.map(r=>opt(r,r,x.role===r)).join('')}</select></td><td><input class="ct-phone" type="tel" value="${esc(x.phone||'')}" placeholder="05XXXXXXXX"></td><td><input class="ct-email" type="email" value="${esc(x.email||'')}" placeholder="name@company.com"></td>
+<td class="c" data-l="${lx('Main contact','جهة الاتصال الرئيسية')}"><input type="radio" name="ct-primary" class="ct-primary" ${x.primary?'checked':''} aria-label="Main contact"></td><td class="c" data-l="${lx('Check-in notices','إشعارات الدخول')}"><input type="checkbox" class="ct-ci" ${x.notifyCheckin?'checked':''} aria-label="Check-in notices"></td><td class="c" data-l="${lx('Billing','الفوترة')}"><input type="checkbox" class="ct-bill" ${x.notifyBilling?'checked':''} aria-label="Billing emails"></td><td><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove contact" onclick="this.closest('tr').remove()">${ico('x')}</button><input type="hidden" class="ct-id" value="${esc(x.id||uid())}"></td></tr>`;
+  window._cwContactRow=contactRow;
+  const poRow=p=>`<tr class="cw-po cw-card"><td><input class="po-no" value="${esc(p.no||'')}" placeholder="PO number"></td><td><input type="date" class="po-from" value="${esc(p.from||'')}"></td><td><input type="date" class="po-to" value="${esc(p.to||'')}"></td><td><input type="number" class="po-val" value="${esc(p.value||'')}" placeholder="SAR"></td><td><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove PO" onclick="this.closest('tr').remove()">${ico('x')}</button><input type="hidden" class="po-id" value="${esc(p.id||uid())}"></td></tr>`;
+  window._cwPoRow=poRow;
+  const body=`
+<div class="cw-steps" role="tablist">${CW_STEPS.map((s,i)=>`<button type="button" class="cw-st" data-s="${i+1}" onclick="cwGo(${i+1},true)"><span>${i+1}</span>${s}</button>`).join('')}</div>
+<section class="cw-step" data-s="1"><div class="form-row">
+<div class="form-group"><label class="form-label req">Short name</label><input id="cw-short" value="${esc(c.short)}" placeholder="e.g. NBC" ${id&&custInUse(src)?'disabled':''} style="text-transform:uppercase"><div class="room-free">${id&&custInUse(src)?`Used on residents and billing.${isAdmin()?` <a class="link" href="#" onclick="event.preventDefault();renameCustomer('${id}')">Rename everywhere…</a>`:''}`:'Shown on resident lists, reports and invoices.'}</div></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label req">Full legal name</label><input id="cw-name" value="${esc(c.name)}" placeholder="As on the Commercial Registration"></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Name in Arabic</label><input id="cw-namear" value="${esc(c.nameAr||'')}" dir="rtl"></div>
+<div class="form-group"><label class="form-label">Status</label><select id="cw-status">${Object.entries(CUST_STATUS).map(([k,l])=>opt(k,l,c.status===k)).join('')}</select></div>
+<div class="form-group"><label class="form-label">Type</label><select id="cw-type">${opt('','—')}${CUST_TYPES.map(t=>opt(t,t,c.type===t)).join('')}</select></div>
+<div class="form-group"><label class="form-label">CR number</label><input id="cw-cr" inputmode="numeric" value="${esc(c.crNo||'')}" placeholder="10 digits"></div>
+<div class="form-group"><label class="form-label">CR expiry</label><input type="date" id="cw-crexp" value="${esc(c.crExpiry||'')}"></div>
+<div class="form-group"><label class="form-label">VAT number (TRN)</label><input id="cw-vat" inputmode="numeric" value="${esc(c.vatNo||'')}" placeholder="15 digits, starts and ends with 3"></div>
+<div class="form-group"><label class="form-label">Company phone</label><input id="cw-phone" type="tel" value="${esc(c.phone||'')}"></div>
+<div class="form-group"><label class="form-label">Website</label><input id="cw-web" value="${esc(c.website||'')}" placeholder="www…"></div>
+</div></section>
+<section class="cw-step" data-s="2">
+<div class="card-title" style="margin-bottom:8px">${ico('pin')} National address <span class="text-muted" style="font-weight:400;font-size:12px">— printed on tax invoices</span></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">Building no.</label><input id="cw-bld" inputmode="numeric" value="${esc(c.addr.building||'')}" placeholder="4 digits"></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Street</label><input id="cw-street" value="${esc(c.addr.street||'')}"></div>
+<div class="form-group"><label class="form-label">District</label><input id="cw-dist" value="${esc(c.addr.district||'')}"></div>
+<div class="form-group"><label class="form-label">City</label><input id="cw-city" value="${esc(c.addr.city||'')}" placeholder="Jubail"></div>
+<div class="form-group"><label class="form-label">Postal code</label><input id="cw-postal" inputmode="numeric" value="${esc(c.addr.postal||'')}" placeholder="5 digits"></div>
+<div class="form-group"><label class="form-label">Additional no.</label><input id="cw-addl" inputmode="numeric" value="${esc(c.addr.additional||'')}" placeholder="4 digits"></div></div>
+<div class="card-title" style="margin:16px 0 8px">${ico('users')} Contacts</div>
+<div class="scroll-x"><table class="cw-tbl"><thead><tr><th>Name</th><th>Role</th><th>Phone</th><th>Email</th><th class="c">Main</th><th class="c">Check-in notices</th><th class="c">Billing</th><th></th></tr></thead><tbody id="cw-contacts">${(c.contacts.length?c.contacts:[{primary:true,notifyCheckin:true,notifyBilling:true,role:'HR / Admin'}]).map(contactRow).join('')}</tbody></table></div>
+<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="document.getElementById('cw-contacts').insertAdjacentHTML('beforeend',_cwContactRow({role:'Accounts / Finance'}))">${ico('plus')} Add contact</button>
+</section>
+<section class="cw-step" data-s="3"><div class="form-row">
+<div class="form-group"><label class="form-label">Payment terms (days)</label><input type="number" id="cw-terms" value="${esc(c.billing.terms)}" min="0"></div>
+<div class="form-group"><label class="form-label">Credit limit (SAR)</label><input type="number" id="cw-credit" value="${esc(c.billing.creditLimit||'')}" min="0"></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Invoice emails</label><input id="cw-invmail" value="${esc(c.billing.invoiceEmails||'')}" placeholder="accounts@company.com; ap@company.com"></div>
+<div class="form-group"><label class="form-label">Cost centre / project</label><input id="cw-cc" value="${esc(c.billing.costCenter||'')}"></div></div>
+<label class="chk-line"><input type="checkbox" id="cw-poreq" ${c.billing.poRequired?'checked':''}> A purchase order (PO) is required on every invoice</label>
+<div class="card-title" style="margin:14px 0 6px">${ico('file')} Purchase orders</div>
+<div class="scroll-x"><table class="cw-tbl"><thead><tr><th>PO number</th><th>Valid from</th><th>Valid to</th><th>Value (SAR)</th><th></th></tr></thead><tbody id="cw-pos">${c.pos.map(poRow).join('')}</tbody></table></div>
+<button type="button" class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="document.getElementById('cw-pos').insertAdjacentHTML('beforeend',_cwPoRow({}))">${ico('plus')} Add PO</button>
+<div class="card-title" style="margin:16px 0 6px">${ico('calendar')} Accommodation contract</div><div class="form-row">
+<div class="form-group"><label class="form-label">Contract no.</label><input id="cw-cno" value="${esc(c.contract.no||'')}"></div>
+<div class="form-group"><label class="form-label">Start</label><input type="date" id="cw-cstart" value="${esc(c.contract.start||'')}"></div>
+<div class="form-group"><label class="form-label">End</label><input type="date" id="cw-cend" value="${esc(c.contract.end||'')}"></div>
+<div class="form-group"><label class="form-label">Allocated beds</label><input type="number" id="cw-beds" value="${esc(c.contract.beds||'')}" min="0" placeholder="e.g. 120"></div>
+<div class="form-group"><label class="form-label">Service</label><select id="cw-svc">${['Accommodation+Food','Accommodation','Food Only'].map(s=>opt(s,s,c.contract.service===s)).join('')}</select></div></div>
+<div class="form-group" style="margin-top:10px"><label class="form-label">Room types agreed</label><div class="chk-row" id="cw-cats">${ALL_CATS.map(k=>`<label><input type="checkbox" value="${k}" ${cats.includes(k)?'checked':''} onchange="cwRateGrid()"> ${k}</label>`).join('')}</div></div>
+<div class="form-group" style="margin-top:10px"><label class="form-label">Notes</label><textarea id="cw-notes" rows="2">${esc(c.notes||'')}</textarea></div>
+</section>
+<section class="cw-step" data-s="4">
+<div class="card-title" style="margin-bottom:6px">${ico('tag')} Rate card <span class="text-muted" style="font-weight:400;font-size:12px">— SAR per person per day, before VAT</span></div>
+${can('rates','edit')?`<div class="form-row" style="align-items:end"><div class="form-group"><label class="form-label">Effective from</label><input type="date" id="cw-rfrom" oninput="this.dataset.touched=1" value="${esc(c.contract.start&&!id?c.contract.start:today())}"></div>
+<div class="form-group"><label class="form-label">Copy rates from</label><select id="cw-rcopy" onchange="cwCopyRates(this.value)">${opt('','— choose a customer —')}${db.companies.filter(x=>x.id!==id&&db.rates.some(r=>r.customerId===x.id)).map(x=>opt(x.id,x.short)).join('')}</select></div></div>
+<div id="cw-rates" style="margin-top:10px"></div><p class="auth-note">Each room type is priced by how many people of this customer share the room (1x1 = alone, 2x1 = two people…). Changing a price keeps the old one until the day before the new date, so past months bill at the old rate.</p>`:'<p class="auth-note">Your role cannot change rates.</p>'}
+<div class="card-title" style="margin:16px 0 6px">${ico('file')} Documents</div><div id="cw-docs"></div>
+</section>
+<section class="cw-step" data-s="5"><div id="cw-review"></div></section>`;
+  showModal(id?`Edit customer · ${esc(c.short)}`:'New customer',body,[{label:id?'Save':'Create customer',primary:true,action:saveCustomerForm},{label:'Back',action:()=>cwGo(_cw.step-1)},{label:'Next',action:()=>cwGo(_cw.step+1)},{label:'Cancel',action:closeModal}],'modal-xl cw-modal');
+  window._cwRateCopy=null;cwRateGrid();cwDocs();cwGo(_cw.step,true);
+}
+function custInUse(c){return!!c&&(db.residents.some(r=>r.company===c.short)||db.invoices.some(i=>i.customerId===c.id))}
+function cwGo(n,free){
+  if(!_cw)return;n=Math.max(1,Math.min(CW_STEPS.length,n));
+  if(!free&&n>_cw.step&&_cw.step===1){const s=document.getElementById('cw-short').value.trim(),nm=document.getElementById('cw-name').value.trim();if(!s||!nm)return uiAlert('Enter the short name and the full legal name.')}
+  _cw.step=n;document.querySelectorAll('.cw-step').forEach(x=>x.style.display=+x.dataset.s===n?'block':'none');
+  document.querySelectorAll('.cw-st').forEach(x=>{x.classList.toggle('on',+x.dataset.s===n);x.classList.toggle('done',+x.dataset.s<n)});
+  const b=[...document.querySelectorAll('#active-modal .modal-footer .btn')];const isNew=!_cw.id;
+  if(b[0])b[0].style.display=isNew&&n<CW_STEPS.length?'none':'';if(b[1])b[1].style.display=n>1?'':'none';if(b[2])b[2].style.display=n<CW_STEPS.length?'':'none';
+  if(b[2])b[2].classList.toggle('btn-primary',isNew);
+  if(n===4&&!_cw.id){const f=document.getElementById('cw-rfrom'),s=document.getElementById('cw-cstart');if(f&&s&&s.value&&!f.dataset.touched)f.value=s.value}
+  if(n===5)cwReview();const mb=document.querySelector('#active-modal .modal-body');if(mb)mb.scrollTop=0;
+}
+function cwRead(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
+  const contacts=[...document.querySelectorAll('#cw-contacts tr')].map(tr=>({id:tr.querySelector('.ct-id').value,name:tr.querySelector('.ct-name').value.trim(),role:tr.querySelector('.ct-role').value,phone:tr.querySelector('.ct-phone').value.trim(),email:tr.querySelector('.ct-email').value.trim(),primary:tr.querySelector('.ct-primary').checked,notifyCheckin:tr.querySelector('.ct-ci').checked,notifyBilling:tr.querySelector('.ct-bill').checked})).filter(x=>x.name||x.email||x.phone);
+  if(contacts.length&&!contacts.some(x=>x.primary))contacts[0].primary=true;
+  const pos=[...document.querySelectorAll('#cw-pos tr')].map(tr=>({id:tr.querySelector('.po-id').value,no:tr.querySelector('.po-no').value.trim(),from:tr.querySelector('.po-from').value,to:tr.querySelector('.po-to').value,value:tr.querySelector('.po-val').value?Number(tr.querySelector('.po-val').value):'',notes:''})).filter(p=>p.no);
+  return{short:g('cw-short').toUpperCase(),name:g('cw-name'),nameAr:g('cw-namear'),status:g('cw-status'),type:g('cw-type'),crNo:g('cw-cr').replace(/\s/g,''),crExpiry:g('cw-crexp'),vatNo:g('cw-vat').replace(/\s/g,''),phone:g('cw-phone'),website:g('cw-web'),
+    addr:{building:g('cw-bld'),street:g('cw-street'),district:g('cw-dist'),city:g('cw-city'),postal:g('cw-postal'),additional:g('cw-addl')},contacts,
+    billing:{terms:Number(g('cw-terms'))||0,creditLimit:g('cw-credit')?Number(g('cw-credit')):'',invoiceEmails:g('cw-invmail'),poRequired:document.getElementById('cw-poreq').checked,costCenter:g('cw-cc'),notes:''},pos,
+    contract:{no:g('cw-cno'),start:g('cw-cstart'),end:g('cw-cend'),beds:g('cw-beds')?Number(g('cw-beds')):'',categories:[...document.querySelectorAll('#cw-cats input:checked')].map(i=>i.value),service:g('cw-svc'),notes:''},notes:g('cw-notes'),docs:_cw.docs};
+}
+function cwProblems(o){
+  const errs=[],warn=[];const id=_cw.id;
+  if(!o.short)errs.push('Short name is required.');if(!o.name)errs.push('Full legal name is required.');
+  if(o.short&&db.companies.some(c=>c.id!==id&&c.short.toUpperCase()===o.short))errs.push(`Short name ${o.short} is already used by another customer.`);
+  if(o.vatNo&&db.companies.some(c=>c.id!==id&&c.vatNo===o.vatNo))warn.push(`VAT number ${o.vatNo} is already on another customer.`);
+  if(vatLooksWrong(o.vatNo))warn.push('VAT number should be 15 digits, starting and ending with 3.');
+  if(crLooksWrong(o.crNo))warn.push('CR number should be 10 digits.');
+  if(o.crExpiry&&o.crExpiry<today())warn.push(`CR expired on ${fmtDate(o.crExpiry)}.`);
+  if(o.addr.postal&&!/^\d{5}$/.test(o.addr.postal))warn.push('Postal code should be 5 digits.');
+  if(o.addr.building&&!/^\d{4}$/.test(o.addr.building))warn.push('Building number should be 4 digits.');
+  if(o.addr.additional&&!/^\d{4}$/.test(o.addr.additional))warn.push('Additional number should be 4 digits.');
+  o.contacts.forEach(x=>{if(emailLooksWrong(x.email))warn.push(`Email "${x.email}" looks wrong.`);if(phoneLooksWrong(x.phone))warn.push(`Phone "${x.phone}" looks wrong.`)});
+  if(emailLooksWrong(o.billing.invoiceEmails))warn.push('An invoice email looks wrong.');
+  if(o.contract.start&&o.contract.end&&o.contract.end<o.contract.start)errs.push('Contract end is before its start.');
+  o.pos.forEach(p=>{if(p.from&&p.to&&p.to<p.from)errs.push(`PO ${p.no}: valid-to is before valid-from.`)});
+  if(o.status==='active'){if(!o.vatNo)warn.push('No VAT number — tax invoices need the customer VAT number for B2B sales.');if(!o.billing.invoiceEmails&&!o.contacts.some(x=>x.email&&x.notifyBilling))warn.push('No billing email — month-end summaries cannot be emailed.')}
+  return{errs,warn};
+}
+function cwReview(){
+  const o=cwRead();const{errs,warn}=cwProblems(o);const r=cwRateRead();const p=o.contacts.find(x=>x.primary)||{};
+  document.getElementById('cw-review').innerHTML=`${errs.length?`<div class="alert alert-warn"><b>Fix before saving:</b><br>${errs.map(esc).join('<br>')}</div>`:''}${warn.length?`<div class="alert alert-info"><b>Please check:</b><br>${warn.map(esc).join('<br>')}</div>`:''}${!errs.length&&!warn.length?`<div class="done-head">${ico('check')}<div>Everything looks complete.</div></div>`:''}
+<div class="kv"><div>Customer</div><div><b>${esc(o.short)}</b> — ${esc(o.name)}${o.nameAr?` · <span dir="rtl">${esc(o.nameAr)}</span>`:''} <span class="badge ${CUST_BADGE[o.status]}">${CUST_STATUS[o.status]}</span></div>
+<div>CR / VAT</div><div>${esc(o.crNo||'—')}${o.crExpiry?` (to ${fmtDate(o.crExpiry)})`:''} · ${esc(o.vatNo||'—')}</div><div>Address</div><div>${esc(addrText(o.addr)||'—')}</div>
+<div>Main contact</div><div>${esc([p.name,p.role,p.phone,p.email].filter(Boolean).join(' · ')||'—')}${o.contacts.length>1?` (+${o.contacts.length-1} more)`:''}</div>
+<div>Billing</div><div>${o.billing.terms} days${o.billing.creditLimit?` · credit limit SAR ${fmt(o.billing.creditLimit,0)}`:''}${o.billing.invoiceEmails?` · ${esc(o.billing.invoiceEmails)}`:''}${o.billing.poRequired?' · PO required':''}</div>
+<div>POs</div><div>${o.pos.map(x=>esc(x.no)+(x.to?` (to ${fmtDate(x.to)})`:'')).join(', ')||'—'}</div>
+<div>Contract</div><div>${esc(o.contract.no||'—')}${o.contract.start?` · ${fmtDate(o.contract.start)} to ${fmtDate(o.contract.end)||'open'}`:''}${o.contract.beds?` · ${o.contract.beds} beds`:''} · ${esc(o.contract.service)}${o.contract.categories.length?` · ${o.contract.categories.join(', ')}`:''}</div>
+<div>Rates</div><div>${r?`${r.rows.length} price${r.rows.length===1?'':'s'} from ${fmtDate(r.from)}`:'unchanged'}</div><div>Documents</div><div>${o.docs.length?o.docs.map(d=>esc(d.kind)).join(', '):'—'}</div></div>`;
+  Lang.cur==='ar'&&trTree(document.getElementById('cw-review'));
+}
+// rate card grid: room types × how many share
+function tiersFor(cat){const n=parseInt(cat)||6;return['1x1','2x1','3x1','4x1','5x1','6x1'].slice(0,n)}
+function cwRateGrid(){
+  const box=document.getElementById('cw-rates');if(!box)return;const cats=[...document.querySelectorAll('#cw-cats input:checked')].map(i=>i.value);
+  const keep={};box.querySelectorAll('input[data-k]').forEach(i=>keep[i.dataset.k]=i.value);const id=_cw.id;const d=today();const cp=window._cwRateCopy;
+  if(!cats.length){box.innerHTML='<p class="text-muted" style="font-size:13px">Tick the room types agreed (step 3) to enter prices.</p>';return}
+  box.innerHTML=`<div class="scroll-x"><table class="cw-tbl rate-grid"><thead><tr><th>Room type</th>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>`<th class="c">${t}</th>`).join('')}</tr></thead><tbody>${cats.map(cat=>`<tr><td class="fw-bold">${cat}</td>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>{if(!tiersFor(cat).includes(t))return'<td></td>';const k=cat+'|'+t;
+    const cur=id?getRate(id,cat,t,d):null;const v=keep[k]!==undefined?keep[k]:cp&&cp[k]!==undefined?cp[k]:cur?cur.priceExclVat:'';return`<td><input type="number" step="0.01" min="0" data-k="${k}" value="${esc(v)}" ${cur?`data-cur="${cur.priceExclVat}"`:''} aria-label="${cat} shared by ${t[0]}"></td>`}).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function cwCopyRates(fromId){if(!fromId)return;const d=today();const o={};db.rates.filter(r=>r.customerId===fromId&&r.effectiveFrom<=d&&(!r.effectiveTo||r.effectiveTo>=d)).forEach(r=>o[r.roomCategory+'|'+r.occupancyTier]=r.priceExclVat);
+  const cats=[...new Set(Object.keys(o).map(k=>k.split('|')[0]))];document.querySelectorAll('#cw-cats input').forEach(i=>{if(cats.includes(i.value))i.checked=true});
+  window._cwRateCopy=o;document.querySelectorAll('#cw-rates input[data-k]').forEach(i=>{if(o[i.dataset.k]!==undefined)i.value=o[i.dataset.k]});cwRateGrid();toast(`Prices copied from ${getCompany(fromId).short} — adjust as needed`,'ok')}
+function cwRateRead(){
+  const f=document.getElementById('cw-rfrom');if(!f)return null;const rows=[...document.querySelectorAll('#cw-rates input[data-k]')].filter(i=>i.value!==''&&String(Number(i.value))!==String(Number(i.dataset.cur===undefined?NaN:i.dataset.cur))).map(i=>{const[cat,tier]=i.dataset.k.split('|');return{cat,tier,price:Number(i.value)}});
+  return rows.length?{from:f.value||today(),rows}:null;
+}
+function applyRateCard(cid,card,svc,ref){
+  const prev=d=>{const x=new Date(d+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)};let n=0;
+  card.rows.forEach(({cat,tier,price})=>{
+    const same=db.rates.find(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom===card.from);
+    if(same){same.priceExclVat=price;same.serviceType=svc;n++;return}
+    db.rates.filter(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom<card.from&&(!r.effectiveTo||r.effectiveTo>=card.from)).forEach(r=>r.effectiveTo=prev(card.from));
+    const later=db.rates.filter(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom>card.from).sort((a,b)=>a.effectiveFrom.localeCompare(b.effectiveFrom))[0];
+    db.rates.push({id:uid(),customerId:cid,roomCategory:cat,occupancyTier:tier,serviceType:svc,priceExclVat:price,effectiveFrom:card.from,effectiveTo:later?prev(later.effectiveFrom):'',ref:ref||''});n++;
+  });return n;
+}
+// documents (CR, VAT certificate, contract…): images are compressed; PDFs kept as they are
+function cwDocs(){const b=document.getElementById('cw-docs');if(!b)return;b.innerHTML=`${_cw.docs.length?`<div class="doc-list">${_cw.docs.map(d=>`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div><button type="button" class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove document" onclick="_cw.docs=_cw.docs.filter(x=>x.id!=='${d.id}');cwDocs()">${ico('x')}</button></div>`).join('')}</div>`:''}
+<div class="form-row" style="align-items:end;margin-top:8px"><div class="form-group"><label class="form-label">Type</label><select id="dc-kind">${DOC_KINDS.map(k=>opt(k)).join('')}</select></div><div class="form-group"><label class="form-label">Expiry (if any)</label><input type="date" id="dc-exp"></div>
+<div class="form-group"><button type="button" class="btn btn-outline btn-sm" onclick="cwAddDoc()">${ico('upload')} Add file (PDF or photo)</button></div></div>`}
+async function cwAddDoc(){
+  const f=await new Promise(res=>{const i=document.createElement('input');i.type='file';i.accept='application/pdf,image/*';i.onchange=()=>res(i.files[0]);i.click()});if(!f)return;
+  const kind=document.getElementById('dc-kind').value,exp=document.getElementById('dc-exp').value;const cid=_cw.id||'new';
+  try{const d=await storeDoc(f,cid);Object.assign(d,{kind,expiry:exp});_cw.docs.push(d);cwDocs();toast(kind+' added','ok')}catch(e){uiAlert(e.message,{title:'Could not add the file'})}
+}
+async function storeDoc(f,cid){
+  const pdf=f.type==='application/pdf';const lim=Store.mode==='cloud'?5e6:1.2e6;
+  if(pdf&&f.size>lim)throw new Error(`The PDF is ${(f.size/1e6).toFixed(1)} MB — the limit is ${lim/1e6} MB${Store.mode==='cloud'?'':' in the demo'}. Scan it at a lower quality or as a photo.`);
+  const id=uid();let data,mime;
+  if(pdf){data=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});mime='application/pdf'}else{data=(await Photos.compress(f,1600,.8)).data;mime='image/jpeg'}
+  const base={id,name:f.name,mime,at:nowISO(),by:currentUser.name};
+  if(Store.mode!=='cloud')return Object.assign(base,{data});
+  const blob=await(await fetch(data)).blob();const path=`customers/${cid}/${id}.${pdf?'pdf':'jpg'}`;
+  const{error}=await Store.sb.storage.from(PHOTO_BUCKET).upload(path,blob,{contentType:mime,upsert:false});
+  if(error)throw new Error(/mime|type|not allowed|row-level|policy/i.test(error.message)?'Documents need the 6.1 database upgrade (supabase-upgrade-v6-1.sql). '+error.message:error.message);
+  return Object.assign(base,{path});
+}
+async function openDoc(d){let u=d.data||'';if(!u&&d.path)u=await Photos.url({path:d.path});if(!u)return uiAlert('The file could not be opened.');
+  if(u.startsWith('data:')){const b=await(await fetch(u)).blob();u=URL.createObjectURL(b)}window.open(u,'_blank','noopener')}
+
+async function saveCustomerForm(){
+  const o=cwRead();const{errs,warn}=cwProblems(o);
+  if(errs.length){cwGo(5,true);return}
+  if(warn.length&&_cw.step!==5&&!await uiConfirm(warn.join('\n')+'\n\nSave anyway?',{title:'Please check',ok:'Save anyway'}))return;
+  const card=cwRateRead();const id=_cw.id;let c;
+  const primary=o.contacts.find(x=>x.primary)||{};
+  const compat={address:addrText(o.addr),contact:primary.name||'',email:custEmails(o,'billing').join(', ')||primary.email||'',poNo:(custPO(o)||o.pos[o.pos.length-1]||{}).no||'',phone:o.phone||primary.phone||''};
+  if(id){c=db.companies.find(x=>x.id===id);const was=cust(c);const short=c.short;Object.assign(c,o,compat,{short:c.short&&custInUse(c)?short:o.short,updatedAt:nowISO(),updatedBy:currentUser.name});
+    const ch=[];if(was.status!==o.status)ch.push(`status ${CUST_STATUS[was.status]} → ${CUST_STATUS[o.status]}`);if(was.contract.end!==o.contract.end)ch.push('contract end '+(o.contract.end||'none'));if(was.docs.length!==o.docs.length)ch.push('documents');if(card)ch.push(`${card.rows.length} rates from ${card.from}`);custLog(c,'Updated'+(ch.length?': '+ch.join(', '):''))}
+  else{c=custNormalize(Object.assign({id:uid()},o,compat,{createdAt:nowISO(),createdBy:currentUser.name}));custLog(c,'Customer created');db.companies.push(c);}
+  if(card&&can('rates','edit'))applyRateCard(c.id,card,o.contract.service,o.contract.no);
+  saveDB();closeModal();toast(id?'Customer saved':`Customer ${c.short} created`,'ok');v6rerender();if(!id)openCustomer(c.id);
+}
+async function renameCustomer(id){
+  const c=db.companies.find(x=>x.id===id);if(!c||!isAdmin())return;
+  const nv=(await uiPrompt(`New short name for ${c.short}. It changes on every resident, movement, catering extra and monthly closing. Issued invoices keep the name printed on them.`,{title:'Rename customer',ok:'Rename everywhere',value:c.short})||'').trim().toUpperCase();
+  if(!nv||nv===c.short)return;if(db.companies.some(x=>x.id!==id&&x.short.toUpperCase()===nv))return uiAlert(nv+' is already used.');
+  const old=c.short;let n=0;db.residents.forEach(r=>{if(r.company===old){r.company=nv;n++}});(db.movements||[]).forEach(m=>{if(m.company===old)m.company=nv});(db.cateringExtras||[]).forEach(x=>{if(x.company===old)x.company=nv});(db.closings||[]).forEach(x=>{if(x.customerId===id)x.companyShort=nv});(db.messages||[]).forEach(m=>{if(m.company===old)m.company=nv});
+  c.short=nv;custLog(c,`Renamed from ${old}`);saveDB();closeModal();toast(`${old} renamed to ${nv} (${n} residents)`,'ok');v6rerender();
+}
+
+// ─── CUSTOMER PROFILE ───
+function openCustomer(id,tab){
+  const c0=db.companies.find(c=>c.id===id);if(!c0)return;const c=cust(c0);tab=tab||'ov';const s=custStats(c0,mtdByCustomer()[c.short]);const rev=can('revenue','view');const ed=can('companies','edit');
+  const tabs=[['ov','Overview'],['ct',`Contacts (${c.contacts.length})`],['bill','Billing & contract'],['rates','Rates'],['res',`Residents (${s.inCamp})`],...(can('invoices','view')?[['inv',`Invoices (${s.invoices.length})`]]:[]),['docs',`Documents (${c.docs.length})`],['log','History']];
+  let body='';const po=custPO(c);const gaps=custGaps(c);
+  if(tab==='ov'){const cats=Object.entries(s.byCat);body=`
+${gaps.length&&c.status!=='closed'?`<div class="alert alert-info">${ico('alert')} Missing: ${esc(gaps.join(', '))}.${ed?` <a class="link" href="#" onclick="event.preventDefault();openCustomerForm('${id}')">Complete the record</a>`:''}</div>`:''}
+<div class="cp-kpis"><div><small>In camp now</small><b>${s.inCamp}</b>${s.alloc?`<span>of ${s.alloc} allocated beds</span>`:''}</div><div><small>Person-days this month</small><b>${s.pd}</b></div>
+${rev?`<div><small>Billed this month</small><b>SAR ${fmt(s.amt,0)}</b><span>before VAT</span></div><div><small>Outstanding</small><b ${s.overdue?'style="color:var(--red)"':''}>SAR ${fmt(s.outstanding,0)}</b><span>${s.overdueN?`${s.overdueN} overdue (> ${c.billing.terms} days)`:'none overdue'}${c.billing.creditLimit?` · limit ${fmt(c.billing.creditLimit,0)}`:''}</span></div>`:''}
+<div><small>Contract</small><b>${c.contract.end?(s.daysLeft<0?'Ended':`${s.daysLeft} days left`):c.contract.start?'Open-ended':'—'}</b><span>${c.contract.end?'to '+fmtDate(c.contract.end):''}</span></div></div>
+${s.alloc?`<div class="rev-bar-wrap"><div class="rev-bar-label"><span>Allocated beds used</span><span>${s.inCamp} / ${s.alloc}</span></div><div class="rev-bar-track"><div class="rev-bar-fill ${s.inCamp>s.alloc?'pink':'green'}" style="width:${Math.min(100,Math.round(s.inCamp/s.alloc*100))}%"></div></div></div>`:''}
+<div class="kv" style="margin-top:12px"><div>Legal name</div><div>${esc(c.name)}${c.nameAr?`<br><span dir="rtl">${esc(c.nameAr)}</span>`:''}</div><div>CR / VAT</div><div>${esc(c.crNo||'—')}${c.crExpiry?` (to ${fmtDate(c.crExpiry)})`:''} · ${esc(c.vatNo||'—')}</div>
+<div>Address</div><div>${esc(addrText(c.addr)||'—')}</div><div>Main contact</div><div>${(p=>p?esc([p.name,p.role].filter(Boolean).join(', '))+(p.phone?` · <a href="tel:${esc(p.phone)}">${esc(p.phone)}</a>`:'')+(p.email?` · <a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:''):'—')(c.contacts.find(x=>x.primary)||c.contacts[0])}</div>
+<div>By room type</div><div>${cats.map(([k,n])=>`${k}: <b>${n}</b>`).join(' · ')||'—'}</div><div>Current PO</div><div>${po?`${esc(po.no)}${po.to?` (to ${fmtDate(po.to)})`:''}`:c.billing.poRequired?'<span class="badge badge-orange">PO required — none valid today</span>':'—'}</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${can('residents','edit')&&c.status!=='closed'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openResidentModal(null,{company:'${esc(c.short)}'})">${ico('user')} Check in for ${esc(c.short)}</button><button class="btn btn-sm btn-outline" onclick="closeModal();openMultiCheckin();setTimeout(()=>{const s=document.getElementById('mc-co');if(s)s.value='${esc(c.short)}'},50)">${ico('users')} Group check-in</button>`:''}
+${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeModal();openDRR({company:'${esc(c.short)}'})">${ico('clipboard')} Daily Rental Records</button>`:''}${custEmails(c,'billing').length?`<a class="btn btn-sm btn-outline" href="mailto:${esc(custEmails(c,'billing').join(','))}">${ico('mail')} Email</a>`:''}</div>`}
+  if(tab==='ct')body=c.contacts.length?`<div class="scroll-x"><table><thead><tr><th>Name</th><th>Role</th><th>Phone</th><th>Email</th><th>Receives</th></tr></thead><tbody>${c.contacts.map(x=>`<tr><td>${esc(x.name)}${x.primary?' <span class="badge badge-navy">Main</span>':''}</td><td>${esc(x.role)}</td><td>${x.phone?`<a href="tel:${esc(x.phone)}">${esc(x.phone)}</a>`:''}</td><td>${x.email?`<a href="mailto:${esc(x.email)}">${esc(x.email)}</a>`:''}</td><td>${[x.notifyCheckin?'check-in notices':'',x.notifyBilling?'billing':''].filter(Boolean).join(', ')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="text-muted">No contacts yet.</p>';
+  if(tab==='bill')body=`<div class="kv"><div>Payment terms</div><div>${c.billing.terms} days</div><div>Credit limit</div><div>${c.billing.creditLimit?'SAR '+fmt(c.billing.creditLimit,0):'—'}</div><div>Invoice emails</div><div>${esc(custEmails(c,'billing').join(', ')||'—')}</div><div>PO required</div><div>${c.billing.poRequired?'Yes':'No'}</div><div>Cost centre</div><div>${esc(c.billing.costCenter||'—')}</div>
+<div>Contract no.</div><div>${esc(c.contract.no||'—')}</div><div>Period</div><div>${c.contract.start?fmtDate(c.contract.start)+' to '+(fmtDate(c.contract.end)||'open'):'—'}</div><div>Allocated beds</div><div>${c.contract.beds||'—'}</div><div>Service</div><div>${esc(c.contract.service)}</div><div>Room types</div><div>${c.contract.categories.join(', ')||'—'}</div>${c.notes?`<div>Notes</div><div>${esc(c.notes)}</div>`:''}</div>
+<div class="card-title" style="margin:14px 0 6px">Purchase orders</div>${c.pos.length?`<table><thead><tr><th>PO</th><th>Valid</th><th class="text-right">Value</th><th class="text-right">Invoiced</th><th></th></tr></thead><tbody>${c.pos.map(p=>{const used=db.invoices.filter(i=>i.customerId===id&&i.poNo===p.no&&i.status!=='void').reduce((t,i)=>t+(+i.total||0),0);const live=(!p.from||p.from<=today())&&(!p.to||p.to>=today());return`<tr><td class="mono">${esc(p.no)}</td><td>${p.from?fmtDate(p.from):'…'} – ${p.to?fmtDate(p.to):'…'}</td><td class="num">${p.value?fmt(p.value,0):''}</td><td class="num">${fmt(used,0)}${p.value&&used>p.value?' <span class="badge badge-red">over</span>':''}</td><td>${live?'<span class="badge badge-green">Current</span>':p.to&&p.to<today()?'<span class="badge badge-gray">Expired</span>':''}</td></tr>`}).join('')}</tbody></table>`:'<p class="text-muted">No purchase orders.</p>'}`;
+  if(tab==='rates'){const R=db.rates.filter(r=>r.customerId===id).sort((a,b)=>a.roomCategory.localeCompare(b.roomCategory)||a.occupancyTier.localeCompare(b.occupancyTier)||b.effectiveFrom.localeCompare(a.effectiveFrom));const d=today();
+    const cats=[...new Set(R.map(r=>r.roomCategory))].sort();
+    body=cats.length?`<p class="auth-note" style="margin-top:0">Prices today, SAR per person per day before VAT, by how many of this customer's people share a room.</p><div class="scroll-x"><table class="rate-grid"><thead><tr><th>Room type</th>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>`<th class="text-right">${t}</th>`).join('')}<th>Service</th></tr></thead><tbody>${cats.map(cat=>`<tr><td class="fw-bold">${cat}</td>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>{const r=getRate(id,cat,t,d);return`<td class="num">${r?fmt(r.priceExclVat):''}</td>`}).join('')}<td>${esc((R.find(r=>r.roomCategory===cat)||{}).serviceType||'')}</td></tr>`).join('')}</tbody></table></div>
+${R.some(r=>r.effectiveTo&&r.effectiveTo<d)||R.some(r=>r.effectiveFrom>d)?`<details style="margin-top:8px"><summary class="link" style="font-size:12.5px">Price history (${R.length} lines)</summary><table style="margin-top:6px"><tbody>${R.map(r=>`<tr><td>${r.roomCategory} ${r.occupancyTier}</td><td class="num">${fmt(r.priceExclVat)}</td><td>${fmtDate(r.effectiveFrom)} – ${r.effectiveTo?fmtDate(r.effectiveTo):'open'}</td></tr>`).join('')}</tbody></table></details>`:''}`:'<p class="text-muted">No rates agreed yet — these residents are billed at SAR 0.</p>';
+    if(can('rates','edit'))body+=`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openCustomerForm('${id}',4)">${ico('tag')} Change prices</button>`}
+  if(tab==='res'){const L=activeResidents().filter(r=>r.company===c.short).sort((a,b)=>a.roomNo.localeCompare(b.roomNo,undefined,{numeric:true}));
+    body=L.length?`<div class="scroll-x" style="max-height:420px;overflow:auto"><table><thead><tr><th>Room</th><th>Name</th><th>Iqama</th><th>Phone</th><th>Since</th></tr></thead><tbody>${L.map(r=>`<tr><td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.phone||'')}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div><button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="closeModal();const e=document.getElementById('page-residents');e._filter={company:'${esc(c.short)}',search:'',active:'active',block:''};nav('residents')">Open in Residents</button>`:'<p class="text-muted">Nobody from this customer is in camp today.</p>'}
+  if(tab==='inv'){const L=s.invoices.slice().sort((a,b)=>b.date.localeCompare(a.date));const ie=can('invoices','edit')||can('monthend','edit');
+    body=L.length?`<div class="scroll-x"><table><thead><tr><th>Invoice</th><th>Period</th><th>Date</th><th class="text-right">Total</th><th>Status</th><th>Age</th><th></th></tr></thead><tbody>${L.map(i=>{const age=daysBetween(i.date,today());const od=i.status!=='paid'&&age>c.billing.terms;return`<tr><td class="mono">${esc(i.no)}</td><td>${esc(i.period||'')}</td><td>${fmtDate(i.date)}</td><td class="num">${fmt(i.total)}</td><td><span class="badge status-${i.status}">${esc(i.status)}</span>${i.paidAt?` <span class="text-muted" style="font-size:11.5px">${fmtDate(i.paidAt)}</span>`:''}</td><td>${i.status==='paid'?'':`<span ${od?'class="badge badge-red"':''}>${age} d</span>`}</td><td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="viewInvoice('${i.id}')">View</button>${ie&&i.status!=='paid'?`<button class="btn btn-xs btn-ghost" onclick="markInvoicePaid('${i.id}','${id}')">Mark paid</button>`:''}</td></tr>`}).join('')}</tbody><tfoot><tr><td colspan="3">Outstanding</td><td class="num">${fmt(s.outstanding)}</td><td colspan="3">${s.overdue?`<span style="color:var(--red)">SAR ${fmt(s.overdue)} overdue</span>`:''}</td></tr></tfoot></table></div>`:'<p class="text-muted">No invoices yet.</p>'}
+  if(tab==='docs')body=(c.docs.length?`<div class="doc-list">${c.docs.map(d=>{const dl=d.expiry?daysBetween(today(),d.expiry):null;return`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')} · added ${fmtDate(d.at)}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div>${dl!=null&&dl<=30?`<span class="badge ${dl<0?'badge-red':'badge-orange'}">${dl<0?'expired':dl+' days'}</span>`:''}<button class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button></div>`}).join('')}</div>`:'<p class="text-muted">No documents. Keep the CR, VAT certificate and contract here.</p>')+(ed?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openCustomerForm('${id}',4)">${ico('upload')} Add documents</button>`:'');
+  if(tab==='log'){const msgs=(db.messages||[]).filter(m=>m.company===c.short).slice(-15).reverse();
+    body=`${(c.log||[]).length?`<div style="font-size:12.5px;color:var(--gray700);line-height:1.8">${c.log.slice().reverse().map(l=>`${new Date(l.at).toLocaleString('en-GB')} · ${esc(l.by)} · ${esc(l.action)}`).join('<br>')}</div>`:'<p class="text-muted">No changes recorded yet.</p>'}
+${msgs.length?`<div class="card-title" style="margin:14px 0 6px">Messages</div><div style="font-size:12.5px;line-height:1.8">${msgs.map(m=>`${new Date(m.at).toLocaleString('en-GB')} · ${MSG_KIND[m.kind]||m.kind} by ${m.channel} to ${esc(m.to||'')} · ${esc(m.by||'')}`).join('<br>')}</div>`:''}`}
+  showModal(`<span class="cc-logo sm">${esc(c.short.slice(0,2))}</span> ${esc(c.short)} <span class="badge ${CUST_BADGE[c.status]}">${CUST_STATUS[c.status]}</span>`,`<div class="seg rd-seg" role="tablist">${tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="openCustomer('${id}','${k}')">${l}</button>`).join('')}</div>${body}`,
+    [...(ed?[{label:'Edit',primary:true,action:()=>openCustomerForm(id)}]:[]),{label:'Close',action:closeModal}],'modal-xl');
+}
+async function markInvoicePaid(invId,cid){
+  const inv=db.invoices.find(i=>i.id===invId);if(!inv)return;
+  const ref=await uiPrompt(`Invoice ${inv.no} · SAR ${fmt(inv.total)}. Enter the payment reference (bank transfer no., cheque…). The payment date is today; change it in the invoice later if needed.`,{title:'Mark invoice paid',ok:'Mark paid',placeholder:'e.g. TT 88412'});
+  if(ref===null)return;inv.status='paid';inv.paidAt=today();inv.paidRef=ref;inv.paidBy=currentUser.name;
+  const c=db.companies.find(x=>x.id===cid);if(c&&canEditCollection('companies'))custLog(c,`Invoice ${inv.no} paid${ref?' ('+ref+')':''}`);
+  saveDB();toast(`${inv.no} marked paid`,'ok');openCustomer(cid,'inv');
+}
+
+// ─── links into the rest of the app ───
+const _v6_runChecks=runChecks;
+runChecks=function(){
+  const out=_v6_runChecks();const t=today();
+  if(can('companies','view')){
+    db.companies.filter(c=>c.status==='active'||!c.status).forEach(c0=>{const c=cust(c0);const act=activeResidents(t).filter(r=>r.company===c.short).length;const go=()=>openCustomer(c.id);
+      if(c.contract.end){const d=daysBetween(t,c.contract.end);if(d<0&&act)out.push({sev:'high',area:'customers',text:lx(`${c.short}: contract ended ${fmtDate(c.contract.end)} but ${act} people are still in camp`,`${c.short}: انتهى العقد في ${fmtDate(c.contract.end)} وما زال ${act} شخصاً في السكن`),go});else if(d>=0&&d<=30)out.push({sev:'med',area:'customers',text:lx(`${c.short}: contract ends in ${d} day${d===1?'':'s'} (${fmtDate(c.contract.end)})`,`${c.short}: ينتهي العقد خلال ${d} يوم (${fmtDate(c.contract.end)})`),go})}
+      if(c.contract.beds&&act>c.contract.beds)out.push({sev:'med',area:'customers',text:lx(`${c.short}: ${act} people in camp, ${c.contract.beds} beds allocated`,`${c.short}: ${act} شخصاً في السكن والمخصص ${c.contract.beds} سريراً`),go});
+      if(c.crExpiry&&daysBetween(t,c.crExpiry)<=30)out.push({sev:daysBetween(t,c.crExpiry)<0?'med':'low',area:'customers',text:lx(`${c.short}: CR ${daysBetween(t,c.crExpiry)<0?'expired':'expires'} ${fmtDate(c.crExpiry)}`,`${c.short}: السجل التجاري ${daysBetween(t,c.crExpiry)<0?'انتهى':'ينتهي'} ${fmtDate(c.crExpiry)}`),go});
+      if(c.billing.poRequired&&act&&!custPO(c))out.push({sev:'med',area:'customers',text:lx(`${c.short}: needs a PO on invoices but none is valid today`,`${c.short}: يتطلب أمر شراء ولا يوجد أمر ساري اليوم`),go});
+      if(can('invoices','view')){const s=custStats(c0);if(s.overdueN)out.push({sev:'med',area:'customers',text:lx(`${c.short}: ${s.overdueN} invoice${s.overdueN>1?'s':''} overdue, SAR ${fmt(s.overdue,0)}`,`${c.short}: ${s.overdueN} فاتورة متأخرة بقيمة ${fmt(s.overdue,0)} ريال`),go});
+        if(c.billing.creditLimit&&s.outstanding>c.billing.creditLimit)out.push({sev:'high',area:'customers',text:lx(`${c.short}: outstanding SAR ${fmt(s.outstanding,0)} is over the credit limit of SAR ${fmt(c.billing.creditLimit,0)}`,`${c.short}: المستحق ${fmt(s.outstanding,0)} ريال يتجاوز حد الائتمان ${fmt(c.billing.creditLimit,0)} ريال`),go})}
+    });
+  }
+  return out.sort((a,b)=>({high:0,med:1,low:2}[a.sev]-{high:0,med:1,low:2}[b.sev]));
+};
+// check-in: warn when a customer is on hold or over its allocated beds
+function custCheckinNote(short,extra){const c=getCompanyByShort(short);if(!c)return'';const cc=cust(c);const n=activeResidents(today()).filter(r=>r.company===short).length+(extra||0);
+  if(cc.status==='hold')return lx(`${short} is on hold.`,`${short} موقوف مؤقتاً.`);if(cc.status==='closed')return lx(`${short} is closed.`,`${short} مغلق.`);
+  if(cc.contract.beds)return lx(`${short}: ${n} of ${cc.contract.beds} allocated beds used`,`${short}: ${n} من ${cc.contract.beds} سريراً مخصصاً`)+(n>cc.contract.beds?lx(' — over allocation',' — تجاوز المخصص'):'');return''}
+function custCheckinWarn(short,adding){const c=getCompanyByShort(short);if(!c)return'';const cc=cust(c);const n=activeResidents(today()).filter(r=>r.company===short).length+adding;
+  if(cc.status==='hold')return`${short} is on hold (customer status).`;if(cc.status==='closed')return`${short} is a closed customer.`;
+  if(cc.contract.beds&&n>cc.contract.beds)return`${short} will have ${n} people in camp — ${cc.contract.beds} beds are allocated in the contract.`;return''}
+// check-in notices go to the contacts marked for them
+async function emailCompany(ids,kind){
+  const list=ids.map(id=>db.residents.find(r=>r.id===id)).filter(Boolean);if(!list.length)return;const co=getCompanyByShort(list[0].company);
+  if(co){const to=custEmails(co,'checkin');if(to.length){const keep=co.email;co.email=to.join(',');try{await emailCompanyBase(ids,kind)}finally{co.email=keep}return}}
+  return emailCompanyBase(ids,kind);
+}
+// AI: a customers tool
+const _v6_aiTools=aiTools;aiTools=function(){const T=_v6_aiTools();if(can('companies','view'))T.push({name:'customers',description:'Customers (companies billed): status, contract, allocated beds, people in camp, outstanding invoices, missing details.',input_schema:{type:'object',properties:{name:{type:'string'}}}});return T};
+const _v6_aiRunTool=aiRunTool;aiRunTool=function(name,a){if(name!=='customers')return _v6_aiRunTool(name,a);const mtd=mtdByCustomer();const inv=can('invoices','view');
+  return{customers:db.companies.filter(c=>!a||!a.name||[c.short,c.name].some(v=>String(v).toLowerCase().includes(String(a.name).toLowerCase()))).map(c0=>{const c=cust(c0);const s=custStats(c0,mtd[c.short]);return{short:c.short,name:c.name,status:c.status,contract_end:c.contract.end||null,allocated_beds:c.contract.beds||null,in_camp:s.inCamp,person_days_this_month:s.pd,...(inv?{outstanding_sar:Math.round(s.outstanding),overdue_sar:Math.round(s.overdue)}:{}),payment_terms_days:c.billing.terms,missing:custGaps(c)}})}};
+AI_STEP.customers='Read the customers';
+
 AR={
 // navigation & shell
 'Main':'الرئيسية','Camp':'السكن','Billing':'الفوترة','Food':'الإعاشة','Sub-Lease':'الإيجار من الباطن','Reports':'التقارير','Setup':'الإعداد','Admin':'المسؤول',
@@ -5233,7 +5613,14 @@ AR={
 'Search anything':'ابحث عن أي شيء','Type a name, Iqama, room, phone, invoice, fault or asset tag. Shortcut: Ctrl+K.':'اكتب اسماً أو إقامة أو غرفة أو جوالاً أو فاتورة أو عطلاً أو رقم أصل. الاختصار: Ctrl+K.',
 'Ask in plain words — "how many free beds in Block C?" or in Arabic. It reads your data and cannot change it.':'اسأل بكلمات بسيطة — "كم سريراً شاغراً في المبنى C؟". يقرأ بياناتك ولا يغيّرها.',
 'Help on every screen':'مساعدة في كل شاشة','Short tips for the screen you are on.':'نصائح قصيرة للشاشة الحالية.','Your account':'حسابك','Change your password, switch to العربية, take this tour again, or sign out.':'غيّر كلمة المرور، بدّل اللغة، أعد الجولة، أو سجّل الخروج.',
-'Everywhere:':'في كل مكان:','In / Out':'الدخول والخروج','Check in resident':'تسجيل دخول مقيم','Multi check-in':'دخول جماعي','Fill empty rooms for me':'وزّع على الغرف الشاغرة',
+'Everywhere:':'في كل مكان:','Customers':'العملاء','New customer':'عميل جديد','Edit customer':'تعديل العميل','Create customer':'إنشاء العميل','Prospect':'محتمل','On hold':'موقوف مؤقتاً','In camp':'في السكن','This month':'هذا الشهر','Outstanding':'المستحق','Search name, VAT, CR, contact…':'ابحث بالاسم أو الرقم الضريبي أو السجل أو جهة الاتصال…',
+'Company':'الشركة','Address & contacts':'العنوان وجهات الاتصال','Billing & contract':'الفوترة والعقد','Rates & documents':'الأسعار والمستندات','Review':'المراجعة','Short name':'الاسم المختصر','Full legal name':'الاسم القانوني الكامل','Name in Arabic':'الاسم بالعربية','CR number':'رقم السجل التجاري','CR expiry':'انتهاء السجل التجاري','VAT number (TRN)':'الرقم الضريبي','Company phone':'هاتف الشركة','Website':'الموقع الإلكتروني',
+'National address':'العنوان الوطني','Building no.':'رقم المبنى','Street':'الشارع','District':'الحي','City':'المدينة','Postal code':'الرمز البريدي','Additional no.':'الرقم الإضافي','Contacts':'جهات الاتصال','Role':'الدور','Main':'رئيسي','Check-in notices':'إشعارات الدخول','Add contact':'إضافة جهة اتصال',
+'Payment terms (days)':'مدة السداد (يوم)','Credit limit (SAR)':'حد الائتمان (ريال)','Invoice emails':'بريد الفواتير','Cost centre / project':'مركز التكلفة / المشروع','A purchase order (PO) is required on every invoice':'أمر الشراء مطلوب في كل فاتورة','Purchase orders':'أوامر الشراء','PO number':'رقم أمر الشراء','Valid from':'ساري من','Valid to':'ساري حتى','Value (SAR)':'القيمة (ريال)','Add PO':'إضافة أمر شراء',
+'Accommodation contract':'عقد السكن','Contract no.':'رقم العقد','Start':'البداية','End':'النهاية','Allocated beds':'الأسرّة المخصصة','Service':'الخدمة','Room types agreed':'أنواع الغرف المتفق عليها','Rate card':'جدول الأسعار','Effective from':'ساري من','Copy rates from':'نسخ الأسعار من','— choose a customer —':'— اختر عميلاً —','Documents':'المستندات','Add file (PDF or photo)':'إضافة ملف (PDF أو صورة)','Expiry (if any)':'تاريخ الانتهاء (إن وجد)',
+'Overview':'نظرة عامة','Rates':'الأسعار','History':'السجل','In camp now':'في السكن الآن','Person-days this month':'أيام الإقامة هذا الشهر','Billed this month':'فوترة هذا الشهر','Contract':'العقد','Legal name':'الاسم القانوني','CR / VAT':'السجل / الضريبة','Main contact':'جهة الاتصال الرئيسية','By room type':'حسب نوع الغرفة','Current PO':'أمر الشراء الحالي','Mark paid':'تسجيل السداد','Change prices':'تغيير الأسعار','Add documents':'إضافة مستندات','Open in Residents':'فتح في المقيمين','Payment terms':'مدة السداد','Credit limit':'حد الائتمان','PO required':'أمر الشراء مطلوب','Cost centre':'مركز التكلفة','Room types':'أنواع الغرف','Current':'ساري','Expired':'منتهي','Invoiced':'مفوتر','Age':'العمر',
+'Contractor':'مقاول','Operator / owner':'مشغّل / مالك','Manpower supplier':'مورد عمالة','Government':'حكومي','HR / Admin':'الموارد البشرية / الإدارة','Accounts / Finance':'الحسابات / المالية','Site coordinator':'منسق الموقع','Project manager':'مدير المشروع','Camp liaison':'منسق السكن',
+'Commercial Registration (CR)':'السجل التجاري','VAT certificate':'شهادة الضريبة','Purchase order':'أمر شراء','Everything looks complete.':'كل البيانات مكتملة.','Fix before saving:':'صحّح قبل الحفظ:','Rename customer':'إعادة تسمية العميل','Mark invoice paid':'تسجيل سداد الفاتورة','In / Out':'الدخول والخروج','Check in resident':'تسجيل دخول مقيم','Multi check-in':'دخول جماعي','Fill empty rooms for me':'وزّع على الغرف الشاغرة',
 'Things that need attention':'ما يحتاج متابعة','Export':'تصدير','Room No':'رقم الغرفة','Food Type':'نوع الوجبات','Check In / Out':'الدخول / الخروج','Monthly summary':'الملخص الشهري','Mark all sent':'تسجيل إرسال الكل',
 'Validate':'تحقق','Lock':'قفل','Unlock':'فتح القفل','Locked':'مقفل','Pending':'قيد الانتظار','Verified':'تم التحقق','Sent':'مرسل','Confirmed':'مؤكد','Invoiced':'مفوتر','Draft':'مسودة','Finalised':'نهائية','Paid':'مدفوعة',
 'Contracts':'العقود','Providers':'المزوّدون','Active Contracts':'العقود النشطة','+ New Contract':'+ عقد جديد','+ Add Provider':'+ إضافة مزوّد','Start Date':'تاريخ البداية','End Date':'تاريخ النهاية',
