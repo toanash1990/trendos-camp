@@ -767,6 +767,58 @@ body.ai-open #ai-panel{transform:none}
 .cw-tbl tr.cw-card td{padding:0;border:0}.cw-tbl tr.cw-card td.c{display:flex;align-items:center;gap:6px;font-size:12px}.cw-tbl tr.cw-card td.c::after{content:attr(data-l)}
 .cw-tbl tr.cw-card td:last-child{position:absolute;top:-10px;inset-inline-end:-6px}.cw-tbl tr.cw-card td:last-child .btn{background:#fff;border:1px solid var(--line);border-radius:50%}.cw-tbl.cw-tbl{display:block}.cw-tbl tbody{display:block}}
 
+/* management dashboard */
+.mg-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:-4px 0 14px}.mg-filters input{width:auto}
+.mg-tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+.mg-tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.mg-l{font-size:12px;color:var(--muted)}.mg-v{font-size:24px;font-weight:600;margin:4px 0 2px;color:var(--ink);letter-spacing:-.01em}.mg-s{font-size:12px;color:var(--muted)}
+.mg-tile.hero .mg-v{font-size:34px}.mg-tile.warn .mg-s{color:var(--red)}
+.mg-grid{display:grid;gap:14px;margin-bottom:14px}.mg-grid.two{grid-template-columns:1fr 1fr}.mg-grid>.card{margin:0}
+.viz{position:relative;min-height:60px}.viz svg{display:block;overflow:visible}
+.vz-ax{font-size:11px;fill:#8a8984;font-variant-numeric:tabular-nums}.vz-lbl{font-size:12px;font-weight:600;fill:var(--ink)}
+.viz-tip{position:absolute;display:none;pointer-events:none;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);padding:7px 10px;font-size:12px;white-space:nowrap;z-index:5}
+.vt-h{color:var(--muted);margin-bottom:3px}.vt-r{display:flex;align-items:center;gap:6px}.vt-r i{width:12px;height:2px;border-radius:2px;flex:none}.vt-r b{font-weight:600;color:var(--ink)}.vt-r span{color:var(--muted)}
+.mg-note{font-size:12px;color:var(--muted);margin-top:8px}
+.mg-legend{display:flex;gap:14px;font-size:12px;color:var(--gray700);margin-bottom:4px}.mg-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:5px;vertical-align:-1px}
+.mg-tbl-btn{font-size:12px;background:none;border:0;cursor:pointer;color:var(--navy)}
+.mg-tblwrap{max-height:240px;overflow:auto}.mg-tblwrap table{font-size:12.5px}
+.mg-co td small{margin-inline-start:6px}
+.mg-bar{display:inline-block;width:calc(100% - 44px);height:8px;background:#e8eef7;border-radius:4px;overflow:hidden;vertical-align:middle}.mg-bar span{display:block;height:100%;background:#2a78d6;border-radius:4px}
+.mg-meter{margin-bottom:10px}.mg-meter-h{display:flex;gap:10px;font-size:13px;margin-bottom:4px;align-items:baseline}.mg-meter-h>span:first-child{flex:1}.mg-meter-h b{font-weight:600;font-variant-numeric:tabular-nums}
+.mg-track{height:8px;background:#dbe8f8;border-radius:4px;overflow:hidden}.mg-track span{display:block;height:100%;background:#2a78d6;border-radius:4px}
+.mg-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}.mg-mini>div{background:var(--gray100);border-radius:8px;padding:8px 10px}.mg-mini small{display:block;font-size:11.5px;color:var(--muted)}.mg-mini b{font-size:17px;font-weight:600}
+.mg-hrow{display:grid;grid-template-columns:150px 1fr 30px;gap:8px;align-items:center;font-size:12.5px;margin-bottom:6px}.mg-hrow .mg-bar{width:100%}.mg-hrow b{text-align:end;font-weight:600}
+.mg-seg{display:flex;gap:2px;height:28px;border-radius:4px;overflow:hidden}.mg-seg span{display:flex;align-items:center;padding:0 8px;color:#fff;font-size:12px;font-weight:600;border-radius:4px;min-width:0}
+.mg-key{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:6px;vertical-align:-1px}
+.mg-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.mg-steps>div{background:var(--gray100);border-radius:8px;padding:8px 10px}.mg-steps small{display:block;font-size:11.5px;color:var(--muted)}.mg-steps b{font-size:17px}
+@media (max-width:1200px){.mg-tiles{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:900px){.mg-grid.two{grid-template-columns:1fr}.mg-tiles{grid-template-columns:1fr 1fr}.mg-tile.hero{grid-column:1/-1}.mg-steps{grid-template-columns:repeat(3,1fr)}.mg-hrow{grid-template-columns:110px 1fr 26px}}
+@media print{#sidebar,#topbar,#tabbar,.no-print,.mg-tbl-btn{display:none!important}#content{margin:0!important;padding:0!important}.mg-tile,.card{box-shadow:none!important;break-inside:avoid}}
+[dir=rtl] .viz{direction:ltr}
+@media (max-width:600px){#page-management .page-header>div:last-child{width:100%;justify-content:space-between}#page-management .page-header>div:last-child .btn{padding-inline:8px}}
+
+.otp-in{width:100%;font-size:24px;letter-spacing:.35em;text-align:center;font-variant-numeric:tabular-nums;padding:10px}
+
+/* v6.4 administration: sign-in details, audit log */
+.pw-gen{display:flex;gap:6px;align-items:center}.pw-gen input{flex:1;min-width:0;letter-spacing:.5px}.pw-gen .btn{flex:none;white-space:nowrap}
+.share-card{border:1px solid var(--line);border-radius:10px;background:var(--gray50);padding:4px 14px;margin:10px 0}
+.share-card>div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--gray200);font-size:13px;flex-wrap:wrap}
+.share-card>div:last-child{border-bottom:0}.share-card span{color:var(--gray500)}.share-card b{word-break:break-all;text-align:end}
+#sl-pw{font-size:15px;letter-spacing:.6px;color:var(--navy)}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.share-btns .btn{display:inline-flex;align-items:center;gap:6px}
+.share-msg{white-space:pre-wrap;font-size:12px;background:var(--gray50);border:1px solid var(--line);border-radius:8px;padding:10px;margin-top:6px;max-height:220px;overflow:auto;font-family:var(--font)}
+.audit-filters{padding:12px 14px}.af-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,1.6fr);gap:10px;align-items:start}
+.af-row .form-group{margin:0}.af-quick{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.audit-sum{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--gray600);margin:4px 2px 10px}.audit-sum b{color:var(--ink)}
+.audit-table td{vertical-align:top}.audit-row{cursor:pointer}.audit-row:hover td,.audit-row:focus-visible td{background:var(--gray50)}.audit-row:focus-visible{outline:2px solid var(--teal)}
+.audit-ch{font-size:12.5px;max-width:420px}.ach{display:block;line-height:1.5}.ach b{font-weight:600;color:var(--gray700)}
+.audit-old{color:var(--red);text-decoration:line-through;text-decoration-color:rgba(0,0,0,.25);word-break:break-word}.audit-new{color:var(--green);word-break:break-word}
+.audit-kv{grid-template-columns:90px 1fr}.nowrap{white-space:nowrap}
+@media (max-width:900px){.af-row{grid-template-columns:1fr 1fr}.af-q{grid-column:1/-1}}
+@media (max-width:600px){.audit-table thead{display:none}.audit-table tr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+ .audit-table td{border:0;padding:0}.audit-table td:nth-child(1){order:2;text-align:end}.audit-table td:nth-child(2){order:1;font-weight:600}.audit-table td:nth-child(3){order:3}.audit-table td:nth-child(4){order:4;text-align:end}.audit-table td:nth-child(5){order:5;grid-column:1/-1}}
+.kv-grid{display:grid;grid-template-columns:120px 1fr;gap:6px 12px;font-size:13px}.kv-grid>div:nth-child(odd){color:var(--gray500)}
+
 .auth-panel{position:relative}.auth-lang{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'Readex Pro',var(--font)}
 </style>
 <!-- Cloud database client (Supabase). Ignored in local demo mode. -->
@@ -839,6 +891,7 @@ body.ai-open #ai-panel{transform:none}
       <div class="side-brand"><span class="sb-mark" aria-hidden="true"><i></i><i></i><i></i><i class="free"></i></span><div><b>Trendos</b><small>Camp &amp; Catering</small></div></div>
       <div class="nav-section">Main</div>
       <div class="nav-item active" onclick="nav('dashboard')"><span class="icon">🏠</span>Dashboard</div>
+      <div class="nav-item" onclick="nav('management')"><span class="icon"></span>Management</div>
       <div class="nav-section">Camp</div>
       <div class="nav-item" onclick="nav('rooms')"><span class="icon">🏢</span>Rooms & Blocks</div>
       <div class="nav-item" onclick="nav('residents')"><span class="icon">👥</span>Residents</div>
@@ -846,7 +899,6 @@ body.ai-open #ai-panel{transform:none}
       <div class="nav-item" onclick="nav('assets')"><span class="icon"></span>Room Assets</div>
       <div class="nav-item" onclick="nav('maintenance')"><span class="icon"></span>Maintenance</div>
       <div class="nav-section">Billing</div>
-      <div class="nav-item" onclick="nav('rates')"><span class="icon">📋</span>Rate Agreements</div>
       <div class="nav-item" onclick="nav('mandays')"><span class="icon">📅</span>Mandays Report</div>
       <div class="nav-item" onclick="nav('revenue')"><span class="icon">💰</span>Revenue</div>
       <div class="nav-item" onclick="nav('monthend')"><span class="icon">🗓️</span>Monthly Closing</div>
@@ -864,6 +916,7 @@ body.ai-open #ai-panel{transform:none}
       <div class="nav-section">Admin</div>
       <div class="nav-item" id="nav-users" style="display:none" onclick="nav('users')"><span class="icon">🔑</span>Users</div>
       <div class="nav-item" id="nav-roles" style="display:none" onclick="nav('roles')"><span class="icon">🛡️</span>Roles & Access</div>
+      <div class="nav-item" id="nav-audit" style="display:none" onclick="nav('audit')"><span class="icon">📜</span>Audit log</div>
       <div class="side-foot"><span id="app-version">v5</span><br><span id="mode-label">Local demo mode</span></div>
     </nav>
     <div id="content">
@@ -883,9 +936,11 @@ body.ai-open #ai-panel{transform:none}
       <div id="page-settings" style="display:none"></div>
       <div id="page-users" style="display:none"></div>
       <div id="page-roles" style="display:none"></div>
+      <div id="page-audit" style="display:none"></div>
       <div id="page-revenue" style="display:none"></div>
       <div id="page-drr" style="display:none"></div>
       <div id="page-assets" style="display:none"></div>
+      <div id="page-management" style="display:none"></div>
       <div id="page-maintenance" style="display:none"></div>
     </div>
   </div>
@@ -895,6 +950,9 @@ body.ai-open #ai-panel{transform:none}
 <div id="modals"></div>
 
 <script>
+// email links (password reset / confirmation) are read before Supabase removes them from the address bar
+const AUTH_LINK=(()=>{try{const h=new URLSearchParams((location.hash||'').replace(/^#/,'')),q=new URLSearchParams(location.search);const g=k=>h.get(k)||q.get(k)||'';
+  const o={type:g('type'),error:g('error'),error_code:g('error_code'),error_description:g('error_description').replace(/\+/g,' '),code:q.get('code')||'',token:!!h.get('access_token')};o.any=!!(o.type||o.error||o.code||o.token);return o}catch(e){return{}}})();
 // ═════════════════════════════════════════════════════════════
 //  VERSION & STORAGE
 //  The app (this file) and the data (cloud database) are separate.
@@ -902,8 +960,8 @@ body.ai-open #ai-panel{transform:none}
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.1.0';
-const SCHEMA_VERSION=5;
+const APP_VERSION='6.4.0';
+const SCHEMA_VERSION=6;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
 const TABLE='trendos_records';
@@ -915,12 +973,13 @@ let db={};
 // Each screen (module) can be set to none / view / edit per role. Administrators always have full access.
 const MODULES=[
   {k:'dashboard',label:'Dashboard'},
+  {k:'management',label:'Management dashboard'},
   {k:'rooms',label:'Rooms & Blocks'},
   {k:'residents',label:'Residents (check-in / out)'},
   {k:'movement',label:'Movement Log'},
   {k:'assets',label:'Room Assets'},
   {k:'maintenance',label:'Maintenance & Inspections'},
-  {k:'rates',label:'Rate Agreements'},
+  {k:'rates',label:'Customer prices'},
   {k:'mandays',label:'Mandays Report'},
   {k:'revenue',label:'Revenue'},
   {k:'monthend',label:'Monthly Closing'},
@@ -945,7 +1004,7 @@ const BUILTIN_ROLES=[
 // Ready-made roles (editable / deletable like any role you create)
 const PRESET_ROLES=[
   {id:'entry-staff',name:'Entry Staff',builtin:false,perms:{dashboard:'view',rooms:'view',residents:'edit',movement:'view',assets:'view',maintenance:'edit'}},
-  {id:'supervisor',name:'Supervisor',builtin:false,perms:{dashboard:'view',rooms:'view',residents:'edit',movement:'edit',assets:'edit',maintenance:'edit',rates:'view',mandays:'view',revenue:'view',monthend:'edit',invoices:'edit',catering:'edit',sublease:'view',reports:'view',companies:'view',settings:'view'}},
+  {id:'supervisor',name:'Supervisor',builtin:false,perms:{dashboard:'view',rooms:'view',residents:'edit',movement:'edit',assets:'edit',maintenance:'edit',management:'view',rates:'view',mandays:'view',revenue:'view',monthend:'edit',invoices:'edit',catering:'edit',sublease:'view',reports:'view',companies:'view',settings:'view'}},
 ];
 function isAdmin(){return currentUser&&currentUser.role==='admin'}
 function can(mod,level){
@@ -956,8 +1015,9 @@ function can(mod,level){
 }
 // a screen added after a role was made follows the closest older screen (Revenue follows Mandays)
 // screens added later follow an older screen until the role is edited: Revenue → Mandays, Room Assets → Rooms,
-// Maintenance → edit for anyone who may edit rooms or residents (they report faults), otherwise as Rooms
-function effPerm(perms,k){if(perms[k])return perms[k];if(k==='revenue')return perms.mandays||'none';if(k==='assets')return perms.rooms||'none';if(k==='maintenance')return perms.rooms==='edit'||perms.residents==='edit'?'edit':(perms.rooms||'none');return'none'}
+// Maintenance → edit for anyone who may edit rooms or residents (they report faults), otherwise as Rooms;
+// Management dashboard → as Revenue (or Mandays)
+function effPerm(perms,k){if(perms[k])return perms[k];if(k==='revenue')return perms.mandays||'none';if(k==='assets')return perms.rooms||'none';if(k==='maintenance')return perms.rooms==='edit'||perms.residents==='edit'?'edit':(perms.rooms||'none');if(k==='management')return perms.revenue||perms.mandays||'none';return'none'}
 function canEditCollection(c){
   if(isAdmin())return true;
   if(c==='meta')return Object.values(currentUser.perms||{}).includes('edit');
@@ -1279,7 +1339,7 @@ async function doLogin(){
       email=em;
     }
     const{data,error}=await Store.sb.auth.signInWithPassword({email,password:p});
-    if(error)return loginErr(/invalid login/i.test(error.message)?'Wrong username or password':error.message);
+    if(error){if(/not confirmed/i.test(error.message)){loginBusy(false);return openConfirmHelp(email)}return loginErr(/invalid login/i.test(error.message)?'Wrong username or password':error.message)}
     await afterSignIn(data.user);
   }catch(e){loginErr('Could not reach the cloud database. Check the internet connection.')}
   finally{loginBusy(false)}
@@ -1289,15 +1349,17 @@ async function localSignIn(lu){
   const role=lu.email===MASTER_EMAIL?'admin':lu.role;
   currentUser={id:lu.id,username:lu.username,email:lu.email,name:lu.name||lu.username,role,perms:await loadPerms(role)};
   try{sessionStorage.setItem('trendos_local_session',lu.id)}catch(e){}
+  if(lu.mustChange)return mustChangePassword(()=>enterApp());
   await enterApp();
 }
 
 async function afterSignIn(user){
   const{data:prof,error}=await Store.sb.from('trendos_users').select('name,username,role,active,email').eq('id',user.id).maybeSingle();
   if(error){loginErr('Signed in, but your user profile could not be read. Has the setup script been run in Supabase? ('+error.message+')');await Store.sb.auth.signOut();return}
-  if(!prof||!prof.active){loginErr('Your account is waiting for an administrator to activate it.');await Store.sb.auth.signOut();return}
+  if(!prof||!prof.active){if(window._justConfirmed)authNote('✓ <strong>Email confirmed.</strong> Your account is now waiting for an administrator to approve it. You can sign in once it is approved.');else loginErr('Your account is waiting for an administrator to activate it.');window._justConfirmed=false;await Store.sb.auth.signOut();return}
   const role=(user.email||'').toLowerCase()===MASTER_EMAIL?'admin':prof.role;
   currentUser={id:user.id,email:user.email,username:prof.username||'',name:prof.name||user.email.split('@')[0],role,perms:await loadPerms(role)};
+  if(user.user_metadata&&user.user_metadata.must_change_password){loginBusy(false);return mustChangePassword(()=>enterApp())}
   await enterApp();
 }
 function applyNavPermissions(){
@@ -1364,7 +1426,7 @@ ${currentUser.username?`<div>Username</div><div>${esc(currentUser.username)}</di
   [{label:'Change password',action:()=>openSetPassword(false)},{label:'Sign out',primary:true,action:doLogout},{label:'Close',action:closeModal}]);
 }
 
-function openSetPassword(recovery){
+function _v5_openSetPassword(recovery){
   showModal(recovery?'Set a new password':'Change password',`
 <div class="form-group" style="margin-bottom:12px"><label class="form-label req">New password</label><input type="password" id="pw1" autocomplete="new-password"></div>
 <div class="form-group"><label class="form-label req">Repeat new password</label><input type="password" id="pw2" autocomplete="new-password"></div>
@@ -1381,7 +1443,7 @@ function openSetPassword(recovery){
   }},{label:'Cancel',action:closeModal}]);
 }
 
-async function forgotPassword(){
+async function _v5_forgotPassword(){
   let email=document.getElementById('login-user').value.trim();
   if(!email.includes('@'))email=await uiPrompt('Enter the email address of your account. A reset link will be sent to it.',{title:'Reset password',ok:'Send reset link',placeholder:'you@company.com',type:'email'});
   if(!email)return;
@@ -1692,29 +1754,25 @@ function computeMandays(periodStart,periodEnd,filterCompany){
       });
       Object.entries(byComp).forEach(([compShort,compRes])=>{
         if(filterCompany&&compShort!==filterCompany)return;
-        const count=compRes.length;
-        const tierLabel=tier(count);
-        const roomCat=room.cat;
-        const comp=db.companies.find(c=>c.short===compShort);
-        if(!comp)return;
-        const rateRow=getRate(comp.id,roomCat,tierLabel,day);
-        const rate=rateRow?rateRow.priceExclVat:0;
-        const key=comp.id+'|'+roomCat+'|'+tierLabel;
-        if(!results[key])results[key]={customerId:comp.id,companyShort:compShort,roomCat,tier:tierLabel,personDays:0,rate,amount:0,serviceType:rateRow?rateRow.serviceType:''};
-        results[key].personDays+=count;
-        results[key].amount+=count*rate;
+        const roomCat=room.cat;const comp=db.companies.find(c=>c.short===compShort);if(!comp)return;
+        compRes.forEach(r=>{
+          const want=residentService(r);const rateRow=getRate(comp.id,roomCat,want,day);const rate=rateRow?rateRow.priceExclVat:0;const svc=rateRow?rateRow.serviceType:want;
+          const key=comp.id+'|'+roomCat+'|'+svc+'|'+rate;
+          if(!results[key])results[key]={customerId:comp.id,companyShort:compShort,roomCat,serviceType:svc,tier:'',personDays:0,rate,amount:0};
+          results[key].personDays+=1;results[key].amount+=rate;
+        });
       });
     });
   });
-  return Object.values(results).sort((a,b)=>{
-    if(a.customerId!==b.customerId)return a.customerId.localeCompare(b.customerId);
-    if(a.roomCat!==b.roomCat)return a.roomCat.localeCompare(b.roomCat);
-    return a.tier.localeCompare(b.tier);
-  });
+  return Object.values(results).sort((a,b)=>a.companyShort.localeCompare(b.companyShort)||a.roomCat.localeCompare(b.roomCat)||String(a.serviceType).localeCompare(String(b.serviceType))||a.rate-b.rate);
 }
-
-function getRate(customerId,roomCat,tierLabel,date){
-  return db.rates.find(r=>r.customerId===customerId&&r.roomCategory===roomCat&&r.occupancyTier===tierLabel&&r.effectiveFrom<=date&&(!r.effectiveTo||r.effectiveTo>=date))||null;
+// billing: price per person per day, by customer, room type and service type
+const SERVICE_TYPES=['Accommodation','Accommodation+Food'];
+function residentService(r){return r.food||r.foodType?'Accommodation+Food':'Accommodation'}
+function svcLabel(r){return r.serviceType||(r.tier?r.tier+' occupancy':'—')}
+function getRate(customerId,roomCat,service,date){
+  const ok=r=>!r.archivedTier&&r.customerId===customerId&&r.roomCategory===roomCat&&r.effectiveFrom<=date&&(!r.effectiveTo||r.effectiveTo>=date);
+  return db.rates.find(r=>ok(r)&&r.serviceType===service)||db.rates.find(r=>ok(r)&&r.serviceType!=='Food Only')||null;
 }
 
 // ─── DASHBOARD ───
@@ -2324,17 +2382,17 @@ ${current?`<div class="metric-card green"><div class="metric-label">Projected mo
 <td><div style="display:flex;align-items:center;gap:8px"><div class="rev-bar-track" style="flex:1;margin:0"><div class="rev-bar-fill" style="width:${Math.round(c.amt/max*100)}%"></div></div><span style="font-size:12px;min-width:36px;text-align:right">${total?Math.round(c.amt/total*100):0}%</span></div></td>
 <td class="num">${c.pd}</td><td class="num">${fmt(c.amt)}</td><td class="num">${fmt(c.amt*vr)}</td><td class="num fw-bold">${fmt(c.amt*(1+vr))}</td>${current?`<td class="num">${fmt(daysDone?c.amt/daysDone*daysAll:0)}</td>`:''}</tr>`).join('')||`<tr><td colspan="${current?7:6}" class="text-center text-muted">No billing for this month</td></tr>`}</tbody>
 <tfoot><tr><td colspan="2">TOTAL</td><td class="num">${pdays}</td><td class="num">${fmt(total)}</td><td class="num">${fmt(total*vr)}</td><td class="num">${fmt(total*(1+vr))}</td>${current?`<td class="num">${fmt(projected)}</td>`:''}</tr></tfoot></table></div></div>
-<div class="card"><div class="card-header"><span class="card-title">By company, room type and occupancy</span></div><div class="scroll-x"><table>
-<thead><tr><th>Company</th><th>Room Cat</th><th>Tier</th><th class="text-right">Person-Days</th><th class="text-right">Rate/Day</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th></tr></thead>
-<tbody>${rows.map(r=>`<tr><td>${esc(r.companyShort)}</td><td><span class="badge badge-navy">${esc(r.roomCat)}</span></td><td><span class="badge tier-${r.tier[0]}">${r.tier}</span></td>
+<div class="card"><div class="card-header"><span class="card-title">By company, room type and service</span></div><div class="scroll-x"><table>
+<thead><tr><th>Company</th><th>Room Cat</th><th>Service</th><th class="text-right">Person-Days</th><th class="text-right">Rate/Day</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th></tr></thead>
+<tbody>${rows.map(r=>`<tr><td>${esc(r.companyShort)}</td><td><span class="badge badge-navy">${esc(r.roomCat)}</span></td><td>${esc(svcLabel(r))}</td>
 <td class="num">${r.personDays}</td><td class="num">${fmt(r.rate)}</td><td class="num">${fmt(r.amount)}</td><td class="num">${fmt(r.amount*vr)}</td><td class="num fw-bold">${fmt(r.amount*(1+vr))}</td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No billing data</td></tr>'}</tbody></table></div></div>`;
   el._rows=rows;el._label=`${B.start}_to_${upto}`;
 }
 function revSet(k,v){const el=document.getElementById('page-revenue');el['_'+k]=parseInt(v);renderRevenue(el)}
 function revCSV(){
   const el=document.getElementById('page-revenue');const vr=db.settings.vatRate/100;
-  const out=[['Company','Room category','Occupancy tier','Person-days','Rate/day','Amount excl VAT','VAT','Total']];
-  (el._rows||[]).forEach(r=>out.push([r.companyShort,r.roomCat,r.tier,r.personDays,r.rate,r.amount.toFixed(2),(r.amount*vr).toFixed(2),(r.amount*(1+vr)).toFixed(2)]));
+  const out=[['Company','Room category','Service','Person-days','Rate/day','Amount excl VAT','VAT','Total']];
+  (el._rows||[]).forEach(r=>out.push([r.companyShort,r.roomCat,svcLabel(r),r.personDays,r.rate,r.amount.toFixed(2),(r.amount*vr).toFixed(2),(r.amount*(1+vr)).toFixed(2)]));
   downloadCSV(out,`revenue-${el._label}.csv`);
 }
 function openMovModal(){
@@ -2440,14 +2498,14 @@ function renderMandays(el){
   </select>
   <span class="badge badge-gray">${start} → ${end}</span>
 </div>
-<div class="alert alert-info">Each day: count occupants per room per company → occupancy tier → rate lookup → person-days × rate. Mixed-room companies billed independently.</div>
+<div class="alert alert-info">Each day, every resident counts one person-day at the customer's price for the room type and service (with food or accommodation only). Prices are kept on each customer's profile.</div>
 <div class="card"><div class="scroll-x"><table>
-<thead><tr><th>Company</th><th>Room Category</th><th>Occupancy Tier</th><th class="text-right">Person-Days</th><th class="text-right">Rate/Day (SAR)</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT 15%</th><th class="text-right">Total incl VAT</th></tr></thead>
+<thead><tr><th>Company</th><th>Room Category</th><th>Service</th><th class="text-right">Person-Days</th><th class="text-right">Rate/Day (SAR)</th><th class="text-right">Amt excl VAT</th><th class="text-right">VAT 15%</th><th class="text-right">Total incl VAT</th></tr></thead>
 <tbody>
 ${rows.map(r=>{const vat=r.amount*.15;return`<tr>
 <td>${r.companyShort}</td>
 <td><span class="badge badge-navy">${r.roomCat}</span></td>
-<td><span class="badge tier-${r.tier[0]}">${r.tier}</span></td>
+<td>${esc(svcLabel(r))}</td>
 <td class="num">${r.personDays}</td><td class="num">${fmt(r.rate)}</td>
 <td class="num">${fmt(r.amount)}</td><td class="num">${fmt(vat)}</td>
 <td class="num fw-bold">${fmt(r.amount+vat)}</td></tr>`}).join('')||'<tr><td colspan="8" class="text-center text-muted" style="padding:32px">No billing data for this period. Check that residents are checked in and rates are configured.</td></tr>'}
@@ -2485,7 +2543,7 @@ function lineCalc(l,vatRate){
   if(l.vatMode==='incl'){amount=gross/(1+r);vat=gross-amount}else if(l.vatMode==='none'){amount=gross;vat=0}else{amount=gross;vat=gross*r}
   return{amount:round2(amount),vat:round2(vat),net:round2(round2(amount)+round2(vat))};
 }
-function accomDesc(r){const food=!r.serviceType||/food/i.test(r.serviceType);return`Bachelor Accommo. Facilities${food?' with 3 time Food':''} (${r.roomCat}) — ${r.tier} occupancy`}
+function accomDesc(r){const food=!r.serviceType||/food/i.test(r.serviceType);return`Bachelor Accommo. Facilities${food?' with 3 time Food':''} (${r.roomCat})${r.tier?` — ${r.tier} occupancy`:''}`}
 function closingLines(pd,cid){
   const P=getPeriod(pd);const vr=db.settings.vatRate;
   const rows=((P&&P.mandaysRows)||[]).filter(r=>r.customerId===cid);
@@ -2515,7 +2573,7 @@ function validatePeriod(pd){
   const over={};days.forEach(d=>{const cnt={};inP.forEach(r=>{if(presentOn(r,d))cnt[r.roomNo]=(cnt[r.roomNo]||0)+1});
     Object.entries(cnt).forEach(([no,n])=>{const rm=getRoom(no);if(rm&&rm.beds&&n>rm.beds)over[no]=Math.max(over[no]||0,n)})});
   Object.entries(over).forEach(([no,n])=>crit(`Room ${no} has ${n} people on some days but only ${getRoom(no).beds} beds`));
-  computeMandays(start,end).filter(r=>!r.rate).forEach(r=>crit(`No rate agreement: ${r.companyShort} · room ${r.roomCat} · ${r.tier} occupancy — ${r.personDays} person-days would bill at SAR 0`));
+  computeMandays(start,end).filter(r=>!r.rate).forEach(r=>crit(`No price agreed: ${r.companyShort} · room ${r.roomCat} · ${svcLabel(r)} — ${r.personDays} person-days would bill at SAR 0`));
   return issues;
 }
 
@@ -3027,7 +3085,7 @@ ${cloud?`<div>Last saved</div><div>${Store.lastSync?Store.lastSync.toLocaleStrin
 ${admin?`<button class="btn btn-ghost btn-sm" onclick="restoreBackup()">⬆ Restore from backup…</button>`:''}
 ${!cloud?`<button class="btn btn-ghost btn-sm" onclick="openConnectCloud()">☁ Connect to cloud database</button>`:''}
 ${cloud&&Store.cfg.source==='browser'?`<button class="btn btn-ghost btn-sm" onclick="disconnectCloud()">Disconnect this browser</button>`:''}
-${lc?`<button class="btn btn-ghost btn-sm" onclick="uploadLocalToCloud()">⬆ Upload this browser's old local data</button>`:''}
+${lc&&admin?`<button class="btn btn-ghost btn-sm" onclick="uploadLocalToCloud()">⬆ Upload this browser's old local data</button>`:''}
 </div>
 <p class="auth-note">Download a backup regularly and keep it somewhere safe outside the system. A backup holds every company, room, resident, rate, invoice and sub-lease record, and can be restored here at any time.</p>
 ${admin?`<div class="divider"></div><div class="alert alert-warn">Danger zone — affects everyone using the system</div>
@@ -3057,7 +3115,7 @@ function restoreBackup(){
   if(currentUser.role!=='admin')return uiAlert('Only an administrator can restore a backup.');
   pickBackupFile(async(d,p)=>{
     if(!await uiConfirm(`Replace ALL current data with this backup?\n\nBackup date: ${p.exportedAt?new Date(p.exportedAt).toLocaleString('en-GB'):'unknown'}\nResidents: ${d.residents.length} · Rooms: ${d.rooms.length} · Invoices: ${(d.invoices||[]).length}\n\nEveryone using the system will see the restored data. Tip: download a backup of the current data first.`))return;
-    db=d;db.seeded=true;migrateDB(false);saveDB();toast('Backup restored','ok');nav('dashboard');
+    db=d;db.seeded=true;migrateDB(false);saveDB();toast('Backup restored','ok');auditEvent('restore',`Backup restored (made ${p.exportedAt?new Date(p.exportedAt).toLocaleString('en-GB'):'—'}${p.exportedBy?' by '+p.exportedBy:''})`);nav('dashboard');
   });
 }
 async function uploadLocalToCloud(){
@@ -3085,7 +3143,7 @@ async function resetData(){
   const w=await uiPrompt('This erases ALL data for everyone and reloads the master data. A backup downloads first. Type RESET to continue.',{title:'Erase everything?',ok:'Erase and reload',placeholder:'RESET',danger:true});
   if(w!=='RESET'){if(w!==null)uiAlert('Nothing was erased: the word typed was not RESET.');return}
   exportBackup();
-  db={};seedData();migrateDB(false);saveDB();toast('Data reset to master data');nav('dashboard');
+  auditEvent('reset','All data erased and master data reloaded');db={};seedData();migrateDB(false);saveDB();toast('Data reset to master data');nav('dashboard');
 }
 
 // ─── USERS (administrators only) ───
@@ -3101,9 +3159,9 @@ const UserStore={
       const a=LocalAuth.load();
       if(a.users.some(x=>(x.username||'').toLowerCase()===uname))throw new Error('Username "'+u.username+'" is already taken');
       if(a.users.some(x=>(x.email||'').toLowerCase()===u.email.toLowerCase()))throw new Error('Email already has an account');
-      a.users.push({id:uid(),username:uname,email:u.email,name:u.name,password:u.password,role:u.role,active:u.active,created_at:new Date().toISOString(),approved_at:u.pending?null:new Date().toISOString()});LocalAuth.save(a);return;
+      a.users.push({id:uid(),username:uname,email:u.email,name:u.name,password:u.password,role:u.role,active:u.active,mustChange:!!u.mustChange,created_at:new Date().toISOString(),approved_at:u.pending?null:new Date().toISOString()});LocalAuth.save(a);auditEvent('login-created',u.email,{username:uname,mustChange:!!u.mustChange});return;
     }
-    const user=await signupAccount({...u,username:uname});
+    const user=await createLogin({...u,username:uname});
     const{error:e2}=await Store.sb.from('trendos_users').update({name:u.name,username:uname,role:u.role,active:u.active,approved_at:new Date().toISOString()}).eq('id',user.id);
     if(e2)throw e2;
     return user;
@@ -3120,7 +3178,7 @@ async function signupAccount(u){
   const{data:free,error:fe}=await Store.sb.rpc('trendos_username_free',{p_username:u.username});
   if(!fe&&free===false)throw new Error('Username "'+u.username+'" is already taken');
   const tmp=window.supabase.createClient(Store.cfg.url,Store.cfg.key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'trendos-signup-'+Date.now()}});
-  const{data,error}=await tmp.auth.signUp({email:u.email,password:u.password,options:{data:{name:u.name,username:u.username},emailRedirectTo:location.origin+location.pathname}});
+  const{data,error}=await tmp.auth.signUp({email:u.email,password:u.password,options:{data:{name:u.name,username:u.username,...(u.mustChange?{must_change_password:true}:{})},emailRedirectTo:location.origin+location.pathname}});
   if(error){
     if(/signups? not allowed|disabled/i.test(error.message))throw new Error('New sign-ups are switched off in Supabase. The administrator must turn on Authentication → Sign In / Providers → "Allow new users to sign up".');
     throw error;
@@ -3149,10 +3207,10 @@ function openRequestAccess(){
     if(pw!==document.getElementById('ra-pass2').value)return uiAlert('The two passwords do not match');
     try{
       if(Store.mode==='local')await UserStore.create({name,username,email,password:pw,role:'viewer',active:false,pending:true});
-      else{if(Store.initError||!Store.sb)throw new Error(Store.initError||'Cloud database not available');await signupAccount({name,username,email,password:pw})}
+      else{if(Store.initError||!Store.sb)throw new Error(Store.initError||'Cloud database not available');const nu=await signupAccount({name,username,email,password:pw});window._raNeedsConfirm=!(nu.email_confirmed_at||nu.confirmed_at)}
       closeModal();
       document.getElementById('auth-note').innerHTML=`✅ <strong>Request sent.</strong> An administrator will approve your account.${Store.mode==='cloud'?' If you receive a "confirm your email" message, click the link in it first.':''} Then sign in with username <strong>${esc(username)}</strong>.<br><a onclick="openRequestAccess()">Request access for another person</a>`;
-    }catch(e){uiAlert('Could not send the request: '+(e.message||e))}
+    if(window._raNeedsConfirm){window._raNeedsConfirm=false;setTimeout(()=>openConfirmHelp(email,{fromRequest:true}),60)}}catch(e){uiAlert('Could not send the request: '+(e.message||e))}
   }},{label:'Cancel',action:closeModal}]);
 }
 async function refreshPendingBadge(){
@@ -3208,11 +3266,11 @@ function openUserModal(id){
 <div class="form-group"><label class="form-label req">Full name</label><input id="uu-name" value="${esc(u?u.name||'':'')}"></div>
 <div class="form-group"><label class="form-label req">Username</label><input id="uu-user" value="${esc(u?u.username||'':'')}" placeholder="e.g. ibrahim" autocomplete="off"></div>
 <div class="form-group"><label class="form-label req">Email</label><input id="uu-email" type="email" value="${esc(u?u.email||'':'')}" ${u?'disabled':''} autocomplete="off"></div>
-${u?'':`<div class="form-group"><label class="form-label req">Password</label><input id="uu-pass" type="text" autocomplete="new-password" placeholder="at least 8 characters"></div>`}
+${u?'':`<div class="form-group"><label class="form-label req">Temporary password</label>${pwGenField('uu-pass')}</div><div class="form-group"><label class="form-label">Mobile (for WhatsApp)</label><input id="uu-phone" type="tel" placeholder="optional, e.g. 0501234567"></div>`}
 <div class="form-group"><label class="form-label">Role</label><select id="uu-role" ${master?'disabled':''}>${roles.map(r=>`<option value="${esc(r.id)}" ${(u?u.role:'viewer')===r.id||master&&r.id==='admin'?'selected':''}>${esc(r.name)}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">Status</label><select id="uu-active" ${master?'disabled':''}><option value="true" ${!u||u.active?'selected':''}>Active — can sign in</option><option value="false" ${u&&!u.active&&!master?'selected':''}>Switched off</option></select></div>
 </div>
-${!u&&Store.mode==='cloud'?'<p class="auth-note">Give the person their username and password. If "Confirm email" is on in Supabase, they must click the link in their inbox before the first sign-in.</p>':''}`,
+${u?'':'<label class="chk-line"><input type="checkbox" id="uu-must" checked> Ask them to choose their own password at the first sign-in</label><p class="auth-note">After you click Create user, you can send the sign-in details to their email or WhatsApp in one click.</p>'}`,
   [{label:u?'Save':'Create user',primary:true,action:async()=>{
     const g=x=>document.getElementById(x);
     const name=g('uu-name').value.trim(),username=g('uu-user').value.trim().toLowerCase();
@@ -3225,12 +3283,14 @@ ${!u&&Store.mode==='cloud'?'<p class="auth-note">Give the person their username 
       else{const email=g('uu-email').value.trim(),password=g('uu-pass').value;
         if(!/^\S+@\S+\.\S+$/.test(email))return uiAlert('Enter a valid email address');
         if(password.length<8)return uiAlert('Password must be at least 8 characters');
-        await UserStore.create({name,username,email,password,role,active});}
+        const mustChange=g('uu-must').checked,phone=g('uu-phone').value.trim();
+        const nu=await UserStore.create({name,username,email,password,role,active,mustChange});
+        setTimeout(()=>openShareLogin({name,username,email,password,phone,active,mustChange,needsConfirm:!!(nu&&nu.needsConfirm)}),80);}
       closeModal();toast(u?'User saved':'User created','ok');renderUsers(document.getElementById('page-users'));
     }catch(e){uiAlert('Could not save: '+(e.message||e))}
   }},
-  ...(u&&Store.mode==='cloud'?[{label:'Send password reset email',action:async()=>{const{error}=await Store.sb.auth.resetPasswordForEmail(u.email,{redirectTo:location.origin+location.pathname});uiAlert(error?'Could not send: '+error.message:'Password reset email sent to '+u.email)}}]:[]),
-  ...(u&&Store.mode==='local'?[{label:'Set new password',action:async()=>{const pw=await uiPrompt('At least 8 characters.',{title:'New password for '+u.username,ok:'Set password',type:'password'});if(!pw)return;if(pw.length<8)return uiAlert('At least 8 characters');const a=LocalAuth.load();const x=a.users.find(z=>z.id===u.id);x.password=pw;LocalAuth.save(a);toast('Password changed','ok')}}]:[]),
+  ...(u&&Store.mode==='cloud'?cloudUserButtons(u):[]),
+  ...(u&&Store.mode==='local'?[{label:'Set new password',action:()=>openSetUserPassword(u)}]:[]),
   {label:'Cancel',action:closeModal}]);
 }
 
@@ -3247,8 +3307,8 @@ async function renderRoles(el){
 <button class="btn btn-primary btn-sm" onclick="openRoleModal()">+ New Role</button></div>
 <div class="card"><div class="scroll-x"><table>
 <thead><tr><th>Screen</th>${roles.map(r=>`<th style="text-align:center">${esc(r.name)}<div style="font-weight:400;font-size:11px;color:var(--gray500)">${users.filter(u=>u.role===r.id).length} user(s)</div></th>`).join('')}</tr></thead>
-<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':cell(effPerm(r.perms||{},m.k))}</td>`).join('')}</tr>`).join('')}
-<tr><td>Users, roles, backups restore</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':'<span class="text-muted">—</span>'}</td>`).join('')}</tr></tbody>
+<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':cell(rolePermShown(r.perms||{},m.k))}</td>`).join('')}</tr>`).join('')}
+<tr><td>Users, roles, audit log, bulk upload, backup restore</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':'<span class="text-muted">—</span>'}</td>`).join('')}</tr></tbody>
 <tfoot><tr><td></td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="text-muted" style="font-size:11px">Full access</span>':`<button class="btn btn-sm btn-outline" onclick="openRoleModal('${esc(r.id)}')">Edit</button>`}</td>`).join('')}</tr></tfoot>
 </table></div></div>
 <p class="auth-note"><strong>Edit</strong> is enforced by the database: a role without Edit cannot change those records even outside the app. <strong>View</strong> and <strong>None</strong> control which screens appear. Assign roles to people on the <a onclick="nav('users')">Users</a> page.</p>`;
@@ -3258,12 +3318,13 @@ function openRoleModal(id){
   const perms=Object.assign({},r?r.perms:{});
   showModal(r?'Edit role — '+esc(r.name):'New role',`
 <div class="form-row"><div class="form-group"><label class="form-label req">Role name</label><input id="ro-name" value="${esc(r?r.name:'')}" placeholder="e.g. Accountant, Camp Supervisor"></div>
-<div class="form-group"><label class="form-label">Set all screens to</label><div style="display:flex;gap:6px">${['none','view','edit'].map(v=>`<button class="btn btn-sm btn-ghost" onclick="document.querySelectorAll('.ro-perm[value=${v}]').forEach(x=>x.checked=true)">${v==='none'?'None':v==='view'?'View':'Edit'}</button>`).join('')}</div></div></div>
+<div class="form-group"><label class="form-label">Set all screens to</label><div style="display:flex;gap:6px">${['none','view','edit'].map(v=>`<button class="btn btn-sm btn-ghost" onclick="document.querySelectorAll('.ro-perm[value=${v}]:not(:disabled)').forEach(x=>x.checked=true)">${v==='none'?'None':v==='view'?'View':'Edit'}</button>`).join('')}</div></div></div>
 <table><thead><tr><th>Screen</th><th style="text-align:center">None</th><th style="text-align:center">View</th><th style="text-align:center">Edit</th></tr></thead>
-<tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${['none','view','edit'].map(v=>`<td style="text-align:center"><input type="radio" class="ro-perm" name="ro-${m.k}" value="${v}" style="width:auto" ${effPerm(perms,m.k)===v?'checked':''}></td>`).join('')}</tr>`).join('')}</tbody></table>`,
+<tbody>${MODULES.map(m=>{const ms=MASTER_MODS.includes(m.k);return`<tr><td>${m.label}${ms?' <span class="badge badge-gray" style="font-size:10.5px">edit: admin only</span>':''}</td>${['none','view','edit'].map(v=>`<td style="text-align:center"><input type="radio" class="ro-perm" name="ro-${m.k}" value="${v}" style="width:auto" ${rolePermShown(perms,m.k)===v?'checked':''} ${v==='edit'&&ms?'disabled title="Administrators only"':''}></td>`).join('')}</tr>`}).join('')}</tbody></table>
+<p class="auth-note">Customers and prices, rooms and blocks, sub-lease, the asset register and settings are master data: only administrators change them. Other roles can view them.</p>`,
   [{label:r?'Save role':'Create role',primary:true,action:async()=>{
     const name=document.getElementById('ro-name').value.trim();if(!name)return uiAlert('Enter a role name');
-    const np={};MODULES.forEach(m=>{const x=document.querySelector(`input[name="ro-${m.k}"]:checked`);np[m.k]=x?x.value:'none'});
+    const np={};MODULES.forEach(m=>{const x=document.querySelector(`input[name="ro-${m.k}"]:checked`);np[m.k]=x?(x.value==='edit'&&MASTER_MODS.includes(m.k)?'view':x.value):'none'});
     const role=r?{...r,name,perms:np}:{id:name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,24)+'-'+uid().slice(-4),name,perms:np,builtin:false};
     try{await RoleStore.save(role);closeModal();toast('Role saved','ok');
       if(currentUser.role===role.id){currentUser.perms=np;applyNavPermissions()}
@@ -3638,7 +3699,7 @@ function _v5_renderReports(el){
 <div class="card">
 <div class="card-header"><span class="card-title">📅 Mandays Report</span></div>
 <div class="card-body">
-<p style="font-size:12px;color:var(--gray500);margin-bottom:14px">Occupancy-based billing — person-days by company, room type, tier. Period: <strong>${periodLabel}</strong></p>
+<p style="font-size:12px;color:var(--gray500);margin-bottom:14px">Occupancy-based billing — person-days by company, room type and service. Period: <strong>${periodLabel}</strong></p>
 <div style="display:flex;flex-direction:column;gap:8px">
 <button class="btn btn-outline" onclick="rptMandays('pdf','${pd}')">📄 Export PDF</button>
 <button class="btn btn-ghost" onclick="rptMandays('excel','${pd}')">📊 Export Excel (CSV)</button>
@@ -3707,16 +3768,16 @@ function rptMandays(fmt2,pd){
   const totalAmt=rows.reduce((s,r)=>s+r.amount,0);
   const periodLabel=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][mo-1]+' '+yr;
   if(fmt2==='csv'){
-    const csvRows=[['Company','Room Category','Occupancy Tier','Person-Days','Rate/Day (SAR)','Amount excl VAT','VAT 15%','Total incl VAT']];
-    rows.forEach(r=>csvRows.push([r.companyShort,r.roomCat,r.tier,r.personDays,r.rate,fmt(r.amount),fmt(r.amount*.15),fmt(r.amount*1.15)]));
+    const csvRows=[['Company','Room Category','Service','Person-Days','Rate/Day (SAR)','Amount excl VAT','VAT 15%','Total incl VAT']];
+    rows.forEach(r=>csvRows.push([r.companyShort,r.roomCat,svcLabel(r),r.personDays,r.rate,fmt(r.amount),fmt(r.amount*.15),fmt(r.amount*1.15)]));
     csvRows.push(['TOTAL','','',rows.reduce((s,r)=>s+r.personDays,0),'',fmt(totalAmt),fmt(totalAmt*.15),fmt(totalAmt*1.15)]);
     downloadCSV(csvRows,`mandays_${pd}.csv`);
   } else {
     const html=`<html><head><title>Mandays ${periodLabel}</title><style>body{font-family:Arial,sans-serif;font-size:11px;padding:20px}h1{color:#1e3a5f;font-size:15px}h2{color:#6b7280;font-size:12px;font-weight:normal;margin-bottom:12px}table{width:100%;border-collapse:collapse;margin-top:10px}th{background:#1e3a5f;color:#fff;padding:6px 8px;text-align:left;font-size:10px}td{padding:5px 8px;border-bottom:1px solid #e5e7eb}.tot{font-weight:700;background:#f3f4f6}.right{text-align:right}.tier{border-radius:3px;padding:1px 5px;font-size:9px}</style></head><body>
 <h1>Mandays Report — ${periodLabel}</h1>
 <h2>Trendos Camp & Catering · Jubail Industrial City · Generated: ${fmtDate(today())}</h2>
-<table><thead><tr><th>Company</th><th>Room Category</th><th>Occupancy Tier</th><th class="right">Person-Days</th><th class="right">Rate/Day</th><th class="right">Amt excl VAT</th><th class="right">VAT 15%</th><th class="right">Total incl VAT</th></tr></thead><tbody>
-${rows.map(r=>`<tr><td>${r.companyShort}</td><td>${r.roomCat}</td><td>${r.tier}</td><td class="right">${r.personDays}</td><td class="right">SAR ${fmt(r.rate)}</td><td class="right">SAR ${fmt(r.amount)}</td><td class="right">SAR ${fmt(r.amount*.15)}</td><td class="right"><strong>SAR ${fmt(r.amount*1.15)}</strong></td></tr>`).join('')}
+<table><thead><tr><th>Company</th><th>Room Category</th><th>Service</th><th class="right">Person-Days</th><th class="right">Rate/Day</th><th class="right">Amt excl VAT</th><th class="right">VAT 15%</th><th class="right">Total incl VAT</th></tr></thead><tbody>
+${rows.map(r=>`<tr><td>${r.companyShort}</td><td>${r.roomCat}</td><td>${svcLabel(r)}</td><td class="right">${r.personDays}</td><td class="right">SAR ${fmt(r.rate)}</td><td class="right">SAR ${fmt(r.amount)}</td><td class="right">SAR ${fmt(r.amount*.15)}</td><td class="right"><strong>SAR ${fmt(r.amount*1.15)}</strong></td></tr>`).join('')}
 <tr class="tot"><td colspan="3">TOTAL</td><td class="right">${rows.reduce((s,r)=>s+r.personDays,0)}</td><td></td><td class="right">SAR ${fmt(totalAmt)}</td><td class="right">SAR ${fmt(totalAmt*.15)}</td><td class="right">SAR ${fmt(totalAmt*1.15)}</td></tr>
 </tbody></table></body></html>`;
     const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();
@@ -4145,6 +4206,11 @@ function seedData(){
   tk({no:'M-0002',roomNo:'C-102',category:'Plumbing',priority:'normal',title:'Bathroom tap leaking',status:'assigned',assignedTo:'Al Noor Maintenance',reportedAt:ago(9)+'T10:00:00.000Z'});
   tk({no:'M-0003',roomNo:'B-103',category:'Carpentry / furniture',priority:'normal',title:'Window frame broken, rain gets in',status:'progress',assignedTo:'Camp carpenter',blocksRoom:true,reportedAt:ago(1)+'T13:30:00.000Z'});
   tk({no:'M-0004',roomNo:'D-101',category:'Electrical',priority:'low',title:'Corridor light flickering',status:'fixed',assignedTo:'Electrician',resolution:'Replaced tube',cost:35,fixedAt:ago(3)+'T09:00:00.000Z',fixedBy:'Admin',reportedAt:ago(6)+'T07:40:00.000Z'});
+  // movement for the demo: recent check-ins, and people who left in the last weeks
+  const act=db.residents.filter(r=>!r.checkOut);const rnd=(i,n)=>(i*37+11)%n;
+  act.slice(-22).forEach((r,i)=>{r.checkIn=ago(1+rnd(i,40))});
+  const spare=db.rooms.filter(rm=>rm.beds>=4&&db.residents.filter(x=>x.roomNo===rm.no).length===0);
+  act.slice(0,14).forEach((r,i)=>{const x=JSON.parse(JSON.stringify(r));x.id=uid();const rm=spare[i%Math.max(1,spare.length)];if(rm){x.roomNo=rm.no;x.block=rm.block}x.name=x.name.split(' ').reverse().join(' ');x.docNo=String(2300000000+i*7919);x.checkIn=ago(70+i);x.checkOut=ago(2+rnd(i,38));x.active=false;db.residents.push(x)});
   const phones=['0501234567','0559876543','0533344455','0567788990','0544455667','0598877665'];
   db.residents.slice(0,30).forEach((r,i)=>{if(i%5!==4)r.phone=phones[i%phones.length].slice(0,8)+String(10+i)});
   db.companies.forEach(c=>{if(!c.email&&['NBC','SPARK','TUBER'].includes(c.short))c.email=c.short.toLowerCase()+'@example.com'});
@@ -4586,10 +4652,10 @@ function openMultiCheckin(){
 </div>
 ${cfg6().handoverItems.length?`<div class="form-group" style="margin:4px 0 10px"><label class="form-label">Items given to everyone</label>${handoverChips(cfg6().handoverItems.filter(x=>x.def).map(x=>x.name),'mc')}</div>`:''}
 <div class="mc-tools"><button type="button" class="btn btn-sm btn-outline" onclick="scanIqamasToMulti()">${ico('idcard')} Scan Iqamas</button>
-<details><summary class="link" style="font-size:12.5px">Paste from Excel</summary>
+${isAdmin()?`<details><summary class="link" style="font-size:12.5px">Paste from Excel</summary>
 <p class="auth-note">Copy rows from Excel with columns in this order: <strong>Name · Iqama · Nationality · Phone · Room · Food type</strong> (the last three are optional), then paste here.</p>
 <textarea id="mc-paste" rows="4" style="width:100%;font-family:var(--font-mono);font-size:12px" placeholder="RENIE AGBUNAG FLORES	2425505811	PHP	0501234567	3110	PS"></textarea>
-<button class="btn btn-sm btn-outline" style="margin-top:6px" onclick="mciPaste()">Fill the table</button></details>
+<button class="btn btn-sm btn-outline" style="margin-top:6px" onclick="mciPaste()">Fill the table</button></details>`:''}
 <button type="button" class="btn btn-sm btn-ghost" onclick="mciAutoRooms()">${ico('bed')} Fill empty rooms for me</button></div>
 <datalist id="mc-rooms">${db.rooms.filter(r=>isBillableRoom(r)&&roomFree(r.no,today())>0).map(r=>`<option value="${esc(r.no)}">${esc(r.cat)} · Block ${esc(r.block)} · ${roomFree(r.no,today())} free</option>`).join('')}</datalist>
 <div class="scroll-x"><table class="mci"><thead><tr><th>#</th><th>Name *</th><th>Iqama / Doc *</th><th>Nationality</th><th>Phone</th><th>Room *</th><th>Food</th><th></th></tr></thead><tbody id="mc-body">${rowsHtml(5)}</tbody></table></div>
@@ -4780,7 +4846,7 @@ function runChecks(){
     const badIq=active.filter(r=>iqamaLooksWrong(r.docType||'Iqama',r.docNo)).length;if(badIq)add('low','residents',lx(`${badIq} Iqama ${pl(badIq,'number looks','numbers look')} wrong (not 10 digits starting with 1 or 2)`,`${badIq} رقم إقامة يبدو غير صحيح (ليس 10 أرقام تبدأ بـ 1 أو 2)`),()=>nav('residents'));
   }
   if(can('rates','view')||can('mandays','view')){
-    const zero=computeMandays(t,t).filter(r=>!r.rate);const z=zero.map(r=>`${r.companyShort} ${r.roomCat} ${r.tier}`).slice(0,3).join(', ');if(zero.length)add('high','rates',lx(`No rate agreed for ${z}${zero.length>3?' and more':''} — these people are billed at SAR 0`,`لا يوجد سعر متفق عليه لـ ${z}${zero.length>3?' وغيرها':''} — يُفوتر هؤلاء بصفر ريال`),()=>nav('rates'));
+    const zero=computeMandays(t,t).filter(r=>!r.rate);const z=zero.map(r=>`${r.companyShort} ${r.roomCat} ${svcLabel(r)}`).slice(0,3).join(', ');if(zero.length)add('high','rates',lx(`No rate agreed for ${z}${zero.length>3?' and more':''} — these people are billed at SAR 0`,`لا يوجد سعر متفق عليه لـ ${z}${zero.length>3?' وغيرها':''} — يُفوتر هؤلاء بصفر ريال`),()=>{const c=getCompanyByShort(zero[0].companyShort);c?openCustomer(c.id,'rates'):nav('companies')});
   }
   if(can('companies','view')){const noMail=[...new Set(active.map(r=>r.company))].filter(s=>{const c=getCompanyByShort(s);return c&&!c.email});if(noMail.length)add('low','companies',lx(`No email address for ${noMail.slice(0,4).join(', ')}${noMail.length>4?' and more':''} (needed for notices and month-end)`,`لا يوجد بريد إلكتروني لـ ${noMail.slice(0,4).join('، ')} (مطلوب للإشعارات والإقفال الشهري)`),()=>nav('companies'))}
   if(can('maintenance','view')){
@@ -4804,7 +4870,7 @@ function aiTools(){
   if(can('residents','view'))T.push({name:'find_residents',description:'Search residents. Returns a count and up to `limit` people.',input_schema:{type:'object',properties:{name:{type:'string'},company:{type:'string',description:'company short name, e.g. NBC'},block:{type:'string'},room:{type:'string'},nationality:{type:'string'},status:{type:'string',enum:['in_camp','checked_out','all']},checked_in_from:d,checked_in_to:d,checked_out_from:d,checked_out_to:d,no_phone:{type:'boolean'},limit:{type:'integer'}}}});
   if(can('rooms','view'))T.push({name:'free_beds',description:'Rooms with free beds on a date.',input_schema:{type:'object',properties:{date:d,block:{type:'string'},category:{type:'string',description:'e.g. 2x1, 4x1, 6x1'}}}});
   if(can('movement','view')||can('residents','view'))T.push({name:'movements',description:'Check-ins and check-outs between two dates, per day and per company.',input_schema:{type:'object',properties:{from:d,to:d,company:{type:'string'}},required:['from','to']}});
-  if(can('mandays','view'))T.push({name:'mandays',description:'Billed person-days for a month (and amounts if the user may see revenue), per company, room type and occupancy tier.',input_schema:{type:'object',properties:{month:{type:'string',description:'YYYY-MM'},company:{type:'string'}},required:['month']}});
+  if(can('mandays','view'))T.push({name:'mandays',description:'Billed person-days for a month (and amounts if the user may see revenue), per company, room type and service (room only / room + food).',input_schema:{type:'object',properties:{month:{type:'string',description:'YYYY-MM'},company:{type:'string'}},required:['month']}});
   if(can('maintenance','view'))T.push({name:'maintenance',description:'Maintenance faults.',input_schema:{type:'object',properties:{status:{type:'string',enum:['open','all']},room:{type:'string'},priority:{type:'string',enum:['urgent','normal','low']}}}});
   if(can('assets','view'))T.push({name:'assets',description:'Room asset register.',input_schema:{type:'object',properties:{room:{type:'string'},category:{type:'string'},condition:{type:'string',enum:ASSET_COND},service_due:{type:'boolean'}}}});
   if(can('monthend','view'))T.push({name:'closing_status',description:'Monthly closing status per customer for a month.',input_schema:{type:'object',properties:{month:{type:'string',description:'YYYY-MM'}},required:['month']}});
@@ -4831,7 +4897,7 @@ function aiRunTool(name,a){
     case'movements':{const p={preset:'custom',from:a.from,to:a.to,company:a.company||''};const D=movData(p);
       return{from:D.from,to:D.to,check_ins:D.ins.length,check_outs:D.outs.length,per_day:D.daily.filter(x=>x.i||x.o).map(x=>({date:x.d,in:x.i,out:x.o,in_camp:x.camp})),check_in_names:D.ins.slice(0,40).map(resRow),check_out_names:D.outs.slice(0,40).map(resRow)}}
     case'mandays':{const B=periodBounds(a.month);const rows=computeMandays(B.start,B.end>today()?today():B.end,a.company||'');const rev=can('revenue','view');
-      return{month:B.label,period:[B.start,B.end>today()?today():B.end],total_person_days:rows.reduce((s,r)=>s+r.personDays,0),...(rev?{total_amount_excl_vat_sar:Math.round(rows.reduce((s,r)=>s+r.amount,0)*100)/100}:{}),rows:rows.map(r=>({company:r.companyShort,room_type:r.roomCat,tier:r.tier,person_days:r.personDays,...(rev?{rate_sar:r.rate,amount_sar:Math.round(r.amount*100)/100}:{})}))}}
+      return{month:B.label,period:[B.start,B.end>today()?today():B.end],total_person_days:rows.reduce((s,r)=>s+r.personDays,0),...(rev?{total_amount_excl_vat_sar:Math.round(rows.reduce((s,r)=>s+r.amount,0)*100)/100}:{}),rows:rows.map(r=>({company:r.companyShort,room_type:r.roomCat,service:r.serviceType,person_days:r.personDays,...(rev?{rate_sar:r.rate,amount_sar:Math.round(r.amount*100)/100}:{})}))}}
     case'maintenance':{let L=(db.maintenance||[]).slice();if((a.status||'open')==='open')L=L.filter(x=>!['fixed','closed'].includes(x.status));if(a.room)L=L.filter(x=>x.roomNo===a.room);if(a.priority)L=L.filter(x=>x.priority===a.priority);
       return{count:L.length,faults:L.slice(0,50).map(x=>({no:x.no,room:x.roomNo,problem:x.title,type:x.category,priority:x.priority,status:TK_LABEL[x.status],reported:x.reportedAt.slice(0,10),days_open:tkAge(x),assigned_to:x.assignedTo||null,room_out_of_service:!!x.blocksRoom}))}}
     case'assets':{let L=(db.assets||[]).slice();if(a.room)L=L.filter(x=>x.roomNo===a.room);if(a.category)L=L.filter(x=>x.category.toLowerCase()===a.category.toLowerCase());if(a.condition)L=L.filter(x=>x.condition===a.condition);if(a.service_due)L=L.filter(assetDue);
@@ -4931,7 +4997,7 @@ async function aiMonthlySummary(pd){
 
 // ─── PAGE ROUTING for the new screens + small additions after each screen is drawn ───
 function renderPage(page,el){
-  if(page==='assets')renderAssets(el);else if(page==='maintenance')renderMaintenance(el);else _v5_renderPage(page,el);
+  if(page==='assets')renderAssets(el);else if(page==='maintenance')renderMaintenance(el);else if(page==='management')renderManagement(el);else _v5_renderPage(page,el);
   Photos.hydrate(el);
 }
 
@@ -5021,7 +5087,7 @@ function exportMessages(){const rows=[['Date / time','Channel','Message','To','C
 
 // ─── SETTINGS: items given, asset types, messages, automatic WhatsApp, AI ───
 function renderSettings(el){
-  _v5_renderSettings(el);const C=cfg6();const ed=canEdit('settings');const cloud=Store.mode==='cloud';const dis=ed?'':'disabled';
+  _v5_renderSettings(el);const C=cfg6();const ed=can('settings','edit')&&canEdit('settings');const cloud=Store.mode==='cloud';const dis=ed?'':'disabled';
   const cards=`
 <div class="two-col" style="margin-top:14px">
 <div class="card"><div class="card-header"><span class="card-title">${ico('key2')} Items given at check-in</span></div><div class="card-body">
@@ -5037,7 +5103,7 @@ ${ed?`<button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="sav
 <div class="form-row"><div class="form-group"><label class="form-label">Model for questions and writing</label><input id="ai-model" value="${esc(C.ai.model)}"></div>
 <div class="form-group"><label class="form-label">Model for reading Iqamas</label><input id="ai-vmodel" value="${esc(C.ai.visionModel)}"></div></div>
 <button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="saveCfg6('ai',{enabled:document.getElementById('ai-on').checked,model:document.getElementById('ai-model').value.trim()||V6_DEF.ai.model,visionModel:document.getElementById('ai-vmodel').value.trim()||V6_DEF.ai.visionModel});toast('AI settings saved','ok');v6rerender()">Save</button></fieldset>
-${cloud?`<div class="divider"></div><p class="auth-note" style="margin-top:0">First set up the <b>trendos-api</b> server function (setup guide, part "AI and WhatsApp"), test it below, then switch AI on. The Claude API key is kept on the server (Supabase → Edge Functions → Secrets → <code>ANTHROPIC_API_KEY</code>), never in this app.</p><button class="btn btn-outline btn-sm" onclick="testServer(this)">Test AI and WhatsApp connection</button><div id="srv-status" class="auth-note"></div>`
+${cloud?`<div class="divider"></div><p class="auth-note" style="margin-top:0">First set up the <b>trendos-api</b> server function (setup guide, part "AI and WhatsApp"), test it below, then switch AI on. The Claude API key is kept on the server (Supabase → Edge Functions → Secrets → <code>ANTHROPIC_API_KEY</code>), never in this app.</p><button class="btn btn-outline btn-sm" onclick="testServer(this)">Test the server function</button><div id="srv-status" class="auth-note"></div>`
 :`<div class="divider"></div><div class="alert alert-warn" style="font-size:12.5px">Demo only: AI here uses your own Claude API key, saved in this browser on this device. With the cloud database the key is kept on the server instead.</div>
 <div class="form-group"><label class="form-label">Claude API key (this device only)</label><input type="password" id="ai-key" value="${AI.localKey()?'••••••••••••':''}" placeholder="sk-ant-…" autocomplete="off"></div>
 <div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-outline btn-sm" onclick="const v=document.getElementById('ai-key').value.trim();if(v&&!v.startsWith('•')){try{localStorage.setItem('trendos_ai_key',v)}catch(e){}toast('Key saved on this device','ok');v6rerender()}">Save key</button>${AI.localKey()?`<button class="btn btn-ghost btn-sm" onclick="try{localStorage.removeItem('trendos_ai_key')}catch(e){}toast('Key removed');v6rerender()">Remove key</button>`:''}</div>`}
@@ -5076,7 +5142,7 @@ function saveMsgSettings(){const g=id=>document.getElementById(id);const C=cfg6(
   if(g('w-auto'))db.settings.wa={auto:g('w-auto').checked,onCheckin:g('w-in').checked,onCheckout:g('w-out').checked,welcomeTemplate:g('w-tin').value.trim(),checkoutTemplate:g('w-tout').value.trim(),lang:g('w-lang').value.trim()||'en'};
   saveDB();toast('Message settings saved','ok')}
 async function testServer(btn){const out=document.getElementById('srv-status');btn.disabled=true;out.innerHTML='<span class="spin"></span> Checking…';
-  try{const s=await Api.call('status');out.innerHTML=`AI: ${s.ai?'<b style="color:var(--green)">ready</b>':'<b style="color:var(--red)">no ANTHROPIC_API_KEY secret</b>'} · WhatsApp: ${s.whatsapp?'<b style="color:var(--green)">ready</b>':'not set up (WA_TOKEN and WA_PHONE_ID secrets)'}${s.ai?' · AI calls today by you: '+(s.aiToday||0)+' of '+(s.aiLimit||'∞'):''}`}
+  try{const s=await Api.call('status');out.innerHTML=`AI: ${s.ai?'<b style="color:var(--green)">ready</b>':'<b style="color:var(--red)">no ANTHROPIC_API_KEY secret</b>'} · WhatsApp: ${s.whatsapp?'<b style="color:var(--green)">ready</b>':'not set up (WA_TOKEN and WA_PHONE_ID secrets)'}· Users (set password / confirm email): ${s.users?'<b style="color:var(--green)">ready</b>':'not available'}${s.ai?' · AI calls today by you: '+(s.aiToday||0)+' of '+(s.aiLimit||'∞'):''}`}
   catch(e){out.innerHTML=`<span style="color:var(--red)">${esc(e.message)}</span>`}finally{btn.disabled=false}}
 
 // ─── Account menu: language and tour ───
@@ -5089,12 +5155,13 @@ function openUserMenu(){
 // ─── HELP on every screen ───
 const HELP={
   dashboard:['The big buttons at the top do the day\'s common jobs: check in, scan an Iqama, check out, report a fault.','Today\'s to-do lists things that need attention. Tap one to go straight there.','Numbers update live as people check in and out.'],
-  residents:['<b>Check in</b> adds one person; <b>Multi check-in</b> adds a group (scan Iqamas or paste rows from Excel).','Tick people, then <b>Check out selected</b> to check out a group. Items given are collected at check-out.','Open a person (Edit) to change details, send a WhatsApp, check out, or undo a check-out.','Search finds name, Iqama, room or phone.'],
+  residents:['<b>Check in</b> adds one person; <b>Multi check-in</b> adds a group (scan Iqamas; administrators can also paste rows from Excel).','Tick people, then <b>Check out selected</b> to check out a group. Items given are collected at check-out.','Open a person (Edit) to change details, send a WhatsApp, check out, or undo a check-out.','Search finds name, Iqama, room or phone.'],
   rooms:['Tap a room to see who lives there, its assets, faults and inspections.','A wrench on a room means an open fault. "Out of service" means no new check-ins until it is fixed.','Blocks can be your own camp or sub-leased from a provider.'],
   assets:['Every item in every room: beds, mattresses, air conditioners, lockers…','Start with <b>Add standard set to rooms</b> to fill a whole block at once, then edit single items.','Set "Service every (months)" and the item appears in Today\'s to-do when service is due.','<b>Report fault</b> on an item opens a maintenance fault linked to it.'],
   maintenance:['<b>Report a fault</b> when something is broken: room, item, photo, priority.','Tick "Room cannot be used" to stop new check-ins to that room until it is fixed.','Open a fault to assign a technician, add photos and mark it fixed.','<b>New inspection</b> records room photos; photos taken at check-in and check-out also appear here.'],
   movement:['Check-ins and check-outs per day, filtered by company or block.','The Mob / Demob log is filled automatically by check-ins and check-outs.'],
   monthend:['Step 1: validate and lock the mandays for the month.','Then for each customer: verify → add extras → email → confirmation → tax invoice.','<b>Draft with AI</b> writes the customer email from the figures; you read it and send.','Bulk buttons verify, mark sent or invoice all customers at once.'],
+  management:['<b>Simple</b> shows the few numbers that matter: people in camp, occupancy, check-ins and check-outs, billing and outstanding invoices, with daily charts and the customer list.','<b>Detailed</b> adds 6-month trends, occupancy by block and room type, maintenance, invoice ageing and the monthly closing.','Pick the period at the top; every number and chart follows it. Hover a chart for the values, or press Table to see them as a list.','Print / PDF gives a one-page report; Data (CSV) downloads the daily figures.'],
   revenue:['Revenue by company for the month, before VAT.','<b>Monthly summary</b> asks AI to write a short management summary from the figures.'],
   companies:['<b>New customer</b> walks through five steps: company and CR/VAT, national address and contacts, billing and contract, rate card and documents, then a review.','Open a customer to see people in camp against allocated beds, this month\'s billing, outstanding and overdue invoices, POs, documents and history.','Customers on hold or closed are flagged at check-in; contract end, CR expiry, missing POs, overdue invoices and credit limits appear in Today\'s to-do.','Only an administrator can rename a customer\'s short name once it is in use; it then changes everywhere.'],
   settings:['Company details, VAT and invoice numbering.','Items given at check-in, asset types, message texts, automatic WhatsApp and the AI assistant.','Download a backup regularly.'],
@@ -5233,7 +5300,7 @@ function custStats(c,mtd){
     daysLeft:end?daysBetween(t,end):null,docsDue:(c.docs||[]).filter(d=>d.expiry&&daysBetween(t,d.expiry)<=30)}
 }
 function mtdByCustomer(){const t=today();const rows=computeMandays(t.slice(0,8)+'01',t);const o={};rows.forEach(r=>{const k=r.companyShort;o[k]=o[k]||{pd:0,amt:0};o[k].pd+=r.personDays;o[k].amt+=r.amount});return o}
-function custGaps(c){c=cust(c);const g=[];if(!c.vatNo)g.push('VAT no.');if(!c.crNo)g.push('CR no.');if(!c.addr.postal||!c.addr.city)g.push('national address');if(!custEmails(c,'billing').length)g.push('billing email');if(!c.contacts.length)g.push('contact');if(!db.rates.some(r=>r.customerId===c.id))g.push('rates');return g}
+function custGaps(c){c=cust(c);const g=[];if(!c.vatNo)g.push('VAT no.');if(!c.crNo)g.push('CR no.');if(!c.addr.postal||!c.addr.city)g.push('national address');if(!custEmails(c,'billing').length)g.push('billing email');if(!c.contacts.length)g.push('contact');if(!db.rates.some(r=>r.customerId===c.id&&!r.archivedTier))g.push('prices');return g}
 function custLog(c,action){(c.log=c.log||[]).push({at:nowISO(),by:currentUser?currentUser.name:'',action});if(c.log.length>200)c.log.splice(0,c.log.length-200)}
 
 // ─── CUSTOMER LIST ───
@@ -5326,8 +5393,8 @@ function openCustomerForm(id,step){
 <section class="cw-step" data-s="4">
 <div class="card-title" style="margin-bottom:6px">${ico('tag')} Rate card <span class="text-muted" style="font-weight:400;font-size:12px">— SAR per person per day, before VAT</span></div>
 ${can('rates','edit')?`<div class="form-row" style="align-items:end"><div class="form-group"><label class="form-label">Effective from</label><input type="date" id="cw-rfrom" oninput="this.dataset.touched=1" value="${esc(c.contract.start&&!id?c.contract.start:today())}"></div>
-<div class="form-group"><label class="form-label">Copy rates from</label><select id="cw-rcopy" onchange="cwCopyRates(this.value)">${opt('','— choose a customer —')}${db.companies.filter(x=>x.id!==id&&db.rates.some(r=>r.customerId===x.id)).map(x=>opt(x.id,x.short)).join('')}</select></div></div>
-<div id="cw-rates" style="margin-top:10px"></div><p class="auth-note">Each room type is priced by how many people of this customer share the room (1x1 = alone, 2x1 = two people…). Changing a price keeps the old one until the day before the new date, so past months bill at the old rate.</p>`:'<p class="auth-note">Your role cannot change rates.</p>'}
+<div class="form-group"><label class="form-label">Copy rates from</label><select id="cw-rcopy" onchange="cwCopyRates(this.value)">${opt('','— choose a customer —')}${db.companies.filter(x=>x.id!==id&&db.rates.some(r=>r.customerId===x.id&&!r.archivedTier)).map(x=>opt(x.id,x.short)).join('')}</select></div></div>
+<div id="cw-rates" style="margin-top:10px"></div><p class="auth-note">One price per person per day for each room type: <b>Room only</b> for residents without food, <b>Room + food</b> for residents with a food type. Changing a price keeps the old one until the day before the new date, so past months bill at the old rate.</p>`:'<p class="auth-note">Your role cannot change rates.</p>'}
 <div class="card-title" style="margin:16px 0 6px">${ico('file')} Documents</div><div id="cw-docs"></div>
 </section>
 <section class="cw-step" data-s="5"><div id="cw-review"></div></section>`;
@@ -5387,31 +5454,62 @@ function cwReview(){
   Lang.cur==='ar'&&trTree(document.getElementById('cw-review'));
 }
 // rate card grid: room types × how many share
-function tiersFor(cat){const n=parseInt(cat)||6;return['1x1','2x1','3x1','4x1','5x1','6x1'].slice(0,n)}
+const SVC_LABEL={'Accommodation':'Room only','Accommodation+Food':'Room + food'};
+function rateExact(cid,cat,svc,date){return db.rates.find(r=>!r.archivedTier&&r.customerId===cid&&r.roomCategory===cat&&r.serviceType===svc&&r.effectiveFrom<=date&&(!r.effectiveTo||r.effectiveTo>=date))||null}
+function custRateCats(cid,extra){return[...new Set([...(extra||[]),...db.rates.filter(r=>r.customerId===cid&&!r.archivedTier).map(r=>r.roomCategory)])].sort()}
+// price grid: room types × service (room only / room + food); inputs carry data-k="cat|service"
+function rateGridHTML(cid,cats,vals,editable){
+  const d=today();
+  if(!cats.length)return`<p class="text-muted" style="font-size:13px">${editable?'Choose the room types agreed to enter prices.':'No prices agreed yet — these residents are billed at SAR 0.'}</p>`;
+  return`<div class="scroll-x"><table class="cw-tbl rate-grid"><thead><tr><th>Room type</th>${SERVICE_TYPES.map(sv=>`<th class="${editable?'c':'text-right'}">${SVC_LABEL[sv]}<div class="text-muted" style="font-weight:400;font-size:11px">${sv==='Accommodation'?'no food type':'with food type'}</div></th>`).join('')}</tr></thead><tbody>
+${cats.map(cat=>`<tr><td class="fw-bold">${esc(cat)}</td>${SERVICE_TYPES.map(sv=>{const k=cat+'|'+sv;const cur=cid?rateExact(cid,cat,sv,d):null;const v=vals&&vals[k]!==undefined?vals[k]:cur?cur.priceExclVat:'';
+  return editable?`<td class="c"><input type="number" step="0.01" min="0" data-k="${esc(k)}" value="${esc(v)}" ${cur?`data-cur="${cur.priceExclVat}"`:''} placeholder="—" aria-label="${esc(cat)} ${SVC_LABEL[sv]}"></td>`:`<td class="num">${v!==''?fmt(v):'<span class="text-muted">—</span>'}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function readGrid(box){const o={};(box||document).querySelectorAll('input[data-k]').forEach(i=>o[i.dataset.k]=i.value);return o}
+function gridChanges(box,from){
+  const rows=[...(box||document).querySelectorAll('input[data-k]')].filter(i=>i.value!==''&&(i.dataset.cur===undefined||Number(i.value)!==Number(i.dataset.cur))).map(i=>{const[cat,svc]=i.dataset.k.split('|');return{cat,svc,price:Number(i.value)}});
+  return rows.length?{from:from||today(),rows}:null;
+}
 function cwRateGrid(){
   const box=document.getElementById('cw-rates');if(!box)return;const cats=[...document.querySelectorAll('#cw-cats input:checked')].map(i=>i.value);
-  const keep={};box.querySelectorAll('input[data-k]').forEach(i=>keep[i.dataset.k]=i.value);const id=_cw.id;const d=today();const cp=window._cwRateCopy;
-  if(!cats.length){box.innerHTML='<p class="text-muted" style="font-size:13px">Tick the room types agreed (step 3) to enter prices.</p>';return}
-  box.innerHTML=`<div class="scroll-x"><table class="cw-tbl rate-grid"><thead><tr><th>Room type</th>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>`<th class="c">${t}</th>`).join('')}</tr></thead><tbody>${cats.map(cat=>`<tr><td class="fw-bold">${cat}</td>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>{if(!tiersFor(cat).includes(t))return'<td></td>';const k=cat+'|'+t;
-    const cur=id?getRate(id,cat,t,d):null;const v=keep[k]!==undefined?keep[k]:cp&&cp[k]!==undefined?cp[k]:cur?cur.priceExclVat:'';return`<td><input type="number" step="0.01" min="0" data-k="${k}" value="${esc(v)}" ${cur?`data-cur="${cur.priceExclVat}"`:''} aria-label="${cat} shared by ${t[0]}"></td>`}).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const keep=Object.assign({},window._cwRateCopy||{},readGrid(box));box.innerHTML=rateGridHTML(_cw.id,cats,keep,true);
 }
-function cwCopyRates(fromId){if(!fromId)return;const d=today();const o={};db.rates.filter(r=>r.customerId===fromId&&r.effectiveFrom<=d&&(!r.effectiveTo||r.effectiveTo>=d)).forEach(r=>o[r.roomCategory+'|'+r.occupancyTier]=r.priceExclVat);
+function cwCopyRates(fromId){if(!fromId)return;const d=today();const o={};db.rates.filter(r=>r.customerId===fromId&&!r.archivedTier&&r.effectiveFrom<=d&&(!r.effectiveTo||r.effectiveTo>=d)&&SERVICE_TYPES.includes(r.serviceType)).forEach(r=>o[r.roomCategory+'|'+r.serviceType]=r.priceExclVat);
   const cats=[...new Set(Object.keys(o).map(k=>k.split('|')[0]))];document.querySelectorAll('#cw-cats input').forEach(i=>{if(cats.includes(i.value))i.checked=true});
-  window._cwRateCopy=o;document.querySelectorAll('#cw-rates input[data-k]').forEach(i=>{if(o[i.dataset.k]!==undefined)i.value=o[i.dataset.k]});cwRateGrid();toast(`Prices copied from ${getCompany(fromId).short} — adjust as needed`,'ok')}
-function cwRateRead(){
-  const f=document.getElementById('cw-rfrom');if(!f)return null;const rows=[...document.querySelectorAll('#cw-rates input[data-k]')].filter(i=>i.value!==''&&String(Number(i.value))!==String(Number(i.dataset.cur===undefined?NaN:i.dataset.cur))).map(i=>{const[cat,tier]=i.dataset.k.split('|');return{cat,tier,price:Number(i.value)}});
-  return rows.length?{from:f.value||today(),rows}:null;
-}
-function applyRateCard(cid,card,svc,ref){
+  window._cwRateCopy=o;const box=document.getElementById('cw-rates');box.querySelectorAll('input[data-k]').forEach(i=>{if(o[i.dataset.k]!==undefined)i.value=o[i.dataset.k]});cwRateGrid();
+  box.querySelectorAll('input[data-k]').forEach(i=>{if(o[i.dataset.k]!==undefined)i.value=o[i.dataset.k]});toast(`Prices copied from ${getCompany(fromId).short} — adjust as needed`,'ok')}
+function cwRateRead(){const f=document.getElementById('cw-rfrom');if(!f)return null;return gridChanges(document.getElementById('cw-rates'),f.value)}
+function applyRateCard(cid,card,_svc,ref){
   const prev=d=>{const x=new Date(d+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)};let n=0;
-  card.rows.forEach(({cat,tier,price})=>{
-    const same=db.rates.find(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom===card.from);
-    if(same){same.priceExclVat=price;same.serviceType=svc;n++;return}
-    db.rates.filter(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom<card.from&&(!r.effectiveTo||r.effectiveTo>=card.from)).forEach(r=>r.effectiveTo=prev(card.from));
-    const later=db.rates.filter(r=>r.customerId===cid&&r.roomCategory===cat&&r.occupancyTier===tier&&r.effectiveFrom>card.from).sort((a,b)=>a.effectiveFrom.localeCompare(b.effectiveFrom))[0];
-    db.rates.push({id:uid(),customerId:cid,roomCategory:cat,occupancyTier:tier,serviceType:svc,priceExclVat:price,effectiveFrom:card.from,effectiveTo:later?prev(later.effectiveFrom):'',ref:ref||''});n++;
+  const same=(r,cat,svc)=>!r.archivedTier&&r.customerId===cid&&r.roomCategory===cat&&r.serviceType===svc;
+  card.rows.forEach(({cat,svc,price})=>{
+    const ex=db.rates.find(r=>same(r,cat,svc)&&r.effectiveFrom===card.from);
+    if(ex){ex.priceExclVat=price;n++;return}
+    db.rates.filter(r=>same(r,cat,svc)&&r.effectiveFrom<card.from&&(!r.effectiveTo||r.effectiveTo>=card.from)).forEach(r=>r.effectiveTo=prev(card.from));
+    const later=db.rates.filter(r=>same(r,cat,svc)&&r.effectiveFrom>card.from).sort((a,b)=>a.effectiveFrom.localeCompare(b.effectiveFrom))[0];
+    db.rates.push({id:uid(),customerId:cid,roomCategory:cat,serviceType:svc,priceExclVat:price,effectiveFrom:card.from,effectiveTo:later?prev(later.effectiveFrom):'',ref:ref||''});n++;
   });return n;
 }
+// prices edited straight on the customer's Rates tab
+function prSave(cid){
+  const box=document.getElementById('pr-grid');const card=gridChanges(box,document.getElementById('pr-from').value);
+  if(!card)return toast('No price changed');const c=db.companies.find(x=>x.id===cid);
+  const n=applyRateCard(cid,card,null,(c.contract||{}).no||'');custLog(c,`${n} price${n>1?'s':''} from ${card.from}: ${card.rows.map(r=>`${r.cat} ${SVC_LABEL[r.svc]} ${fmt(r.price)}`).join(', ')}`);
+  saveDB();toast(`${n} price${n>1?'s':''} saved from ${fmtDate(card.from)}`,'ok');openCustomer(cid,'rates');
+}
+function prAddCat(cid,cat){if(!cat)return;window._prCats=[...new Set([...(window._prCats||[]),cat])];openCustomer(cid,'rates')}
+async function prEndCat(cid,cat){
+  if(!await uiConfirm(`Stop the ${cat} prices from today? Past months keep their prices. Residents of this customer in ${cat} rooms would then bill at SAR 0.`,{title:'Stop room type prices',ok:'Stop prices',danger:true}))return;
+  const t=today();const prev=(()=>{const x=new Date(t+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)})();
+  db.rates.filter(r=>r.customerId===cid&&!r.archivedTier&&r.roomCategory===cat&&(!r.effectiveTo||r.effectiveTo>=t)).forEach(r=>{if(r.effectiveFrom>=t)r.archivedTier=true;else r.effectiveTo=prev});
+  custLog(db.companies.find(x=>x.id===cid),`${cat} prices stopped from ${t}`);window._prCats=(window._prCats||[]).filter(x=>x!==cat);saveDB();openCustomer(cid,'rates');
+}
+// v6 · app 6.2.0 — no occupancy tiers: one price per customer × room type × service. The full-room tier price is kept;
+// other tier prices are kept as history (archivedTier) and no longer used.
+MIGRATIONS[6]=function(d){const g={};(d.rates||[]).forEach(r=>{if(!r.occupancyTier||r.archivedTier)return;const k=[r.customerId,r.roomCategory,r.serviceType,r.effectiveFrom].join('|');(g[k]=g[k]||[]).push(r)});
+  Object.values(g).forEach(L=>{const full=(parseInt(L[0].roomCategory)||6)+'x1';const keep=L.find(r=>r.occupancyTier===full)||L.slice().sort((a,b)=>parseInt(b.occupancyTier)-parseInt(a.occupancyTier))[0];
+    L.forEach(r=>{if(r===keep){r.tierPrices=Object.fromEntries(L.map(x=>[x.occupancyTier,x.priceExclVat]));r.fromTier=r.occupancyTier;delete r.occupancyTier}else r.archivedTier=true})});
+  (d.rates||[]).forEach(r=>{if(r.serviceType==='Food Only'&&!r.archivedTier)r.archivedTier=r.archivedTier||false})};
 // documents (CR, VAT certificate, contract…): images are compressed; PDFs kept as they are
 function cwDocs(){const b=document.getElementById('cw-docs');if(!b)return;b.innerHTML=`${_cw.docs.length?`<div class="doc-list">${_cw.docs.map(d=>`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div><button type="button" class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove document" onclick="_cw.docs=_cw.docs.filter(x=>x.id!=='${d.id}');cwDocs()">${ico('x')}</button></div>`).join('')}</div>`:''}
 <div class="form-row" style="align-items:end;margin-top:8px"><div class="form-group"><label class="form-label">Type</label><select id="dc-kind">${DOC_KINDS.map(k=>opt(k)).join('')}</select></div><div class="form-group"><label class="form-label">Expiry (if any)</label><input type="date" id="dc-exp"></div>
@@ -5477,11 +5575,15 @@ ${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeMo
   if(tab==='bill')body=`<div class="kv"><div>Payment terms</div><div>${c.billing.terms} days</div><div>Credit limit</div><div>${c.billing.creditLimit?'SAR '+fmt(c.billing.creditLimit,0):'—'}</div><div>Invoice emails</div><div>${esc(custEmails(c,'billing').join(', ')||'—')}</div><div>PO required</div><div>${c.billing.poRequired?'Yes':'No'}</div><div>Cost centre</div><div>${esc(c.billing.costCenter||'—')}</div>
 <div>Contract no.</div><div>${esc(c.contract.no||'—')}</div><div>Period</div><div>${c.contract.start?fmtDate(c.contract.start)+' to '+(fmtDate(c.contract.end)||'open'):'—'}</div><div>Allocated beds</div><div>${c.contract.beds||'—'}</div><div>Service</div><div>${esc(c.contract.service)}</div><div>Room types</div><div>${c.contract.categories.join(', ')||'—'}</div>${c.notes?`<div>Notes</div><div>${esc(c.notes)}</div>`:''}</div>
 <div class="card-title" style="margin:14px 0 6px">Purchase orders</div>${c.pos.length?`<table><thead><tr><th>PO</th><th>Valid</th><th class="text-right">Value</th><th class="text-right">Invoiced</th><th></th></tr></thead><tbody>${c.pos.map(p=>{const used=db.invoices.filter(i=>i.customerId===id&&i.poNo===p.no&&i.status!=='void').reduce((t,i)=>t+(+i.total||0),0);const live=(!p.from||p.from<=today())&&(!p.to||p.to>=today());return`<tr><td class="mono">${esc(p.no)}</td><td>${p.from?fmtDate(p.from):'…'} – ${p.to?fmtDate(p.to):'…'}</td><td class="num">${p.value?fmt(p.value,0):''}</td><td class="num">${fmt(used,0)}${p.value&&used>p.value?' <span class="badge badge-red">over</span>':''}</td><td>${live?'<span class="badge badge-green">Current</span>':p.to&&p.to<today()?'<span class="badge badge-gray">Expired</span>':''}</td></tr>`}).join('')}</tbody></table>`:'<p class="text-muted">No purchase orders.</p>'}`;
-  if(tab==='rates'){const R=db.rates.filter(r=>r.customerId===id).sort((a,b)=>a.roomCategory.localeCompare(b.roomCategory)||a.occupancyTier.localeCompare(b.occupancyTier)||b.effectiveFrom.localeCompare(a.effectiveFrom));const d=today();
-    const cats=[...new Set(R.map(r=>r.roomCategory))].sort();
-    body=cats.length?`<p class="auth-note" style="margin-top:0">Prices today, SAR per person per day before VAT, by how many of this customer's people share a room.</p><div class="scroll-x"><table class="rate-grid"><thead><tr><th>Room type</th>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>`<th class="text-right">${t}</th>`).join('')}<th>Service</th></tr></thead><tbody>${cats.map(cat=>`<tr><td class="fw-bold">${cat}</td>${['1x1','2x1','3x1','4x1','5x1','6x1'].map(t=>{const r=getRate(id,cat,t,d);return`<td class="num">${r?fmt(r.priceExclVat):''}</td>`}).join('')}<td>${esc((R.find(r=>r.roomCategory===cat)||{}).serviceType||'')}</td></tr>`).join('')}</tbody></table></div>
-${R.some(r=>r.effectiveTo&&r.effectiveTo<d)||R.some(r=>r.effectiveFrom>d)?`<details style="margin-top:8px"><summary class="link" style="font-size:12.5px">Price history (${R.length} lines)</summary><table style="margin-top:6px"><tbody>${R.map(r=>`<tr><td>${r.roomCategory} ${r.occupancyTier}</td><td class="num">${fmt(r.priceExclVat)}</td><td>${fmtDate(r.effectiveFrom)} – ${r.effectiveTo?fmtDate(r.effectiveTo):'open'}</td></tr>`).join('')}</tbody></table></details>`:''}`:'<p class="text-muted">No rates agreed yet — these residents are billed at SAR 0.</p>';
-    if(can('rates','edit'))body+=`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openCustomerForm('${id}',4)">${ico('tag')} Change prices</button>`}
+  if(tab==='rates'){const R=db.rates.filter(r=>r.customerId===id&&!r.archivedTier).sort((a,b)=>a.roomCategory.localeCompare(b.roomCategory)||String(a.serviceType).localeCompare(String(b.serviceType))||b.effectiveFrom.localeCompare(a.effectiveFrom));
+    const pe=can('rates','edit');const cats=custRateCats(id,[...(pe?c.contract.categories:[]),...(window._prCats||[])]);const conv=R.filter(r=>r.tierPrices);
+    body=`<p class="auth-note" style="margin-top:0">SAR per person per day, before VAT. <b>Room only</b> applies to residents without a food type, <b>Room + food</b> to residents with one. If only one is agreed, it is used for everyone in that room type.</p>
+${pe?`<div class="form-row" style="align-items:end;margin-bottom:6px"><div class="form-group"><label class="form-label">New prices start on</label><input type="date" id="pr-from" value="${today()}"></div>
+<div class="form-group"><label class="form-label">Add a room type</label><select onchange="prAddCat('${id}',this.value)">${opt('','—')}${ALL_CATS.filter(k=>!cats.includes(k)).map(k=>opt(k)).join('')}</select></div></div>`:''}
+<div id="pr-grid">${rateGridHTML(id,cats,null,pe)}</div>
+${pe&&cats.length?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn btn-primary btn-sm" onclick="prSave('${id}')">Save prices</button>${cats.filter(k=>R.some(r=>r.roomCategory===k&&(!r.effectiveTo||r.effectiveTo>=today()))).map(k=>`<button class="btn btn-ghost btn-sm" onclick="prEndCat('${id}','${k}')">Stop ${k} prices</button>`).join('')}</div>`:''}
+${R.length?`<details style="margin-top:12px"><summary class="link" style="font-size:12.5px">Price history (${R.length})</summary><table style="margin-top:6px"><thead><tr><th>Room type</th><th>Service</th><th class="text-right">Price</th><th>From</th><th>To</th><th>Note</th></tr></thead><tbody>${R.map(r=>`<tr><td>${esc(r.roomCategory)}</td><td>${esc(SVC_LABEL[r.serviceType]||r.serviceType)}</td><td class="num">${fmt(r.priceExclVat)}</td><td>${fmtDate(r.effectiveFrom)}</td><td>${r.effectiveTo?fmtDate(r.effectiveTo):'open'}</td><td class="text-muted" style="font-size:12px">${r.tierPrices?`was priced by occupancy: ${Object.entries(r.tierPrices).map(([t,p])=>`${t} ${fmt(p)}`).join(', ')}; kept ${r.fromTier}`:esc(r.ref||'')}</td></tr>`).join('')}</tbody></table></details>`:''}
+${conv.length?`<div class="alert alert-info" style="margin-top:10px">${ico('alert')} These prices were converted from occupancy-tier pricing in version 6.2: the full-room price was kept (e.g. 6x1 room at 6 sharing). Check them and change any that are not right.</div>`:''}`;}
   if(tab==='res'){const L=activeResidents().filter(r=>r.company===c.short).sort((a,b)=>a.roomNo.localeCompare(b.roomNo,undefined,{numeric:true}));
     body=L.length?`<div class="scroll-x" style="max-height:420px;overflow:auto"><table><thead><tr><th>Room</th><th>Name</th><th>Iqama</th><th>Phone</th><th>Since</th></tr></thead><tbody>${L.map(r=>`<tr><td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.phone||'')}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div><button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="closeModal();const e=document.getElementById('page-residents');e._filter={company:'${esc(c.short)}',search:'',active:'active',block:''};nav('residents')">Open in Residents</button>`:'<p class="text-muted">Nobody from this customer is in camp today.</p>'}
   if(tab==='inv'){const L=s.invoices.slice().sort((a,b)=>b.date.localeCompare(a.date));const ie=can('invoices','edit')||can('monthend','edit');
@@ -5535,6 +5637,316 @@ const _v6_aiTools=aiTools;aiTools=function(){const T=_v6_aiTools();if(can('compa
 const _v6_aiRunTool=aiRunTool;aiRunTool=function(name,a){if(name!=='customers')return _v6_aiRunTool(name,a);const mtd=mtdByCustomer();const inv=can('invoices','view');
   return{customers:db.companies.filter(c=>!a||!a.name||[c.short,c.name].some(v=>String(v).toLowerCase().includes(String(a.name).toLowerCase()))).map(c0=>{const c=cust(c0);const s=custStats(c0,mtd[c.short]);return{short:c.short,name:c.name,status:c.status,contract_end:c.contract.end||null,allocated_beds:c.contract.beds||null,in_camp:s.inCamp,person_days_this_month:s.pd,...(inv?{outstanding_sar:Math.round(s.outstanding),overdue_sar:Math.round(s.overdue)}:{}),payment_terms_days:c.billing.terms,missing:custGaps(c)}})}};
 AI_STEP.customers='Read the customers';
+
+// ═════════════════════════════════════════════════════════════
+//  MANAGEMENT DASHBOARD — simple and detailed views, with movement
+// ═════════════════════════════════════════════════════════════
+Object.assign(ICONS,{gauge:'<path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/><circle cx="12" cy="17" r="1.3"/>'});
+Object.assign(NAV_ICON,{management:'gauge'});
+const VZ={in:'#2a78d6',out:'#eb6834',grid:'#e7e6e1',axis:'#8a8984',ink:'#1f2430',muted:'#6b6a65',track:'#dbe8f8'};
+function mgRange(m){
+  const t=today();const d=new Date(t+'T00:00:00');const y=d.getFullYear(),mo=d.getMonth();const p=n=>String(n).padStart(2,'0');
+  const back=n=>{const x=new Date(t+'T00:00:00');x.setDate(x.getDate()-n);return ymd(x)};
+  switch(m.range){
+    case'last':{const s=new Date(y,mo-1,1),e=new Date(y,mo,0);return{from:ymd(s),to:ymd(e),label:s.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}}
+    case'30':return{from:back(29),to:t,label:'Last 30 days'};
+    case'90':return{from:back(89),to:t,label:'Last 90 days'};
+    case'ytd':return{from:`${y}-01-01`,to:t,label:`${y} to date`};
+    case'custom':return{from:m.from||back(29),to:m.to||t,label:`${fmtDate(m.from)} – ${fmtDate(m.to)}`};
+    default:return{from:`${y}-${p(mo+1)}-01`,to:t,label:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'})+' to date'};
+  }
+}
+function mgData(R){
+  const to=R.to>today()?today():R.to;const days=R.from<=to?dateRange(R.from,to):[];
+  const rooms=db.rooms.filter(isBillableRoom);const beds=rooms.reduce((s,r)=>s+r.beds,0);
+  const res=db.residents.filter(r=>r.active!==false||r.checkOut);
+  const occ=days.map(d=>activeResidents(d).length);
+  const ins=days.map(d=>res.filter(r=>r.checkIn===d).length),outs=days.map(d=>res.filter(r=>r.checkOut===d).length);
+  const now=activeResidents(today());const prevDay=(()=>{const x=new Date(R.from+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)})();
+  const startCount=activeResidents(prevDay).length;
+  const md=days.length&&(can('mandays','view')||can('revenue','view'))?computeMandays(R.from,to):[];
+  const byCo={};const add=(s,k,v)=>{byCo[s]=byCo[s]||{short:s,inCamp:0,ins:0,outs:0,pd:0,amt:0};byCo[s][k]+=v};
+  now.forEach(r=>add(r.company,'inCamp',1));res.forEach(r=>{if(r.checkIn>=R.from&&r.checkIn<=to)add(r.company,'ins',1);if(r.checkOut&&r.checkOut>=R.from&&r.checkOut<=to)add(r.company,'outs',1)});
+  md.forEach(r=>{add(r.companyShort,'pd',r.personDays);add(r.companyShort,'amt',r.amount)});
+  const blocks=db.blocks.map(b=>{const R2=rooms.filter(r=>r.block===b.code);const B=R2.reduce((s,r)=>s+r.beds,0);return{code:b.code,name:b.name,sub:isSubLeaseRoom({block:b.code}),beds:B,occ:now.filter(x=>residentBlock(x)===b.code).length}}).filter(b=>b.beds);
+  const cats={};rooms.forEach(r=>{cats[r.cat]=cats[r.cat]||{cat:r.cat,beds:0,occ:0};cats[r.cat].beds+=r.beds});now.forEach(x=>{const c=(getRoom(x.roomNo)||{}).cat;if(cats[c])cats[c].occ++});
+  const T=db.maintenance||[];const opened=T.filter(t=>t.reportedAt.slice(0,10)>=R.from&&t.reportedAt.slice(0,10)<=to);const fixed=T.filter(t=>t.fixedAt&&t.fixedAt.slice(0,10)>=R.from&&t.fixedAt.slice(0,10)<=to);
+  const tcat={};opened.forEach(t=>tcat[t.category]=(tcat[t.category]||0)+1);
+  const inv=db.invoices.filter(i=>i.status!=='void'&&i.status!=='paid'&&i.status!=='draft');const aging=[0,0,0,0];inv.forEach(i=>{const a=daysBetween(i.date,today());aging[a<=30?0:a<=60?1:a<=90?2:3]+=+i.total||0});
+  const nat={};now.forEach(r=>{const k=(r.nationality||'—').toUpperCase();nat[k]=(nat[k]||0)+1});
+  return{R,to,days,beds,occ,ins,outs,now:now.length,startCount,food:now.filter(r=>r.food||r.foodType).length,md,pd:md.reduce((s,r)=>s+r.personDays,0),amt:md.reduce((s,r)=>s+r.amount,0),
+    byCo:Object.values(byCo).filter(c=>c.inCamp||c.ins||c.outs||c.pd).sort((a,b)=>b.inCamp-a.inCamp||b.pd-a.pd),blocks,cats:Object.values(cats).sort((a,b)=>a.cat.localeCompare(b.cat)),
+    mt:{open:openTickets().length,urgent:openTickets().filter(t=>t.priority==='urgent').length,oos:db.rooms.filter(r=>roomOOS(r.no)).length,opened:opened.length,fixed:fixed.length,avg:fixed.length?fixed.reduce((s,t)=>s+tkAge(t),0)/fixed.length:null,cat:tcat},
+    outstanding:inv.reduce((s,i)=>s+(+i.total||0),0),aging,nat:Object.entries(nat).sort((a,b)=>b[1]-a[1])};
+}
+function mgMonths(n){ // person-days and amount for the last n months (this month to date)
+  const out=[];const t=new Date(today()+'T00:00:00');
+  for(let i=n-1;i>=0;i--){const s=new Date(t.getFullYear(),t.getMonth()-i,1),e=new Date(t.getFullYear(),t.getMonth()-i+1,0);const from=ymd(s),to=ymd(e)>today()?today():ymd(e);
+    const rows=computeMandays(from,to);out.push({label:s.toLocaleDateString('en-GB',{month:'short'}),full:s.toLocaleDateString('en-GB',{month:'long',year:'numeric'}),pd:rows.reduce((a,r)=>a+r.personDays,0),amt:rows.reduce((a,r)=>a+r.amount,0),partial:i===0})}
+  return out;
+}
+const fK=v=>Math.abs(v)>=1e6?(v/1e6).toFixed(1).replace(/\.0$/,'')+'M':Math.abs(v)>=1e4?Math.round(v/1e3)+'K':Math.round(v).toLocaleString('en-US');
+function niceMax(v){if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v)));const n=v/p;return(n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p}
+
+function renderManagement(el){
+  const m=el._m=el._m||{range:'month',view:'simple'};const R=mgRange(m);const D=mgData(R);el._D=D;const rev=can('revenue','view');const invV=can('invoices','view');
+  const pct=D.beds?Math.round(D.now/D.beds*100):0;const net=D.ins.reduce((a,b)=>a+b,0)-D.outs.reduce((a,b)=>a+b,0);const nIn=D.ins.reduce((a,b)=>a+b,0),nOut=D.outs.reduce((a,b)=>a+b,0);
+  const avgOcc=D.occ.length?Math.round(D.occ.reduce((a,b)=>a+b,0)/D.occ.length):0;const det=m.view==='detailed';
+  const delta=D.now-D.startCount;
+  const tile=(label,value,sub,cls)=>`<div class="mg-tile ${cls||''}"><div class="mg-l">${label}</div><div class="mg-v">${value}</div>${sub?`<div class="mg-s">${sub}</div>`:''}</div>`;
+  el.innerHTML=`
+<div class="page-header"><div><div class="page-title">Management dashboard</div><div class="page-sub">${esc(R.label)} · updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print"><div class="seg" role="tablist" aria-label="View"><button class="${!det?'on':''}" onclick="mgSet('view','simple')">Simple</button><button class="${det?'on':''}" onclick="mgSet('view','detailed')">Detailed</button></div>
+<button class="btn btn-ghost btn-sm" onclick="mgCSV()">${ico('download')} Data (CSV)</button><button class="btn btn-ghost btn-sm" onclick="window.print()">${ico('printer')} Print / PDF</button>${AI.ready()?`<button class="btn btn-outline btn-sm" onclick="openAI('Give me a short management summary for ${esc(R.label)}: occupancy, movement, billing and any problems.',true)">${ico('sparkle')} Summary</button>`:''}</div></div>
+<div class="mg-filters no-print">${[['month','This month'],['last','Last month'],['30','Last 30 days'],['90','Last 90 days'],['ytd','Year to date'],['custom','Custom']].map(([k,l])=>`<button class="chip ${m.range===k?'on':''}" onclick="mgSet('range','${k}')">${l}</button>`).join('')}
+${m.range==='custom'?`<input type="date" value="${esc(R.from)}" onchange="mgSet('from',this.value)" aria-label="From"> <input type="date" value="${esc(R.to)}" onchange="mgSet('to',this.value)" aria-label="To">`:''}</div>
+<div class="mg-tiles">
+${tile('In camp today',D.now.toLocaleString('en-US'),`${delta>=0?'+':''}${delta} since ${fmtDate(R.from)}`,'hero')}
+${tile('Occupancy today',pct+'%',`${Math.max(0,D.beds-D.now)} of ${D.beds} beds free`)}
+${tile('Check-ins',nIn,`${R.label.toLowerCase().startsWith('last')||m.range==='custom'?'in the period':'this period'}`)}
+${tile('Check-outs',nOut,`net ${net>=0?'+':''}${net}`)}
+${rev?tile('Billed (before VAT)','SAR '+fK(D.amt),`${D.pd.toLocaleString('en-US')} person-days`):tile('Person-days',D.pd.toLocaleString('en-US'),'billed days')}
+${invV?tile('Outstanding invoices','SAR '+fK(D.outstanding),D.aging[2]+D.aging[3]?`SAR ${fK(D.aging[2]+D.aging[3])} over 60 days`:'none over 60 days',D.aging[3]?'warn':''):tile('Average in camp',avgOcc,'per day in the period')}
+</div>
+<div class="mg-grid two">
+<div class="card mg-chart"><div class="card-header"><span class="card-title">People in camp, per day</span><button class="link mg-tbl-btn" onclick="mgTable(this,'occ')">Table</button></div><div class="card-body"><div class="viz" id="mg-occ"></div><div class="mg-note">Average ${avgOcc} · highest ${D.occ.length?Math.max(...D.occ):0} · beds ${D.beds}</div></div></div>
+<div class="card mg-chart"><div class="card-header"><span class="card-title">Movement: check-ins and check-outs</span><button class="link mg-tbl-btn" onclick="mgTable(this,'mov')">Table</button></div><div class="card-body"><div class="mg-legend"><span><i style="background:${VZ.in}"></i>Check-ins</span><span><i style="background:${VZ.out}"></i>Check-outs</span></div><div class="viz" id="mg-mov"></div><div class="mg-note">${nIn} in · ${nOut} out · net ${net>=0?'+':''}${net}${D.ins.length?` · busiest day ${(()=>{let k=0;D.ins.forEach((v,i)=>{if(v+D.outs[i]>D.ins[k]+D.outs[k])k=i});return fmtDate(D.days[k])+' ('+(D.ins[k]+D.outs[k])+')'})()}`:''}</div></div></div>
+</div>
+<div class="card"><div class="card-header"><span class="card-title">Customers</span><span class="text-muted" style="font-size:12px">in camp today${rev?', billed in the period':''}</span></div><div class="scroll-x"><table class="mg-co">
+<thead><tr><th>Customer</th><th class="text-right">In camp</th><th style="width:28%">Share of camp</th><th class="text-right">In</th><th class="text-right">Out</th><th class="text-right">Person-days</th>${rev?'<th class="text-right">Billed (SAR)</th>':''}</tr></thead>
+<tbody>${(det?D.byCo:D.byCo.slice(0,8)).map(c=>`<tr><td class="fw-bold">${can('companies','view')&&getCompanyByShort(c.short)?`<a class="link" href="#" onclick="event.preventDefault();openCustomer('${getCompanyByShort(c.short).id}')">${esc(c.short)}</a>`:esc(c.short)}</td><td class="num">${c.inCamp}</td><td><div class="mg-bar"><span style="width:${D.now?c.inCamp/D.now*100:0}%"></span></div><small class="text-muted">${D.now?Math.round(c.inCamp/D.now*100):0}%</small></td><td class="num">${c.ins||''}</td><td class="num">${c.outs||''}</td><td class="num">${c.pd.toLocaleString('en-US')}</td>${rev?`<td class="num">${fmt(c.amt,0)}</td>`:''}</tr>`).join('')||`<tr><td colspan="7" class="text-center text-muted">No activity</td></tr>`}</tbody>
+${D.byCo.length>8&&!det?`<tfoot><tr><td colspan="7"><button class="link" onclick="mgSet('view','detailed')">All ${D.byCo.length} customers in Detailed view</button></td></tr></tfoot>`:''}</table></div></div>
+${det?mgDetailHTML(D):''}`;
+  requestAnimationFrame(()=>mgDraw(el));
+}
+function mgDetailHTML(D){
+  const rev=can('revenue','view');const months=mgMonths(6);mgDetailHTML._months=months;
+  const meter=(label,occ,beds,tag)=>{const p=beds?Math.min(100,occ/beds*100):0;return`<div class="mg-meter"><div class="mg-meter-h"><span>${label}${tag?` <span class="badge badge-gray">${tag}</span>`:''}</span><b>${occ} / ${beds}</b><span class="text-muted">${beds?Math.round(occ/beds*100):0}%</span></div><div class="mg-track"><span style="width:${p}%"></span></div></div>`};
+  const pl=can('monthend','view')?(()=>{const t=new Date(today()+'T00:00:00');const pd=ymd(new Date(t.getFullYear(),t.getMonth()-1,1)).slice(0,7);const P=getPeriod(pd);const cl=(db.closings||[]).filter(c=>c.period===pd);const k=s=>cl.filter(c=>c.status===s).length;
+    return`<div class="card"><div class="card-header"><span class="card-title">Monthly closing · ${esc(periodBounds(pd).label)}</span></div><div class="card-body"><div class="mg-steps">${[['Mandays locked',P&&P.stage>=1?'Yes':'No'],['Verified',k('verified')+k('sent')+k('confirmed')+k('invoiced')],['Sent',k('sent')+k('confirmed')+k('invoiced')],['Confirmed',k('confirmed')+k('invoiced')],['Invoiced',k('invoiced')]].map(([l,v])=>`<div><small>${l}</small><b>${v}</b></div>`).join('')}</div><p class="mg-note">${cl.length} customers in the closing.${can('monthend','view')?` <a class="link" href="#" onclick="event.preventDefault();nav('monthend')">Open Monthly Closing</a>`:''}</p></div></div>`})():'';
+  const ag=D.aging;const agT=ag.reduce((a,b)=>a+b,0);
+  return`
+<div class="mg-grid two">
+<div class="card mg-chart"><div class="card-header"><span class="card-title">Person-days per month</span><button class="link mg-tbl-btn" onclick="mgTable(this,'mpd')">Table</button></div><div class="card-body"><div class="viz" id="mg-mpd"></div><div class="mg-note">Last 6 months; ${esc(months[months.length-1].label)} is to date.</div></div></div>
+${rev?`<div class="card mg-chart"><div class="card-header"><span class="card-title">Billed per month (SAR, before VAT)</span><button class="link mg-tbl-btn" onclick="mgTable(this,'mamt')">Table</button></div><div class="card-body"><div class="viz" id="mg-mamt"></div><div class="mg-note">Mandays only — extras and catering are added at month-end.</div></div></div>`:''}
+</div>
+<div class="mg-grid two">
+<div class="card"><div class="card-header"><span class="card-title">Occupancy by block today</span></div><div class="card-body">${D.blocks.map(b=>meter('Block '+esc(b.code)+(b.name&&b.name!=='Block '+b.code?` <span class="text-muted">${esc(b.name)}</span>`:''),b.occ,b.beds,b.sub?'sub-lease':'')).join('')||'<p class="text-muted">No blocks</p>'}</div></div>
+<div class="card"><div class="card-header"><span class="card-title">Occupancy by room type today</span></div><div class="card-body">${D.cats.map(c=>meter(esc(c.cat),c.occ,c.beds)).join('')}
+<div class="mg-mini"><div><small>With food</small><b>${D.food}</b></div><div><small>Room only</small><b>${D.now-D.food}</b></div><div><small>Nationalities</small><b>${D.nat.filter(([k])=>k!=='—').length}</b></div></div>
+<p class="mg-note">${D.nat.slice(0,6).map(([k,n])=>`${k==='—'?'not recorded':esc(k)} ${n}`).join(' · ')}</p></div></div>
+</div>
+<div class="mg-grid two">
+${can('maintenance','view')?`<div class="card"><div class="card-header"><span class="card-title">Maintenance</span></div><div class="card-body"><div class="mg-mini"><div><small>Open now</small><b>${D.mt.open}</b></div><div><small>Urgent</small><b ${D.mt.urgent?'style="color:var(--red)"':''}>${D.mt.urgent}</b></div><div><small>Rooms out of service</small><b>${D.mt.oos}</b></div><div><small>Reported in period</small><b>${D.mt.opened}</b></div><div><small>Fixed in period</small><b>${D.mt.fixed}</b></div><div><small>Days to fix (avg)</small><b>${D.mt.avg==null?'—':D.mt.avg.toFixed(1)}</b></div></div>
+${Object.keys(D.mt.cat).length?`<div style="margin-top:12px">${Object.entries(D.mt.cat).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<div class="mg-hrow"><span>${esc(k)}</span><div class="mg-bar"><span style="width:${n/Math.max(...Object.values(D.mt.cat))*100}%"></span></div><b>${n}</b></div>`).join('')}</div>`:''}</div></div>`:''}
+${can('invoices','view')?`<div class="card"><div class="card-header"><span class="card-title">Outstanding invoices by age</span><span class="text-muted" style="font-size:12px">SAR ${fmt(agT,0)}</span></div><div class="card-body">
+${agT?`<div class="mg-seg" role="img" aria-label="Outstanding by age">${ag.map((v,i)=>v?`<span style="flex:${v};background:${['#86b6ef','#3987e5','#256abf','#104281'][i]}" title="${['0–30','31–60','61–90','over 90'][i]} days: SAR ${fmt(v,0)}">${v/agT>.12?Math.round(v/agT*100)+'%':''}</span>`:'').join('')}</div>`:''}
+<table style="margin-top:10px"><tbody>${['0–30 days','31–60 days','61–90 days','Over 90 days'].map((l,i)=>`<tr><td><i class="mg-key" style="background:${['#86b6ef','#3987e5','#256abf','#104281'][i]}"></i>${l}</td><td class="num">SAR ${fmt(ag[i],0)}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+</div>${pl}`;
+}
+function mgSet(k,v){const el=document.getElementById('page-management');el._m[k]=v;if(k==='range'&&v==='custom'){const R=mgRange({range:'30'});el._m.from=el._m.from||R.from;el._m.to=el._m.to||R.to}renderManagement(el)}
+
+// ─── charts (SVG, drawn to the card's width; hover shows the values) ───
+function mgDraw(el){
+  const D=el._D;if(!D)return;
+  mgLine(document.getElementById('mg-occ'),D.days,D.occ,D.beds);
+  mgDiverge(document.getElementById('mg-mov'),D.days,D.ins,D.outs);
+  const M=mgDetailHTML._months;if(el._m.view==='detailed'&&M){mgCols(document.getElementById('mg-mpd'),M.map(x=>x.label),M.map(x=>x.pd),v=>v.toLocaleString('en-US')+' person-days',M.map(x=>x.full+(x.partial?' (to date)':'')));
+    mgCols(document.getElementById('mg-mamt'),M.map(x=>x.label),M.map(x=>x.amt),v=>'SAR '+fmt(v,0),M.map(x=>x.full+(x.partial?' (to date)':'')))}
+}
+function vzTip(box){let t=box.querySelector('.viz-tip');if(!t){t=document.createElement('div');t.className='viz-tip';box.appendChild(t)}return t}
+function vzShow(box,x,y,rows,title){const t=vzTip(box);t.innerHTML='';const h=document.createElement('div');h.className='vt-h';h.textContent=title;t.appendChild(h);
+  rows.forEach(([c,label,val])=>{const r=document.createElement('div');r.className='vt-r';const k=document.createElement('i');k.style.background=c;const v=document.createElement('b');v.textContent=val;const l=document.createElement('span');l.textContent=label;r.append(k,v,l);t.appendChild(r)});
+  t.style.display='block';const W=box.clientWidth;const tw=t.offsetWidth;t.style.left=Math.max(0,Math.min(W-tw,x-tw/2))+'px';t.style.top=Math.max(0,y-t.offsetHeight-10)+'px'}
+function vzHide(box){const t=box.querySelector('.viz-tip');if(t)t.style.display='none'}
+function axisDates(days,W,pl,pr){const n=days.length;const step=Math.max(1,Math.ceil(n/Math.max(2,Math.floor((W-pl-pr)/64))));const out=[];for(let i=0;i<n;i+=step)out.push(i);if(out[out.length-1]!==n-1&&n>1&&(n-1-out[out.length-1])>step/2)out.push(n-1);return out}
+const dShort=d=>{const x=new Date(d+'T00:00:00');return x.getDate()+' '+x.toLocaleDateString('en-GB',{month:'short'})};
+function mgLine(box,days,vals,cap){
+  if(!box)return;if(!days.length){box.innerHTML='<p class="text-muted">No days in this period yet.</p>';return}
+  const W=Math.max(260,box.clientWidth),H=220,pl=40,pr=14,pt=14,pb=26;const top=niceMax(Math.max(cap||0,...vals)*1.05);
+  const x=i=>pl+(days.length===1?(W-pl-pr)/2:i*(W-pl-pr)/(days.length-1)),y=v=>pt+(H-pt-pb)*(1-v/top);
+  const ticks=[0,.25,.5,.75,1].map(f=>top*f);const pts=vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const last=vals.length-1;
+  box.innerHTML=`<svg width="${W}" height="${H}" role="img" aria-label="People in camp per day, from ${vals[0]} to ${vals[last]}">
+${ticks.map(t=>`<line x1="${pl}" x2="${W-pr}" y1="${y(t)}" y2="${y(t)}" stroke="${VZ.grid}" stroke-width="1"/><text x="${pl-6}" y="${y(t)+4}" text-anchor="end" class="vz-ax">${fK(t)}</text>`).join('')}
+${cap?`<line x1="${pl}" x2="${W-pr}" y1="${y(cap)}" y2="${y(cap)}" stroke="${VZ.axis}" stroke-width="1"/><text x="${W-pr}" y="${y(cap)-5}" text-anchor="end" class="vz-ax">Beds ${cap}</text>`:''}
+<polygon points="${x(0)},${y(0)} ${pts} ${x(last)},${y(0)}" fill="${VZ.in}" opacity=".10"/>
+<polyline points="${pts}" fill="none" stroke="${VZ.in}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="${x(last)}" cy="${y(vals[last])}" r="4.5" fill="${VZ.in}" stroke="#fff" stroke-width="2"/><text x="${Math.min(x(last),W-pr-4)}" y="${y(vals[last])-10}" text-anchor="end" class="vz-lbl">${vals[last]}</text>
+${axisDates(days,W,pl,pr).map(i=>`<text x="${x(i)}" y="${H-8}" text-anchor="middle" class="vz-ax">${dShort(days[i])}</text>`).join('')}
+<line class="vz-cross" x1="0" x2="0" y1="${pt}" y2="${H-pb}" stroke="${VZ.axis}" stroke-width="1" style="display:none"/><circle class="vz-dot" r="4.5" fill="${VZ.in}" stroke="#fff" stroke-width="2" style="display:none"/>
+<rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" class="vz-hit" tabindex="0"/></svg>`;
+  const svg=box.querySelector('svg'),hit=svg.querySelector('.vz-hit'),cr=svg.querySelector('.vz-cross'),dot=svg.querySelector('.vz-dot');
+  const at=i=>{i=Math.max(0,Math.min(days.length-1,i));cr.setAttribute('x1',x(i));cr.setAttribute('x2',x(i));cr.style.display='';dot.setAttribute('cx',x(i));dot.setAttribute('cy',y(vals[i]));dot.style.display='';
+    vzShow(box,x(i),y(vals[i]),[[VZ.in,'in camp',String(vals[i])],...(cap?[['#bbb','occupancy',Math.round(vals[i]/cap*100)+'%']]:[])],fmtDate(days[i]));box._i=i};
+  hit.addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();at(Math.round((e.clientX-r.left-pl)/((W-pl-pr)/Math.max(1,days.length-1))))});
+  hit.addEventListener('pointerleave',()=>{cr.style.display='none';dot.style.display='none';vzHide(box)});
+  hit.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();at((box._i==null?last:box._i)+(e.key==='ArrowRight'?1:-1))}});hit.addEventListener('focus',()=>at(last));hit.addEventListener('blur',()=>{cr.style.display='none';dot.style.display='none';vzHide(box)});
+}
+function mgDiverge(box,days,ins,outs){
+  if(!box)return;if(!days.length){box.innerHTML='<p class="text-muted">No days in this period yet.</p>';return}
+  const W=Math.max(260,box.clientWidth),H=220,pl=40,pr=14,pt=10,pb=26;const m=niceMax(Math.max(1,...ins,...outs));const mid=pt+(H-pt-pb)/2;const half=(H-pt-pb)/2;
+  const n=days.length;const band=(W-pl-pr)/n;const bw=Math.max(2,Math.min(24,band-2));const x=i=>pl+i*band+(band-bw)/2;const hgt=v=>v/m*half;const r=Math.min(4,bw/2);
+  const barUp=(i,v)=>{if(!v)return'';const h=hgt(v),X=x(i),Y=mid-h;return`<path d="M${X},${mid}V${Y+r}Q${X},${Y} ${X+r},${Y}H${X+bw-r}Q${X+bw},${Y} ${X+bw},${Y+r}V${mid}Z" fill="${VZ.in}"/>`};
+  const barDn=(i,v)=>{if(!v)return'';const h=hgt(v),X=x(i),Y=mid+h;return`<path d="M${X},${mid}V${Y-r}Q${X},${Y} ${X+r},${Y}H${X+bw-r}Q${X+bw},${Y} ${X+bw},${Y-r}V${mid}Z" fill="${VZ.out}"/>`};
+  box.innerHTML=`<svg width="${W}" height="${H}" role="img" aria-label="Check-ins above the line, check-outs below, per day">
+${(m>=4?[-1,-.5,.5,1]:[-1,1]).map(f=>`<line x1="${pl}" x2="${W-pr}" y1="${mid-f*half}" y2="${mid-f*half}" stroke="${VZ.grid}" stroke-width="1"/><text x="${pl-6}" y="${mid-f*half+4}" text-anchor="end" class="vz-ax">${fK(Math.abs(f*m))}</text>`).join('')}
+${days.map((d,i)=>barUp(i,ins[i])+barDn(i,outs[i])).join('')}
+<line x1="${pl}" x2="${W-pr}" y1="${mid}" y2="${mid}" stroke="${VZ.axis}" stroke-width="1"/>
+${axisDates(days,W,pl,pr).map(i=>`<text x="${x(i)+bw/2}" y="${H-8}" text-anchor="middle" class="vz-ax">${dShort(days[i])}</text>`).join('')}
+<rect class="vz-hl" y="${pt}" height="${H-pt-pb}" width="${band}" fill="#000" opacity=".04" style="display:none"/>
+<rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" class="vz-hit" tabindex="0"/></svg>`;
+  const svg=box.querySelector('svg'),hit=svg.querySelector('.vz-hit'),hl=svg.querySelector('.vz-hl');
+  const at=i=>{i=Math.max(0,Math.min(n-1,i));hl.setAttribute('x',pl+i*band);hl.style.display='';vzShow(box,x(i)+bw/2,mid-hgt(ins[i]),[[VZ.in,'check-ins',String(ins[i])],[VZ.out,'check-outs',String(outs[i])]],fmtDate(days[i]));box._i=i};
+  hit.addEventListener('pointermove',e=>{const rc=svg.getBoundingClientRect();at(Math.floor((e.clientX-rc.left-pl)/band))});
+  hit.addEventListener('pointerleave',()=>{hl.style.display='none';vzHide(box)});hit.addEventListener('focus',()=>at(n-1));hit.addEventListener('blur',()=>{hl.style.display='none';vzHide(box)});
+  hit.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();at((box._i==null?n-1:box._i)+(e.key==='ArrowRight'?1:-1))}});
+}
+function mgCols(box,labels,vals,fv,titles){
+  if(!box)return;const W=Math.max(260,box.clientWidth),H=200,pl=44,pr=10,pt=22,pb=24;const top=niceMax(Math.max(1,...vals)*1.1);const n=labels.length;const band=(W-pl-pr)/n;const bw=Math.min(24,band*.6);
+  const x=i=>pl+i*band+(band-bw)/2,y=v=>pt+(H-pt-pb)*(1-v/top);const r=4;const last=n-1;
+  box.innerHTML=`<svg width="${W}" height="${H}" role="img" aria-label="${labels.map((l,i)=>l+' '+fv(vals[i])).join(', ')}">
+${[0,.5,1].map(f=>`<line x1="${pl}" x2="${W-pr}" y1="${y(top*f)}" y2="${y(top*f)}" stroke="${VZ.grid}" stroke-width="1"/><text x="${pl-6}" y="${y(top*f)+4}" text-anchor="end" class="vz-ax">${fK(top*f)}</text>`).join('')}
+${vals.map((v,i)=>{if(!v)return'';const X=x(i),Y=y(v),B=y(0),rr=Math.min(r,(B-Y)/2);return`<path data-i="${i}" class="vz-col" d="M${X},${B}V${Y+rr}Q${X},${Y} ${X+rr},${Y}H${X+bw-rr}Q${X+bw},${Y} ${X+bw},${Y+rr}V${B}Z" fill="${VZ.in}" ${i===last&&titles[i].includes('to date')?'opacity=".55"':''}/>`}).join('')}
+<text x="${x(last)+bw/2}" y="${y(vals[last])-6}" text-anchor="middle" class="vz-lbl">${fK(vals[last])}</text>
+${labels.map((l,i)=>`<text x="${x(i)+bw/2}" y="${H-7}" text-anchor="middle" class="vz-ax">${esc(l)}</text>`).join('')}
+${labels.map((l,i)=>`<rect class="vz-hitc" data-i="${i}" x="${pl+i*band}" y="0" width="${band}" height="${H}" fill="transparent" tabindex="0"/>`).join('')}</svg>`;
+  box.querySelectorAll('.vz-hitc').forEach(h=>{const i=+h.dataset.i;const show=()=>{box.querySelectorAll('.vz-col').forEach(c=>c.style.filter=+c.dataset.i===i?'brightness(1.12)':'');vzShow(box,x(i)+bw/2,y(vals[i]),[[VZ.in,'',fv(vals[i])]],titles[i])};
+    h.addEventListener('pointerenter',show);h.addEventListener('focus',show);const hide=()=>{box.querySelectorAll('.vz-col').forEach(c=>c.style.filter='');vzHide(box)};h.addEventListener('pointerleave',hide);h.addEventListener('blur',hide)});
+}
+// table view for every chart
+function mgTable(btn,kind){
+  const card=btn.closest('.card');const body=card.querySelector('.card-body');const D=document.getElementById('page-management')._D;const M=mgDetailHTML._months||[];
+  if(card._tbl){card._tbl.remove();card._tbl=null;btn.textContent='Table';body.querySelector('.viz').style.display='';return}
+  let rows;if(kind==='occ')rows=[['Date','In camp','Occupancy %'],...D.days.map((d,i)=>[fmtDate(d),D.occ[i],D.beds?Math.round(D.occ[i]/D.beds*100)+'%':''])];
+  else if(kind==='mov')rows=[['Date','Check-ins','Check-outs','Net'],...D.days.map((d,i)=>[fmtDate(d),D.ins[i],D.outs[i],D.ins[i]-D.outs[i]])];
+  else if(kind==='mpd')rows=[['Month','Person-days'],...M.map(x=>[x.full,x.pd])];else rows=[['Month','Billed (SAR)'],...M.map(x=>[x.full,fmt(x.amt,0)])];
+  const t=document.createElement('div');t.className='mg-tblwrap';const tb=document.createElement('table');rows.forEach((r,i)=>{const tr=document.createElement('tr');r.forEach((c,j)=>{const td=document.createElement(i?'td':'th');td.textContent=c;if(j)td.className=i?'num':'text-right';tr.appendChild(td)});tb.appendChild(tr)});t.appendChild(tb);
+  body.querySelector('.viz').style.display='none';body.insertBefore(t,body.querySelector('.mg-note'));card._tbl=t;btn.textContent='Chart';
+}
+function mgCSV(){const D=document.getElementById('page-management')._D;const rows=[['Date','In camp','Beds','Occupancy %','Check-ins','Check-outs']];D.days.forEach((d,i)=>rows.push([d,D.occ[i],D.beds,D.beds?Math.round(D.occ[i]/D.beds*100):'',D.ins[i],D.outs[i]]));
+  rows.push([]);rows.push(['Customer','In camp today','Check-ins','Check-outs','Person-days',...(can('revenue','view')?['Billed (SAR, before VAT)']:[])]);D.byCo.forEach(c=>rows.push([c.short,c.inCamp,c.ins,c.outs,c.pd,...(can('revenue','view')?[Math.round(c.amt*100)/100]:[])]));
+  downloadCSV(rows,`management-${D.R.from}-to-${D.to}.csv`)}
+let _mgRz;window.addEventListener('resize',()=>{clearTimeout(_mgRz);_mgRz=setTimeout(()=>{const el=document.getElementById('page-management');if(el&&el.style.display!=='none'&&el._D&&currentPage==='management')mgDraw(el)},150)});
+
+// ═════════════════════════════════════════════════════════════
+//  SIGN-IN EMAILS — password reset and email confirmation (v6.3)
+//  Links: handled even when Supabase's event fires before the app listens.
+//  Codes: the 6-digit code in the email works when a link is used up by an email scanner.
+//  Admin: set a password / confirm an email through the server function, with no email at all.
+// ═════════════════════════════════════════════════════════════
+function appUrl(){return location.origin+location.pathname}
+function cleanAuthUrl(){try{history.replaceState(null,'',location.pathname)}catch(e){}}
+function authNote(html){const n=document.getElementById('auth-note');if(n)n.innerHTML=html}
+function authEmailError(e){
+  const m=String((e&&e.message)||e||'');
+  if(/not authori[sz]ed/i.test(m))return'Supabase did not send the email. Its built-in email service only sends to members of the Supabase project team. An administrator must set up custom SMTP (Supabase → Authentication → SMTP Settings). Until then, ask an administrator to set a new password for you in Users.';
+  if(/rate limit|only request this after|too many|429/i.test(m))return'Too many emails were sent in a short time, so Supabase did not send this one. Wait a few minutes and try again, or ask an administrator to set a new password for you in Users.';
+  if(/redirect/i.test(m))return'Supabase refused the return address of the email link. An administrator must add this site under Supabase → Authentication → URL Configuration → Redirect URLs.';
+  return m;
+}
+function otpError(e){const m=String((e&&e.message)||e||'');return/expired|invalid|not found|otp/i.test(m)?'The code is wrong or has expired. Check the newest email (each new email replaces the old code) or send a new one.':m}
+async function loginToEmail(v){v=String(v||'').trim();if(!v)return'';if(v.includes('@'))return v;try{const{data}=await Store.sb.rpc('trendos_login_email',{p_login:v});return data||''}catch(e){return''}}
+
+async function authBoot(){
+  const L=AUTH_LINK;let recovery=L.type==='recovery';
+  Store.sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY'&&!recovery){recovery=true;setTimeout(()=>openSetPassword(true),0)}});
+  if(L.error){
+    const used=/expired|invalid|denied/i.test(`${L.error} ${L.error_code} ${L.error_description}`);
+    authNote(`⚠️ <strong>${used?'This email link has expired or was already used.':'The email link did not work.'}</strong> ${used?'Some email systems open links by themselves to check them, which uses them up. ':''}Click <a href="#" class="link" onclick="event.preventDefault();forgotPassword()">Forgot password?</a> to get a new email and type the <b>6-digit code</b> from it, or ask an administrator to set a password for you.${L.error_description?`<br><small class="text-muted">${esc(L.error_description)}</small>`:''}`);
+  }
+  if(L.code){try{await Store.sb.auth.exchangeCodeForSession(L.code)}catch(e){}}
+  let session=null;
+  try{const{data}=await Store.sb.auth.getSession();session=data&&data.session}catch(e){return loginErr('Could not reach the cloud database. Check the internet connection.')}
+  if(L.any)cleanAuthUrl();
+  if(recovery){if(session)return openSetPassword(true);return authNote('⚠️ <strong>The password reset link has expired.</strong> Click <a href="#" class="link" onclick="event.preventDefault();forgotPassword()">Forgot password?</a> again.')}
+  if(session){if(['signup','email','invite','magiclink','email_change'].includes(L.type))window._justConfirmed=true;await afterSignIn(session.user)}
+}
+
+// ─── new password (after a reset link, or from the account menu) ───
+async function openSetPassword(recovery){
+  let email=(currentUser&&currentUser.email)||'';
+  if(recovery&&Store.sb){try{const{data}=await Store.sb.auth.getUser();email=(data&&data.user&&data.user.email)||email}catch(e){}}
+  showModal(recovery?'Set a new password':'Change password',`${recovery?`<p style="font-size:13px;margin-bottom:12px">Choose a new password for <b>${esc(email)}</b>.</p>`:''}
+<div class="form-group" style="margin-bottom:12px"><label class="form-label req">New password</label><input type="password" id="pw1" autocomplete="new-password"></div>
+<div class="form-group"><label class="form-label req">Repeat new password</label><input type="password" id="pw2" autocomplete="new-password"></div>
+<p class="auth-note">At least 8 characters.</p>`,
+  [{label:'Save password',primary:true,action:()=>savePassword(recovery)},{label:'Cancel',action:async()=>{closeModal();if(recovery&&!currentUser&&Store.sb){await Store.sb.auth.signOut();authNote('Password not changed. Use Forgot password? to try again.')}}}]);
+  setTimeout(()=>{const i=document.getElementById('pw1');if(i)i.focus()},60);
+}
+function readNewPassword(){const a=document.getElementById('pw1').value,b=document.getElementById('pw2').value;
+  if(a.length<8){uiAlert('Use at least 8 characters.');return null}if(a!==b){uiAlert('The two passwords do not match.');return null}return a}
+async function savePassword(recovery){
+  const a=readNewPassword();if(!a)return;
+  if(Store.mode==='local'){const la=LocalAuth.load();const lu=la.users.find(x=>x.id===currentUser.id);if(lu){lu.password=a;LocalAuth.save(la)}closeModal();toast('Password changed','ok');return}
+  const{error}=await Store.sb.auth.updateUser({password:a,data:{must_change_password:false}});
+  if(error)return uiAlert(/different from the old/i.test(error.message)?'The new password must be different from the old one.':/session|jwt|expired/i.test(error.message)?'This reset has expired. Use Forgot password? again.':'Could not change password: '+error.message);
+  closeModal();toast('Password changed','ok');
+  if(!currentUser){const{data}=await Store.sb.auth.getSession();if(data&&data.session){authNote('✓ Password changed.');await afterSignIn(data.session.user)}}
+}
+
+// ─── forgot password: email with a link AND a 6-digit code ───
+async function forgotPassword(){
+  if(Store.mode!=='cloud'||!Store.sb)return uiAlert('In the demo, an administrator sets passwords in Users → open the user → Set new password.',{title:'Reset password'});
+  let email=await loginToEmail(document.getElementById('login-user').value);
+  if(!email){const v=await uiPrompt('Enter the email address or username of your account.',{title:'Reset password',ok:'Send reset email',placeholder:'you@company.com or username'});if(!v)return;email=await loginToEmail(v);
+    if(!email)return uiAlert('No account was found with that username. Try your email address.',{title:'Reset password'})}
+  const{error}=await Store.sb.auth.resetPasswordForEmail(email,{redirectTo:appUrl()});
+  if(error)return uiAlert(authEmailError(error),{title:'Email not sent'});
+  authNote(`✉️ A reset email is on its way to <b>${esc(email)}</b>.`);openResetCode(email);
+}
+function codeInput(id){return`<input id="${id}" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456" class="otp-in" aria-label="Code from the email">`}
+function openResetCode(email){
+  showModal('Check your email',`<p style="font-size:13px">We sent a password reset email to <b>${esc(email)}</b>. Either open the link in it <b>on this device</b>, or type the code from the email here.</p>
+<div class="form-group" style="margin:12px 0"><label class="form-label req">Code from the email</label>${codeInput('rc-code')}</div>
+<div class="form-row"><div class="form-group"><label class="form-label req">New password</label><input type="password" id="pw1" autocomplete="new-password"></div><div class="form-group"><label class="form-label req">Repeat new password</label><input type="password" id="pw2" autocomplete="new-password"></div></div>
+<p class="auth-note">Nothing after a few minutes? Look in spam / junk. Each new email replaces the old code. An administrator can also set a password for you.</p>`,
+  [{label:'Set new password',primary:true,action:async()=>{
+      const token=document.getElementById('rc-code').value.replace(/\D/g,'');if(token.length<6)return uiAlert('Type the code from the email (6 digits).');
+      const pw=readNewPassword();if(!pw)return;
+      const{data,error}=await Store.sb.auth.verifyOtp({email,token,type:'recovery'});if(error)return uiAlert(otpError(error),{title:'Code not accepted'});
+      const{data:d2,error:e2}=await Store.sb.auth.updateUser({password:pw,data:{must_change_password:false}});if(e2&&!/different from the old/i.test(e2.message))return uiAlert('Could not change password: '+e2.message);
+      closeModal();toast('Password changed','ok');authNote('✓ Password changed.');window._a11pwEvent='Reset own password with the code from the email';await afterSignIn((d2&&d2.user)||data.user);window._a11pwEvent=null;
+    }},
+   {label:'Send again',action:async()=>{const{error}=await Store.sb.auth.resetPasswordForEmail(email,{redirectTo:appUrl()});uiAlert(error?authEmailError(error):'A new email was sent to '+email+'. Use the code from the newest email.',{title:error?'Email not sent':'Sent again'})}},
+   {label:'Close',action:closeModal}]);
+  setTimeout(()=>{const i=document.getElementById('rc-code');if(i)i.focus()},60);
+}
+
+// ─── email not confirmed yet ───
+function openConfirmHelp(email,o){o=o||{};
+  showModal('Confirm your email',`<p style="font-size:13px">${o.fromRequest?'<b>Your request is saved.</b> ':''}A confirmation email was sent to <b>${esc(email)}</b>. Open the link in it on this device, or type the code from the email here.</p>
+<div class="form-group" style="margin:12px 0"><label class="form-label req">Code from the email</label>${codeInput('cf-code')}</div>
+<p class="auth-note">Nothing arrived? Look in spam / junk, or send it again. An administrator can also confirm your email in Users.${o.fromRequest?' After confirming, an administrator still has to approve your account.':''}</p>`,
+  [{label:'Confirm email',primary:true,action:async()=>{
+      const token=document.getElementById('cf-code').value.replace(/\D/g,'');if(token.length<6)return uiAlert('Type the code from the email (6 digits).');
+      const{data,error}=await Store.sb.auth.verifyOtp({email,token,type:'signup'});if(error)return uiAlert(otpError(error),{title:'Code not accepted'});
+      closeModal();window._justConfirmed=true;authNote('✓ Email confirmed.');if(data&&data.session)await afterSignIn(data.user);
+    }},
+   {label:'Send again',action:async()=>{const{error}=await Store.sb.auth.resend({type:'signup',email,options:{emailRedirectTo:appUrl()}});uiAlert(error?authEmailError(error):'Sent again to '+email+'. Use the code from the newest email.',{title:error?'Email not sent':'Sent again'})}},
+   {label:'Close',action:closeModal}]);
+  setTimeout(()=>{const i=document.getElementById('cf-code');if(i)i.focus()},60);
+}
+
+// ─── administrators: create users, set passwords and confirm emails with no email needed ───
+const NO_SERVER=/not set up yet|server function|Needs the cloud/i;
+async function createLogin(u){
+  try{const r=await Api.call('users.create',{email:u.email,password:u.password,name:u.name,username:u.username,mustChange:!!u.mustChange});return{id:r.id}}
+  catch(e){
+    if(!NO_SERVER.test(e.message))throw e;
+    const user=await signupAccount(u);user.needsConfirm=!(user.email_confirmed_at||user.confirmed_at);   // the sign-in details sheet explains the confirmation email
+    auditEvent('login-created',u.email,{username:u.username,mustChange:!!u.mustChange});
+    return user;
+  }
+}
+function cloudUserButtons(u){
+  return[{label:'Set new password',action:()=>openSetUserPassword(u)},{label:'Confirm email',action:()=>adminConfirmEmail(u)},
+    {label:'Send reset email',action:async()=>{const{error}=await Store.sb.auth.resetPasswordForEmail(u.email,{redirectTo:appUrl()});uiAlert(error?authEmailError(error):`Reset email sent to ${u.email}. They can click the link on their device, or click "Forgot password?" on the sign-in screen and type the code from the email.`,{title:error?'Email not sent':'Email sent'})}}];
+}
+function serverNeeded(e){return uiAlert(NO_SERVER.test(e.message)?'This needs the trendos-api server function (setup guide, part "Sign-in emails"). Until then use "Send reset email".':e.message,{title:'Could not do that'})}
+async function adminConfirmEmail(u){
+  try{await Api.call('users.confirm',{id:u.id});uiAlert(`${u.email} is confirmed. ${u.active?'They can sign in now.':'Approve or switch the account on so they can sign in.'}`,{title:'Email confirmed'})}catch(e){serverNeeded(e)}
+}
 
 AR={
 // navigation & shell
@@ -5613,7 +6025,10 @@ AR={
 'Search anything':'ابحث عن أي شيء','Type a name, Iqama, room, phone, invoice, fault or asset tag. Shortcut: Ctrl+K.':'اكتب اسماً أو إقامة أو غرفة أو جوالاً أو فاتورة أو عطلاً أو رقم أصل. الاختصار: Ctrl+K.',
 'Ask in plain words — "how many free beds in Block C?" or in Arabic. It reads your data and cannot change it.':'اسأل بكلمات بسيطة — "كم سريراً شاغراً في المبنى C؟". يقرأ بياناتك ولا يغيّرها.',
 'Help on every screen':'مساعدة في كل شاشة','Short tips for the screen you are on.':'نصائح قصيرة للشاشة الحالية.','Your account':'حسابك','Change your password, switch to العربية, take this tour again, or sign out.':'غيّر كلمة المرور، بدّل اللغة، أعد الجولة، أو سجّل الخروج.',
-'Everywhere:':'في كل مكان:','Customers':'العملاء','New customer':'عميل جديد','Edit customer':'تعديل العميل','Create customer':'إنشاء العميل','Prospect':'محتمل','On hold':'موقوف مؤقتاً','In camp':'في السكن','This month':'هذا الشهر','Outstanding':'المستحق','Search name, VAT, CR, contact…':'ابحث بالاسم أو الرقم الضريبي أو السجل أو جهة الاتصال…',
+'Everywhere:':'في كل مكان:','Set a new password':'تعيين كلمة مرور جديدة','Check your email':'تحقق من بريدك','Code from the email':'الرمز من البريد','Set new password':'تعيين كلمة المرور','Send again':'إرسال مرة أخرى','Confirm your email':'تأكيد البريد الإلكتروني','Confirm email':'تأكيد البريد','Send reset email':'إرسال بريد إعادة التعيين','Reset password':'إعادة تعيين كلمة المرور','Send reset email':'إرسال بريد إعادة التعيين','Email not sent':'لم يُرسل البريد','Code not accepted':'الرمز غير مقبول','Password set':'تم تعيين كلمة المرور','Email confirmed':'تم تأكيد البريد','Management':'الإدارة','Management dashboard':'لوحة الإدارة','Simple':'مختصر','Detailed':'تفصيلي','Data (CSV)':'البيانات (CSV)','Print / PDF':'طباعة / PDF','Summary':'ملخص','Last 30 days':'آخر 30 يوماً','Last 90 days':'آخر 90 يوماً','Year to date':'منذ بداية السنة',
+'In camp today':'في السكن اليوم','Occupancy today':'الإشغال اليوم','Check-ins':'الدخول','Check-outs':'الخروج','Billed (before VAT)':'المفوتر (قبل الضريبة)','Outstanding invoices':'الفواتير المستحقة','Average in camp':'متوسط الساكنين','People in camp, per day':'الساكنون يومياً','Movement: check-ins and check-outs':'الحركة: الدخول والخروج','Table':'جدول','Chart':'رسم بياني',
+'Share of camp':'النسبة من السكن','Billed (SAR)':'المفوتر (ريال)','Person-days per month':'أيام الإقامة شهرياً','Billed per month (SAR, before VAT)':'المفوتر شهرياً (ريال، قبل الضريبة)','Occupancy by block today':'الإشغال حسب المبنى اليوم','Occupancy by room type today':'الإشغال حسب نوع الغرفة اليوم','With food':'مع وجبات','Room only':'سكن فقط','Room + food':'سكن + وجبات','Nationalities':'الجنسيات',
+'Open now':'مفتوح الآن','Rooms out of service':'غرف خارج الخدمة','Reported in period':'مُبلغ في الفترة','Fixed in period':'تم إصلاحه في الفترة','Days to fix (avg)':'أيام الإصلاح (متوسط)','Outstanding invoices by age':'الفواتير المستحقة حسب العمر','Mandays locked':'أيام الإقامة مقفلة','Save prices':'حفظ الأسعار','New prices start on':'تبدأ الأسعار الجديدة في','Add a room type':'إضافة نوع غرفة','Price history':'سجل الأسعار','Customer prices':'أسعار العملاء','Service':'الخدمة','prices':'الأسعار','Customers':'العملاء','New customer':'عميل جديد','Edit customer':'تعديل العميل','Create customer':'إنشاء العميل','Prospect':'محتمل','On hold':'موقوف مؤقتاً','In camp':'في السكن','This month':'هذا الشهر','Outstanding':'المستحق','Search name, VAT, CR, contact…':'ابحث بالاسم أو الرقم الضريبي أو السجل أو جهة الاتصال…',
 'Company':'الشركة','Address & contacts':'العنوان وجهات الاتصال','Billing & contract':'الفوترة والعقد','Rates & documents':'الأسعار والمستندات','Review':'المراجعة','Short name':'الاسم المختصر','Full legal name':'الاسم القانوني الكامل','Name in Arabic':'الاسم بالعربية','CR number':'رقم السجل التجاري','CR expiry':'انتهاء السجل التجاري','VAT number (TRN)':'الرقم الضريبي','Company phone':'هاتف الشركة','Website':'الموقع الإلكتروني',
 'National address':'العنوان الوطني','Building no.':'رقم المبنى','Street':'الشارع','District':'الحي','City':'المدينة','Postal code':'الرمز البريدي','Additional no.':'الرقم الإضافي','Contacts':'جهات الاتصال','Role':'الدور','Main':'رئيسي','Check-in notices':'إشعارات الدخول','Add contact':'إضافة جهة اتصال',
 'Payment terms (days)':'مدة السداد (يوم)','Credit limit (SAR)':'حد الائتمان (ريال)','Invoice emails':'بريد الفواتير','Cost centre / project':'مركز التكلفة / المشروع','A purchase order (PO) is required on every invoice':'أمر الشراء مطلوب في كل فاتورة','Purchase orders':'أوامر الشراء','PO number':'رقم أمر الشراء','Valid from':'ساري من','Valid to':'ساري حتى','Value (SAR)':'القيمة (ريال)','Add PO':'إضافة أمر شراء',
@@ -5650,8 +6065,298 @@ if(Lang.cur==='ar')Object.assign(HELP,{
   monthend:['الخطوة 1: اعتماد وقفل أيام الإقامة للشهر.','ثم لكل عميل: تحقق ← إضافات ← بريد ← تأكيد ← فاتورة ضريبية.','<b>صياغة بالذكاء الاصطناعي</b> تكتب رسالة العميل من الأرقام؛ راجعها ثم أرسلها.'],
 });
 
+// ═════════════════════════════════════════════════════════════
+//  ADMINISTRATION (v6.4)
+//  1. First sign-in: the administrator creates the login with a temporary password and sends the
+//     details to the person's email (or WhatsApp); they choose their own password at the first sign-in.
+//  2. Audit log: every change, sign-in and administrator action. Administrators only.
+//  3. Master data (customers & prices, rooms & blocks, sub-lease, asset register, settings) and
+//     bulk uploads: administrators only. The database enforces the same rule.
+// ═════════════════════════════════════════════════════════════
+
+// ─── 3. master data: administrators only ───
+const MASTER_MODS=['companies','rates','rooms','sublease','settings','assets'];
+const _a11can=can;
+can=function(mod,level){if(level==='edit'&&MASTER_MODS.includes(mod)&&currentUser&&!isAdmin())return false;return _a11can(mod,level)};
+// the asset register is for administrators; maintenance staff still record an item's condition after a repair
+COL_MODULE.assets=['assets','maintenance'];
+PAGE_MODULE.audit='_admin';
+NAV_ICON.audit='clock';
+function rolePermShown(perms,k){const v=effPerm(perms,k);return v==='edit'&&MASTER_MODS.includes(k)?'view':v}
+function adminOnly(what){if(isAdmin())return true;uiAlert((what||'This')+' is for administrators only.',{title:'Administrators only'});return false}
+
+// bulk uploads: administrators only
+const _a11upl=uploadLocalToCloud;
+uploadLocalToCloud=async function(){if(!adminOnly('Uploading data'))return;await _a11upl();auditEvent('restore','Old local data from this browser uploaded to the cloud')};
+const _a11paste=mciPaste;
+mciPaste=function(){if(!adminOnly('Pasting rows from Excel'))return;return _a11paste()};
+
+// ─── 1. first sign-in details ───
+function tempPassword(){
+  const U='ABCDEFGHJKMNPQRSTUVWXYZ',l='abcdefghjkmnpqrstuvwxyz',d='23456789';
+  const r=n=>{const x=new Uint32Array(1);crypto.getRandomValues(x);return x[0]%n};const p=s=>s[r(s.length)];
+  return p(U)+p(l)+p(l)+p(l)+'-'+p(d)+p(d)+p(d)+p(d)+'-'+p(l)+p(U)+p(l)+p(l);
+}
+function pwGenField(id,val){return`<div class="pw-gen"><input id="${id}" type="text" class="mono" value="${esc(val||tempPassword())}" autocomplete="off" spellcheck="false"><button type="button" class="btn btn-sm btn-ghost" title="Make a new password" onclick="document.getElementById('${id}').value=tempPassword()">${ico('refresh')} New</button></div>`}
+function loginMessage(o){
+  const first=o.reset?'A new temporary password has been set for your account in':'Your account has been created in';
+  return`Dear ${o.name||o.username},
+
+${first} the Trendos Camp Management system.
+
+Website: ${appUrl()}
+Username: ${o.username}
+(or sign in with your email: ${o.email})
+${o.reset?'New temporary':'Temporary'} password: ${o.password}
+
+${o.mustChange?'When you sign in for the first time you will be asked to choose your own password.':'You can change the password after signing in: click your name → Change password.'}${o.needsConfirm?'\n\nBefore the first sign-in, open the separate "Confirm your email" message and click the link in it.':''}
+Please keep the password private and do not forward this email.
+
+Regards,
+${currentUser?currentUser.name:'Administrator'}`;
+}
+function openShareLogin(o){
+  const msg=loginMessage(o);window._shareLogin=o;
+  const subj=o.reset?'Your new Trendos sign-in password':'Your Trendos Camp Management sign-in';
+  showModal(o.reset?'Password set — send it to the user':'User created — send the sign-in details',`
+<p style="font-size:13px;margin-top:0">${o.reset?'Send the new password':'Send the sign-in details'} to <b>${esc(o.name||o.username)}</b>. The password is shown only now: it is not saved anywhere it can be read again.</p>
+<div class="share-card">
+<div><span>Website</span><b class="mono">${esc(appUrl())}</b></div>
+<div><span>Username</span><b class="mono">${esc(o.username)}</b></div>
+<div><span>Email</span><b>${esc(o.email)}</b></div>
+<div><span>${o.reset?'New password':'Temporary password'}</span><b class="mono" id="sl-pw">${esc(o.password)}</b></div>
+</div>
+${o.mustChange?'<p class="auth-note">✓ They must choose their own password when they first sign in.</p>':''}
+${o.active===false?'<div class="alert alert-warn" style="margin-top:8px">The account is switched off. Switch it on in Users before they try to sign in.</div>':''}
+${o.needsConfirm?'<div class="alert alert-info" style="margin-top:8px">Supabase also sends them a "Confirm your email" message; they must click its link once. Or open the user and click <b>Confirm email</b> to skip that.</div>':''}
+<div class="share-btns">
+<button class="btn btn-primary" onclick="shareLoginBy('email')">${ico('mail')} Email to ${esc(o.email)}</button>
+<button class="btn btn-outline" onclick="shareLoginBy('whatsapp')">${ico('chat')} WhatsApp</button>
+<button class="btn btn-outline" onclick="shareLoginBy('copy')">${ico('clipboard')} Copy message</button>
+</div>
+<details style="margin-top:10px"><summary class="link" style="font-size:12.5px">See the message</summary><pre class="share-msg">${esc(msg)}</pre></details>`,
+  [{label:'Done',primary:true,action:()=>{window._shareLogin=null;closeModal()}}]);
+  window._shareSubj=subj;
+}
+async function shareLoginBy(how){
+  const o=window._shareLogin;if(!o)return;const msg=loginMessage(o);
+  if(how==='email'){const a=document.createElement('a');a.href=`mailto:${encodeURIComponent(o.email).replace(/%40/g,'@')}?subject=${encodeURIComponent(window._shareSubj||'Trendos sign-in')}&body=${encodeURIComponent(msg)}`;a.target='_blank';document.body.appendChild(a);a.click();a.remove();toast('Your email app opens with the message — press Send there','ok')}
+  else if(how==='whatsapp'){const ph=String(o.phone||'').replace(/\D/g,'').replace(/^0(5\d{8})$/,'966$1');window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank')}
+  else{try{await navigator.clipboard.writeText(msg);toast('Message copied','ok')}catch(e){uiAlert(msg,{title:'Copy this message'})}}
+  auditEvent('login-shared',o.username,{by:how,email:o.email});
+}
+// set a new temporary password (both modes) and share it
+function openSetUserPassword(u){
+  showModal('Set a new password',`<p style="font-size:13px;margin-top:0">New password for <b>${esc(u.name||u.username)}</b> (${esc(u.email||'')}).${Store.mode==='cloud'?' Their email is confirmed at the same time.':''}</p>
+<div class="form-group"><label class="form-label req">New password</label>${pwGenField('sp-pass')}</div>
+<label class="chk-line"><input type="checkbox" id="sp-must" checked> They must choose their own password at the next sign-in</label>`,
+  [{label:'Set password',primary:true,action:async()=>{
+      const pw=document.getElementById('sp-pass').value.trim(),must=document.getElementById('sp-must').checked;
+      if(pw.length<8)return uiAlert('Use at least 8 characters.');
+      if(Store.mode==='local'){const a=LocalAuth.load();const x=a.users.find(z=>z.id===u.id);if(!x)return;x.password=pw;x.mustChange=must;LocalAuth.save(a);auditEvent('password-set',u.username,{email:u.email,mustChange:must})}
+      else{try{await Api.call('users.setPassword',{id:u.id,password:pw,mustChange:must})}catch(e){return serverNeeded(e)}}
+      openShareLogin({name:u.name,username:u.username,email:u.email,password:pw,mustChange:must,active:u.active!==false,reset:true});
+    }},{label:'Cancel',action:closeModal}]);
+}
+// first sign-in with a temporary password: choose your own before anything else
+function mustChangePassword(done){
+  showModal('Choose your own password',`<p class="mcp" style="font-size:13px;margin-top:0">Welcome, <b>${esc(currentUser?currentUser.name:'')}</b>. You signed in with a temporary password. Choose your own password to continue.</p>
+<div class="form-group" style="margin-bottom:12px"><label class="form-label req">New password</label><input type="password" id="pw1" autocomplete="new-password"></div>
+<div class="form-group"><label class="form-label req">Repeat new password</label><input type="password" id="pw2" autocomplete="new-password"></div>
+<p class="auth-note">At least 8 characters, different from the temporary password. Only you will know it.</p>`,
+  [{label:'Save and continue',primary:true,action:async()=>{
+      const a=readNewPassword();if(!a)return;
+      if(Store.mode==='local'){const la=LocalAuth.load();const lu=la.users.find(x=>x.id===currentUser.id);if(lu){if(lu.password===a)return uiAlert('Choose a password different from the temporary one.');lu.password=a;lu.mustChange=false;LocalAuth.save(la)}}
+      else{const{error}=await Store.sb.auth.updateUser({password:a,data:{must_change_password:false}});
+        if(error)return uiAlert(/different from the old/i.test(error.message)?'Choose a password different from the temporary one.':'Could not change the password: '+error.message)}
+      closeModal();toast('Password saved','ok');window._a11pwEvent='Chose own password at first sign-in';await done();
+    }},
+   {label:'Sign out',action:async()=>{closeModal();currentUser=null;try{sessionStorage.removeItem('trendos_local_session')}catch(e){}if(Store.mode==='cloud'&&Store.sb)await Store.sb.auth.signOut();authNote('Signed out. Sign in again with the temporary password to choose your own.')}}]);
+  const m=document.getElementById('active-modal');if(m){const x=m.querySelector('.modal-close');if(x)x.remove();m.addEventListener('click',e=>{if(e.target===m)e.stopImmediatePropagation()},true)}
+  setTimeout(()=>{const i=document.getElementById('pw1');if(i)i.focus()},60);
+}
+
+// Escape does not close the "choose your own password" window
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('#active-modal .mcp'))e.stopImmediatePropagation()},true);
+
+// ─── 2. audit log ───
+const AUDIT_ACT={create:['Added','green'],update:['Changed','teal'],delete:['Deleted','red'],undelete:['Brought back','gold'],erase:['Erased','red'],
+  'sign-in':['Signed in','gray'],'sign-out':['Signed out','gray'],password:['Changed own password','gold'],
+  'login-created':['Created a login','pink'],'password-set':['Set a password','pink'],'email-confirmed':['Confirmed an email','pink'],'login-shared':['Sent sign-in details','pink'],
+  backup:['Downloaded a backup','gray'],restore:['Restored data','red'],reset:['Erased all data','red']};
+const AUDIT_COL={residents:'Residents',companies:'Customers',rates:'Customer prices',rooms:'Rooms',blocks:'Blocks',movements:'Movements',invoices:'Invoices',
+  monthEndPeriods:'Month-end periods',closings:'Monthly closing',cateringExtras:'Catering',subleaseContracts:'Sub-lease contracts',subleaseProviders:'Sub-lease providers',
+  assets:'Room assets',maintenance:'Maintenance',inspections:'Inspections',messages:'Messages',settings:'Settings',users:'Users',roles:'Roles'};
+const AUDIT_FIELD={name:'Name',docNo:'Iqama / ID no.',docType:'ID type',roomNo:'Room',block:'Block',company:'Company',checkIn:'Check-in',checkOut:'Check-out',phone:'Phone',
+  nationality:'Nationality',food:'Food',foodType:'Food type',active:'Active',status:'Status',priceExclVat:'Price excl. VAT',effectiveFrom:'From',effectiveTo:'Until',
+  roomCategory:'Room type',serviceType:'Service',customerId:'Customer',beds:'Beds',cat:'Room type',short:'Short name',email:'Email',role:'Role',username:'Username',
+  approved_at:'Approved',condition:'Condition',priority:'Priority',assignedTo:'Assigned to',title:'Title',no:'Number',total:'Total',amount:'Amount',notes:'Notes',
+  reason:'Reason',category:'Category',tag:'Tag no.',crNo:'CR no.',vatNo:'VAT no.',contacts:'Contacts',billing:'Billing',contract:'Contract',docs:'Documents',log:'History',
+  isSubLease:'Sub-lease',vatRate:'VAT rate',invoicePrefix:'Invoice prefix',nextInvoiceNum:'Next invoice no.',period:'Period',lockedAt:'Locked',paidAt:'Paid'};
+function auditField(k){return AUDIT_FIELD[k]||String(k).replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,c=>c.toUpperCase())}
+function auditVal(v,k){
+  if(v===null||v===undefined||v==='')return'—';if(v===true)return'Yes';if(v===false)return'No';
+  if(k==='customerId'){const c=db.companies&&db.companies.find(x=>x.id===v);if(c)return c.short}
+  if(typeof v==='object'){if(Array.isArray(v)&&k==='log')return`${v.length} entries`;const s=JSON.stringify(v);return s.length>140?s.slice(0,137)+'…':s}
+  return String(v);
+}
+function auditLabelJS(col,d){if(!d)return'';if(col==='settings')return'Settings';
+  const a=d.name||d.title||d.short||d.category,b=d.no||d.docNo||d.tag||d.roomNo||d.roomCategory||d.period;return[a,b].filter(Boolean).join(' · ')}
+function auditDiffJS(a,b){const o={};new Set([...Object.keys(a||{}),...Object.keys(b||{})]).forEach(k=>{if(k==='updatedAt'||k==='updatedBy')return;
+  const x=a?a[k]:undefined,y=b?b[k]:undefined;if(stable(x===undefined?null:x)!==stable(y===undefined?null:y))o[k]=[x===undefined?null:x,y===undefined?null:y]});return o}
+function deviceName(){const u=navigator.userAgent;const b=/Edg\//.test(u)?'Edge':/OPR\//.test(u)?'Opera':/Chrome\//.test(u)?'Chrome':/Firefox\//.test(u)?'Firefox':/Safari\//.test(u)?'Safari':'Browser';
+  const os=/iPhone|iPad/.test(u)?'iPhone/iPad':/Android/.test(u)?'Android':/Windows/.test(u)?'Windows':/Mac OS/.test(u)?'Mac':/Linux/.test(u)?'Linux':'';return b+(os?' on '+os:'')}
+// local demo: kept in this browser (newest 5,000 entries)
+const LocalAudit={KEY:'trendos_audit_local',MAX:5000,snap:null,
+  load(){try{const a=JSON.parse(localStorage.getItem(this.KEY)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}},
+  add(rows){if(!rows.length)return;let a=this.load();a.push(...rows);if(a.length>this.MAX)a=a.slice(-this.MAX);try{localStorage.setItem(this.KEY,JSON.stringify(a))}catch(e){}},
+  prime(){this.snap=new Map([...Store.flatten()].filter(([k])=>!k.startsWith('meta|')).map(([k,r])=>[k,stable(r.data)]))},
+  track(){
+    if(!this.snap){this.prime();return}
+    const cur=new Map([...Store.flatten()].filter(([k])=>!k.startsWith('meta|')));const rows=[];const at=nowISO();
+    const who={user_id:currentUser?currentUser.id:null,user_name:currentUser?currentUser.name:'System'};
+    cur.forEach((r,k)=>{const s=stable(r.data);const old=this.snap.get(k);if(old===s)return;
+      if(old===undefined)rows.push({...who,id:uid(),at,action:'create',collection:r.collection,record_id:r.id,label:auditLabelJS(r.collection,r.data),changes:JSON.parse(s)});
+      else{const ch=auditDiffJS(JSON.parse(old),r.data);if(Object.keys(ch).length)rows.push({...who,id:uid(),at,action:'update',collection:r.collection,record_id:r.id,label:auditLabelJS(r.collection,r.data),changes:ch})}});
+    this.snap.forEach((s,k)=>{if(!cur.has(k)){const i=k.indexOf('|');const d=JSON.parse(s);rows.push({...who,id:uid(),at,action:'delete',collection:k.slice(0,i),record_id:k.slice(i+1),label:auditLabelJS(k.slice(0,i),d),changes:d})}});
+    this.add(rows);this.snap=new Map([...cur].map(([k,r])=>[k,stable(r.data)]));
+  }};
+const _a11flush=Store.flush;
+Store.flush=function(){if(this.mode==='local'&&currentUser){try{LocalAudit.track()}catch(e){console.warn('audit',e)}}return _a11flush.apply(this,arguments)};
+async function auditEvent(action,label,detail){
+  try{
+    if(Store.mode==='local'){LocalAudit.add([{id:uid(),at:nowISO(),user_id:currentUser?currentUser.id:null,user_name:currentUser?currentUser.name:'System',action,collection:null,record_id:null,label:label||'',changes:detail||null}]);return}
+    if(Store.sb&&currentUser)await Store.sb.rpc('trendos_log',{p_action:action,p_label:label||null,p_detail:detail||null});
+  }catch(e){}
+}
+// events: sign-in, sign-out, own password, backup, restore, erase
+const _a11enter=enterApp;
+enterApp=async function(){
+  await _a11enter();
+  if(!currentUser||document.getElementById('main-app').style.display==='none')return;
+  if(Store.mode==='local')LocalAudit.prime();
+  if(window._a11pwEvent){auditEvent('password',window._a11pwEvent);window._a11pwEvent=null}
+  auditEvent('sign-in',(window._a11pwLogin?'':'Still signed in, app opened again · ')+deviceName());window._a11pwLogin=false;
+  if(isAdmin()){const n=document.getElementById('nav-audit');if(n)n.style.display='flex'}
+};
+const _a11login=doLogin;doLogin=function(){window._a11pwLogin=true;return _a11login.apply(this,arguments)};
+const _a11logout=doLogout;doLogout=async function(){if(currentUser)await auditEvent('sign-out',deviceName());return _a11logout.apply(this,arguments)};
+const _a11pw=savePassword;savePassword=async function(recovery){const had=!!currentUser;window._a11pwEvent=had?null:'Reset own password from the email link';await _a11pw(recovery);window._a11pwEvent=null;if(had&&!document.getElementById('pw1'))auditEvent('password','Changed own password')};
+const _a11backup=exportBackup;exportBackup=function(){_a11backup.apply(this,arguments);auditEvent('backup','Full backup downloaded')};
+
+// the audit log screen
+function renderAudit(el){
+  if(!isAdmin()){el.innerHTML='<div class="alert alert-warn">Administrators only.</div>';return}
+  const t=today();const wk=(()=>{const d=new Date(t+'T00:00:00');d.setDate(d.getDate()-6);return ymd(d)})();
+  el._f=el._f||{from:wk,to:t,user:'',action:'',col:'',q:''};const f=el._f;
+  const opt=(v,l,s)=>`<option value="${esc(v)}" ${s===v?'selected':''}>${esc(l)}</option>`;
+  el.innerHTML=`
+<div class="page-header"><div><div class="page-title">${ico('clock')} Audit log</div><div class="page-sub">Every change, sign-in and administrator action · only administrators can see this · entries cannot be changed or deleted</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline btn-sm" onclick="auditLoad(true)">${ico('refresh')} Refresh</button><button class="btn btn-outline btn-sm" onclick="auditCSV()">${ico('download')} Export CSV</button></div></div>
+<div class="card audit-filters"><div class="af-row">
+<div class="form-group"><label class="form-label">From</label><input type="date" id="af-from" value="${f.from}" onchange="auditFilter()"></div>
+<div class="form-group"><label class="form-label">To</label><input type="date" id="af-to" value="${f.to}" onchange="auditFilter()"></div>
+<div class="form-group"><label class="form-label">Person</label><select id="af-user" onchange="auditFilter()"><option value="">Everyone</option></select></div>
+<div class="form-group"><label class="form-label">Action</label><select id="af-action" onchange="auditFilter()"><option value="">All actions</option>${Object.entries(AUDIT_ACT).map(([k,v])=>opt(k,v[0],f.action)).join('')}</select></div>
+<div class="form-group"><label class="form-label">Record type</label><select id="af-col" onchange="auditFilter()"><option value="">All</option>${Object.entries(AUDIT_COL).map(([k,v])=>opt(k,v,f.col)).join('')}</select></div>
+<div class="form-group af-q"><label class="form-label">Search</label><input id="af-q" value="${esc(f.q)}" placeholder="Name, Iqama, room, invoice no." onkeydown="if(event.key==='Enter')auditFilter()" onchange="auditFilter()"></div>
+</div>
+<div class="af-quick">${[['Today',0],['7 days',6],['30 days',29],['90 days',89]].map(([l,n])=>`<button class="btn btn-xs btn-ghost" onclick="auditRange(${n})">${l}</button>`).join('')}<button class="btn btn-xs btn-ghost" onclick="auditQuick('changes')">Only changes</button><button class="btn btn-xs btn-ghost" onclick="auditQuick('access')">Sign-ins & passwords</button><button class="btn btn-xs btn-ghost" onclick="auditQuick('')">Clear filters</button></div></div>
+<div id="audit-body"><div class="text-muted" style="padding:20px">Loading…</div></div>
+${Store.mode==='local'?'<p class="auth-note">Local demo: the audit log is kept in this browser only (the newest 5,000 entries).</p>':'<p class="auth-note">Kept in the cloud database. Failed sign-in attempts are in Supabase → Authentication → Logs.</p>'}`;
+  UserStore.list().then(us=>{const s=document.getElementById('af-user');if(!s)return;el._users=us;s.innerHTML='<option value="">Everyone</option>'+us.map(u=>opt(u.id,(u.name||u.username||u.email)+(u.username?' ('+u.username+')':''),f.user)).join('')}).catch(()=>{});
+  auditLoad(true);
+}
+function auditFilter(){const el=document.getElementById('page-audit');const g=id=>document.getElementById(id).value.trim();
+  el._f={from:g('af-from'),to:g('af-to'),user:g('af-user'),action:g('af-action'),col:g('af-col'),q:g('af-q')};if(el._f.from>el._f.to)[el._f.from,el._f.to]=[el._f.to,el._f.from];auditLoad(true)}
+function auditRange(n){const el=document.getElementById('page-audit');const t=today();const d=new Date(t+'T00:00:00');d.setDate(d.getDate()-n);el._f.from=ymd(d);el._f.to=t;renderAudit(el)}
+function auditQuick(k){const el=document.getElementById('page-audit');const f=el._f;f.action='';f.col='';f.q='';f.user='';f.group=k;if(!k){const t=today();const d=new Date(t+'T00:00:00');d.setDate(d.getDate()-6);f.from=ymd(d);f.to=t}renderAudit(el)}
+const AUDIT_GROUP={changes:['create','update','delete','undelete','erase'],access:['sign-in','sign-out','password','login-created','password-set','email-confirmed','login-shared']};
+function auditRangeISO(f){return[new Date(f.from+'T00:00:00').toISOString(),new Date(f.to+'T23:59:59.999').toISOString()]}
+async function auditFetch(f,offset,limit){
+  const[a,b]=auditRangeISO(f);const acts=f.action?[f.action]:(AUDIT_GROUP[f.group]||null);const q=String(f.q||'').toLowerCase();
+  if(Store.mode==='local'){
+    return LocalAudit.load().filter(r=>r.at>=a&&r.at<=b&&(!f.user||r.user_id===f.user)&&(!acts||acts.includes(r.action))&&(!f.col||r.collection===f.col)
+      &&(!q||[r.label,r.record_id,r.user_name].some(x=>String(x||'').toLowerCase().includes(q)))).reverse().slice(offset,offset+limit);
+  }
+  let qq=Store.sb.from('trendos_audit').select('id,at,user_id,user_name,action,collection,record_id,label,changes').gte('at',a).lte('at',b)
+    .order('at',{ascending:false}).order('id',{ascending:false}).range(offset,offset+limit-1);
+  if(f.user)qq=qq.eq('user_id',f.user);if(acts)qq=acts.length===1?qq.eq('action',acts[0]):qq.in('action',acts);if(f.col)qq=qq.eq('collection',f.col);
+  if(q){const s=q.replace(/[,()%*\\]/g,' ').trim();if(s)qq=qq.or(`label.ilike.%${s}%,record_id.ilike.%${s}%,user_name.ilike.%${s}%`)}
+  const{data,error}=await qq;if(error)throw error;return data||[];
+}
+async function auditLoad(reset){
+  const el=document.getElementById('page-audit');const box=document.getElementById('audit-body');if(!el||!box)return;
+  if(reset){el._rows=[];el._done=false}
+  const PAGE=200;let rows;
+  try{rows=await auditFetch(el._f,el._rows.length,PAGE)}
+  catch(e){box.innerHTML=`<div class="alert alert-warn">${/trendos_audit|does not exist|schema cache/i.test(e.message||'')?'The audit log is not set up in the database yet. Run <b>supabase-upgrade-v6-4.sql</b> in Supabase → SQL Editor (setup guide, part "Audit log").':'Could not load the audit log: '+esc(e.message||String(e))}</div>`;return}
+  el._rows=el._rows.concat(rows);el._done=rows.length<PAGE;
+  const R=el._rows;
+  if(!R.length){box.innerHTML='<div class="card"><div class="empty-state"><div class="icon">'+ico('clock')+'</div><p>Nothing recorded for these filters.</p></div></div>';return}
+  const people=new Set(R.map(r=>r.user_name||'System')).size,chg=R.filter(r=>AUDIT_GROUP.changes.includes(r.action)).length;
+  box.innerHTML=`<div class="audit-sum"><span><b>${R.length}${el._done?'':'+'}</b> entries</span><span><b>${chg}</b> record changes</span><span><b>${people}</b> ${people===1?'person':'people'}</span></div>
+<div class="card"><div class="scroll-x"><table class="audit-table"><thead><tr><th>When</th><th>Who</th><th>What</th><th>Record</th><th>Details</th></tr></thead><tbody>
+${R.map((r,i)=>{const A=AUDIT_ACT[r.action]||[r.action,'gray'];return`<tr class="audit-row" role="button" tabindex="0" onclick="auditDetail(${i})" onkeydown="if(event.key==='Enter')auditDetail(${i})">
+<td class="nowrap" style="font-size:12px">${fmtDate(r.at)}<div class="text-muted">${new Date(r.at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div></td>
+<td>${esc(r.user_name||'System')}</td><td><span class="badge badge-${A[1]}">${esc(A[0])}</span></td>
+<td>${r.collection?`<div class="text-muted" style="font-size:11.5px">${esc(AUDIT_COL[r.collection]||r.collection)}</div>`:''}${esc(auditRecName(r))}</td>
+<td class="audit-ch">${auditSummary(r)}</td></tr>`}).join('')}
+</tbody></table></div>
+${el._done?'':`<div style="padding:12px;text-align:center"><button class="btn btn-outline btn-sm" onclick="auditLoad(false)">Load older entries</button></div>`}</div>`;
+}
+function auditRecName(r){if(r.collection==='rates'&&r.changes){const d=r.action==='update'?null:r.changes;const cid=d?d.customerId:null;const c=cid&&db.companies.find(x=>x.id===cid);if(c)return c.short+' · '+(r.label||'')}
+  if(!r.collection)return r.label||'';return r.label||r.record_id||''}
+function auditSummary(r){
+  const ch=r.changes;
+  if(r.action==='update'&&ch&&typeof ch==='object'){const ks=Object.keys(ch);return ks.slice(0,3).map(k=>`<span class="ach"><b>${esc(auditField(k))}</b> <bdi dir="ltr">${esc(auditVal(ch[k][0],k))} → ${esc(auditVal(ch[k][1],k))}</bdi></span>`).join('')+(ks.length>3?`<span class="text-muted"> +${ks.length-3} more</span>`:'')}
+  if(!r.collection){const d=ch&&typeof ch==='object'?Object.entries(ch).map(([k,v])=>k==='by'?({email:'by email',whatsapp:'by WhatsApp',copy:'copied'}[v]||v):k==='mustChange'?(v?'must choose own password':''):auditField(k)+': '+auditVal(v,k)).filter(Boolean).join(' · '):'';return esc(d)}
+  return'<span class="text-muted">'+(r.action==='create'?'New record':r.action==='undelete'?'Record brought back':'Record removed')+' — open for details</span>';
+}
+function auditDetail(i){
+  const el=document.getElementById('page-audit');const r=el._rows[i];if(!r)return;const A=AUDIT_ACT[r.action]||[r.action,'gray'];const ch=r.changes;
+  let body='';
+  if(r.action==='update'&&ch)body=`<table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>${Object.entries(ch).map(([k,v])=>`<tr><td class="fw-bold">${esc(auditField(k))}</td><td class="audit-old">${esc(auditVal(v[0],k))}</td><td class="audit-new">${esc(auditVal(v[1],k))}</td></tr>`).join('')}</tbody></table>`;
+  else if(ch&&typeof ch==='object'){const E=Object.entries(ch).filter(([k,v])=>v!==null&&v!==''&&!(Array.isArray(v)&&!v.length)&&k!=='id');
+    body=E.length?`<table><thead><tr><th>Field</th><th>${r.action==='delete'||r.action==='erase'?'Value before removal':'Value'}</th></tr></thead><tbody>${E.map(([k,v])=>`<tr><td class="fw-bold">${esc(auditField(k))}</td><td style="word-break:break-word">${esc(auditVal(v,k))}</td></tr>`).join('')}</tbody></table>`:''}
+  showModal(esc(A[0])+(r.collection?' — '+esc(AUDIT_COL[r.collection]||r.collection):''),`
+<div class="kv-grid audit-kv"><div>When</div><div>${new Date(r.at).toLocaleString('en-GB')}</div><div>Who</div><div>${esc(r.user_name||'System')}</div>
+${r.collection?`<div>Record</div><div>${esc(auditRecName(r))} <span class="text-muted mono" style="font-size:11px">${esc(r.record_id||'')}</span></div>`:r.label?`<div>Details</div><div>${esc(r.label)}</div>`:''}</div>
+${body?'<div class="divider"></div>'+body:''}`,
+  [...(r.collection&&r.record_id&&!['users','roles','settings'].includes(r.collection)?[{label:'All changes to this record',action:()=>{closeModal();const f=el._f;f.q=r.record_id;f.col=r.collection;f.action='';f.user='';f.group='';f.from='2020-01-01';f.to=today();renderAudit(el)}}]:[]),{label:'Close',primary:true,action:closeModal}]);
+}
+async function auditCSV(){
+  const el=document.getElementById('page-audit');let all=[];
+  try{for(let off=0;off<20000;off+=1000){const r=await auditFetch(el._f,off,1000);all=all.concat(r);if(r.length<1000)break}}catch(e){return uiAlert('Could not export: '+(e.message||e))}
+  if(!all.length)return toast('Nothing to export');
+  const rows=[['Date','Time','Person','Action','Record type','Record','Record ID','Field','Before','After']];
+  all.forEach(r=>{const d=new Date(r.at);const base=[ymd(d),d.toLocaleTimeString('en-GB'),r.user_name||'System',(AUDIT_ACT[r.action]||[r.action])[0],r.collection?(AUDIT_COL[r.collection]||r.collection):'',auditRecName(r),r.record_id||''];
+    if(r.action==='update'&&r.changes&&typeof r.changes==='object')Object.entries(r.changes).forEach(([k,v])=>rows.push([...base,auditField(k),auditVal(v[0],k),auditVal(v[1],k)]));
+    else rows.push([...base,'',r.collection?'':JSON.stringify(r.changes||''),r.collection&&r.changes?JSON.stringify(r.changes).slice(0,2000):'']);});
+  downloadCSV(rows,`audit-log-${el._f.from}-to-${el._f.to}.csv`);
+}
+const _a11rp=renderPage;renderPage=function(page,el){if(page==='audit')return renderAudit(el);return _a11rp(page,el)};
+HELP.audit=['Every added, changed or deleted record shows who did it and when, with the old and new values.','Sign-ins, sign-outs, password changes, backups and restores are recorded too.','Filter by date, person, action or record type; click a line for details; Export CSV for the auditors.'];
+HELP.users=(HELP.users||[]).concat(['<b>+ Add User</b> makes a temporary password. After creating, send the sign-in details to the person\'s email or WhatsApp; they choose their own password at the first sign-in.']);
+
+// Arabic for the new screens
+Object.assign(AR,{'Audit log':'سجل التدقيق','Who':'من','What':'الإجراء','When':'الوقت','Record':'السجل','Details':'التفاصيل','Person':'الشخص','Everyone':'الجميع','All actions':'كل الإجراءات','Record type':'نوع السجل',
+  'Added':'إضافة','Changed':'تعديل','Deleted':'حذف','Brought back':'استعادة','Erased':'مسح نهائي','Signed in':'تسجيل دخول','Signed out':'تسجيل خروج','Changed own password':'غيّر كلمة المرور',
+  'Created a login':'أنشأ حساب دخول','Set a password':'عيّن كلمة مرور','Confirmed an email':'أكّد بريدًا','Sent sign-in details':'أرسل بيانات الدخول','Downloaded a backup':'نزّل نسخة احتياطية','Restored data':'استعاد البيانات','Erased all data':'مسح كل البيانات',
+  'Only changes':'التعديلات فقط','Sign-ins & passwords':'الدخول وكلمات المرور','Clear filters':'مسح الفلاتر','Load older entries':'تحميل الأقدم','Export CSV':'تصدير CSV','Refresh':'تحديث',
+  'Field':'الحقل','Before':'قبل','After':'بعد','Value':'القيمة','All changes to this record':'كل تعديلات هذا السجل','Nothing recorded for these filters.':'لا شيء مسجل لهذه الفلاتر.',
+  'Temporary password':'كلمة مرور مؤقتة','New password':'كلمة المرور الجديدة','Website':'الموقع','Username':'اسم المستخدم','Email':'البريد الإلكتروني','Copy message':'نسخ الرسالة','See the message':'عرض الرسالة','Done':'تم',
+  'Choose your own password':'اختر كلمة مرورك','Save and continue':'حفظ ومتابعة','Sign out':'تسجيل الخروج','Set a new password':'تعيين كلمة مرور جديدة','Set password':'تعيين كلمة المرور','New':'جديدة',
+  'They must choose their own password at the next sign-in':'يجب أن يختار كلمة مروره عند الدخول التالي','Ask them to choose their own password at the first sign-in':'اطلب منه اختيار كلمة مروره عند أول دخول',
+  'Mobile (for WhatsApp)':'الجوال (للواتساب)','Administrators only':'للمسؤولين فقط','edit: admin only':'التعديل: المسؤول فقط','Users, roles, audit log, bulk upload, backup restore':'المستخدمون والأدوار وسجل التدقيق والرفع الجماعي والاستعادة',
+  'User created — send the sign-in details':'تم إنشاء المستخدم — أرسل بيانات الدخول','Password set — send it to the user':'تم تعيين كلمة المرور — أرسلها للمستخدم','From':'من تاريخ','Action':'الإجراء','entries':'إدخالات','record changes':'تعديلات على السجلات','people':'أشخاص','person':'شخص','Name, Iqama, room, invoice no.':'الاسم، الإقامة، الغرفة، رقم الفاتورة',
+  'Every change, sign-in and administrator action · only administrators can see this · entries cannot be changed or deleted':'كل تعديل وتسجيل دخول وإجراء إداري · يراه المسؤولون فقط · لا يمكن تعديل الإدخالات أو حذفها',
+  'Local demo: the audit log is kept in this browser only (the newest 5,000 entries).':'العرض التجريبي: سجل التدقيق محفوظ في هذا المتصفح فقط (أحدث 5000 إدخال).',
+  'Kept in the cloud database. Failed sign-in attempts are in Supabase → Authentication → Logs.':'محفوظ في قاعدة البيانات السحابية. محاولات الدخول الفاشلة في Supabase ← Authentication ← Logs.',
+  'Today':'اليوم','7 days':'7 أيام','30 days':'30 يومًا','90 days':'90 يومًا'});
+
 Lang.apply();if(Lang.cur==='ar')trTree(document.body);(()=>{const b=document.getElementById('auth-lang');if(b)b.textContent=Lang.cur==='ar'?'English':'العربية'})();
-const _v6nav=nav;nav=function(p){document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
+const _v6nav=nav;nav=function(p){if(p==='rates')p='companies';document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
 
 // ─── INIT ───
 window.addEventListener('load',async()=>{
@@ -5668,13 +6373,7 @@ window.addEventListener('load',async()=>{
     return;
   }
   if(!Store.sb)return;
-  Store.sb.auth.onAuthStateChange((event)=>{
-    if(event==='PASSWORD_RECOVERY')setTimeout(()=>openSetPassword(true),0);
-  });
-  try{
-    const{data}=await Store.sb.auth.getSession();
-    if(data&&data.session&&!/type=recovery/.test(location.hash))await afterSignIn(data.session.user);
-  }catch(e){loginErr('Could not reach the cloud database. Check the internet connection.')}
+  await authBoot();
 });
 window.addEventListener('online',()=>{if(Store.mode==='cloud'&&Store.dirty)Store.flush()});
 window.addEventListener('beforeunload',e=>{if(Store.mode==='cloud'&&Store.dirty){e.preventDefault();e.returnValue=''}});
