@@ -979,7 +979,7 @@ const AUTH_LINK=(()=>{try{const h=new URLSearchParams((location.hash||'').replac
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.6.0';
+const APP_VERSION='6.7.0';
 const SCHEMA_VERSION=6;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
@@ -3101,7 +3101,7 @@ ${cloud?`<div>Last saved</div><div>${Store.lastSync?Store.lastSync.toLocaleStrin
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <button class="btn btn-outline btn-sm" onclick="exportBackup()">⬇ Download full backup (.json)</button>
-${admin?`<button class="btn btn-ghost btn-sm" onclick="restoreBackup()">⬆ Restore from backup…</button><button class="btn btn-ghost btn-sm" onclick="openImport()">⬆ Import residents from Excel…</button>`:''}
+${admin?`<button class="btn btn-ghost btn-sm" onclick="restoreBackup()">⬆ Restore from backup…</button><button class="btn btn-ghost btn-sm" onclick="openImport()">⬆ Import from Excel (customers, prices, residents)…</button><button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="openEraseData()">🗑 Erase data — start fresh…</button>`:''}
 ${!cloud?`<button class="btn btn-ghost btn-sm" onclick="openConnectCloud()">☁ Connect to cloud database</button>`:''}
 ${cloud&&Store.cfg.source==='browser'?`<button class="btn btn-ghost btn-sm" onclick="disconnectCloud()">Disconnect this browser</button>`:''}
 ${lc&&admin?`<button class="btn btn-ghost btn-sm" onclick="uploadLocalToCloud()">⬆ Upload this browser's old local data</button>`:''}
@@ -6389,7 +6389,8 @@ function impLoadLib(){
 function openImport(){
   if(!adminOnly('Importing residents'))return;Imp.s=null;
   showModal('Import residents from Excel',`
-<p style="margin-top:0;font-size:13.5px">Choose your occupancy file (Excel .xlsx or .csv). If it has a sheet called <b>Consolidated</b>, that sheet is used. Nothing is saved until you review it and click <b>Import</b>.</p>
+<p style="margin-top:0;font-size:13.5px">Choose your Excel file (.xlsx or .csv). It can hold residents (a sheet like <b>Consolidated</b> or <b>Residents</b>) and also sheets called <b>Customers</b> and <b>Rates</b>, which are imported first. Nothing is saved until you review it and click <b>Import</b>.</p>
+<p style="font-size:12.5px;margin:-4px 0 10px"><button class="link" onclick="downloadImportTemplate()">${ico('download')} Download Excel template</button> (sheets Customers, Rates and Residents with the right columns)</p>
 <label class="imp-drop"><input type="file" id="imp-file" accept=".xlsx,.xls,.csv" onchange="impFile(this.files[0])">${ico('upload')}<b>Choose file</b><span>or drop it here</span></label>
 <div id="imp-msg"></div>
 <details style="margin-top:12px"><summary class="link" style="font-size:12.5px">Which columns does the file need?</summary>
@@ -6410,9 +6411,9 @@ async function impFile(f){
     await impLoadLib();
     const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{type:'array',cellDates:false,raw:false});
     const sheets=wb.SheetNames.map(n=>({name:n,rows:XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null,blankrows:false})}));
-    const pick=sheets.find(s=>/consolidated/i.test(s.name)&&impHeader(s.rows))||sheets.find(s=>impHeader(s.rows));
-    if(!pick){msg.innerHTML='<div class="alert alert-warn">No sheet in this file has the columns needed (at least a name and a check-in date). See "Which columns does the file need?" below.</div>';return}
-    Imp.s={file:f.name,sheets,sheet:pick.name};impParse();impReview();
+    const pick=sheets.find(s=>/consolidated|resident/i.test(s.name)&&impHeader(s.rows))||sheets.find(s=>impHeader(s.rows));
+    if(!pick&&!impMasterDetect(sheets).any){msg.innerHTML='<div class="alert alert-warn">No sheet in this file has the columns needed (at least a name and a check-in date, or a Customers / Rates sheet). See "Which columns does the file need?" below.</div>';return}
+    Imp.s={file:f.name,sheets,sheet:pick?pick.name:null};impParse();impReview();
   }catch(e){if(msg)msg.innerHTML=`<div class="alert alert-warn">${esc(e.message||String(e))}</div>`}
 }
 // header row and columns
@@ -6444,7 +6445,9 @@ const impNorm=s=>cleanText(String(s==null?'':s).replace(/\s+/g,' ').trim());
 function impRoomNo(v){const s=impNorm(v).toUpperCase().replace(/\s*-\s*/g,'-');if(!s)return'';if(getRoom(s))return s;const m=s.match(/^([A-Z]{1,3})-?\s?(\d{2,4})$/);if(m){const t=m[1]+'-'+m[2];return t}return s}
 function impDocType(id){return/^[12]\d{9}$/.test(id)?'Iqama':/^[34]\d{9}$/.test(id)?'Border No':'Passport'}
 function impParse(){
-  const S=Imp.s;const sh=S.sheets.find(x=>x.name===S.sheet);const H=impHeader(sh.rows);S.H=H;S.rows=[];
+  const S=Imp.s;impMasterParse();
+  if(!S.sheet){S.rows=[];S.cmap={};S.newRooms={};S.zeroRooms={};S.tp={on:false,codes:[],provider:'',location:'',code:'TP',cat:'2x1'};S.fixYears=true;S.others='keep';S.othersDate=today();S.moves=true;S.backup=true;return}
+  const sh=S.sheets.find(x=>x.name===S.sheet);const H=impHeader(sh.rows);S.H=H;S.rows=[];
   const get=(r,i)=>i>=0?r[i]:null;
   for(let i=H.row+1;i<sh.rows.length;i++){
     const r=sh.rows[i]||[];const name=impNorm(get(r,H.name));if(!name||/^total/i.test(name))continue;
@@ -6454,7 +6457,7 @@ function impParse(){
   }
   // decisions with defaults
   const custs=[...new Set(S.rows.map(r=>r.cust||'(no customer)'))];
-  S.cmap={};custs.forEach(c=>{const m=impMatchCust(c);S.cmap[c]={to:m?m.short:'__new__',food:impFoodDefault(m?m.short:'')}});
+  S.cmap={};custs.forEach(c=>{const fm=impFileCust(c);const m=fm?null:impMatchCust(c);S.cmap[c]={to:fm?(db.companies.find(x=>(x.short||'').toUpperCase()===fm.short)||{short:fm.short}).short:m?m.short:'__new__',food:impFoodDefault(m?m.short:'')}});
   const pat=/^[A-Z]{1,3}-\d{2,4}$/;
   const unknown=[...new Set(S.rows.filter(r=>r.room&&!getRoom(r.room)&&pat.test(r.room)).map(r=>r.room))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
   S.newRooms={};unknown.forEach(no=>{const b=no.split('-')[0];const sib=db.rooms.filter(x=>x.block===b&&x.beds>0);const cat=impMode(sib.map(x=>x.cat))||'6x1';
@@ -6516,12 +6519,12 @@ function impPlan(){
   P.rows=R;P.ok=ok;return P;
 }
 function impReview(){
-  const S=Imp.s;const P=impPlan();S.P=P;const t=today();
+  const S=Imp.s;if(!S.sheet)return impReviewMasterOnly();const P=impPlan();S.P=P;const t=today();
   const cats=[...new Set(['1x1','2x1','3x1','4x1','5x1','6x1',...db.rooms.map(r=>r.cat).filter(c=>/^\d+x\d+$/i.test(c||''))])];
   const catSel=(id,v,on)=>`<select onchange="${on}">${cats.map(c=>`<option ${c===v?'selected':''}>${c}</option>`).join('')}</select>`;
   const foodSel=(c,v)=>`<select onchange="Imp.s.cmap['${jsa(c)}'].food=this.value;impReview()"><option value="">Room only (no food)</option>${(db.settings.foodTypes||[]).map(f=>`<option value="${esc(f.code)}" ${v===f.code?'selected':''}>Room + food (${esc(f.code)})</option>`).join('')}</select>`;
   const custRows=Object.entries(S.cmap).map(([c,m])=>{const n=S.rows.filter(r=>(r.cust||'(no customer)')===c).length,act=S.rows.filter(r=>(r.cust||'(no customer)')===c&&!r.co).length;
-    return`<tr><td class="fw-bold">${esc(c)}</td><td class="num">${act}<span class="text-muted"> / ${n}</span></td><td><select onchange="Imp.s.cmap['${jsa(c)}'].to=this.value;impReview()"><option value="__new__" ${m.to==='__new__'?'selected':''}>+ New customer "${esc(c)}"</option>${db.companies.filter(x=>x.status!=='closed').map(x=>`<option value="${esc(x.short)}" ${m.to===x.short?'selected':''}>${esc(x.short)}</option>`).join('')}</select></td><td>${foodSel(c,m.food)}</td></tr>`}).join('');
+    return`<tr><td class="fw-bold">${esc(c)}</td><td class="num">${act}<span class="text-muted"> / ${n}</span></td><td><select onchange="Imp.s.cmap['${jsa(c)}'].to=this.value;impReview()"><option value="__new__" ${m.to==='__new__'?'selected':''}>+ New customer "${esc(c)}"</option>${impFileCustOptions(m.to)}${db.companies.filter(x=>x.status!=='closed').map(x=>`<option value="${esc(x.short)}" ${m.to===x.short?'selected':''}>${esc(x.short)}</option>`).join('')}</select></td><td>${foodSel(c,m.food)}</td></tr>`}).join('');
   const nr=Object.entries(S.newRooms),zr=Object.entries(S.zeroRooms);
   const tpBy={};P.tp.forEach(r=>{tpBy[r.short]=(tpBy[r.short]||0)+1});
   const tpBeds=parseInt(S.tp.cat)||2;const tpActive=P.tp.filter(r=>!r.co||r.co>t).length;
@@ -6539,6 +6542,7 @@ function impReview(){
 <div class="${P.skip.length?'bad':''}"><b>${P.skip.length}</b><span>left out</span></div>
 <div><b>${P.ok.filter(r=>!r.co||r.co>t).length}</b><span>staying today</span></div>
 </div>
+${impMasterSection()}
 ${sec('1. Customers',`<p class="imp-note">Each name in the file is matched to a customer in the software. Change it if the match is wrong. New customers are created with just the name; add their prices on the customer page before billing.</p>
 <div class="scroll-x"><table class="imp-table"><thead><tr><th>Name in file</th><th class="num">Staying / rows</th><th>Customer in the software</th><th>Billing</th></tr></thead><tbody>${custRows}</tbody></table></div>`)}
 ${P.tp.length||S.tp.codes.length?sec('2. Third-party accommodation',`<label class="chk-line"><input type="checkbox" ${S.tp.on?'checked':''} onchange="Imp.s.tp.on=this.checked;impReview()"> Place the <b>${P.tp.length||S.rows.filter(r=>!r.room||S.tp.codes.includes(r.room)).length}</b> people without a camp room in a sub-leased (third-party) building</label>
@@ -6566,8 +6570,8 @@ ${sec('5. Residents already in the software',P.others.length?`<p class="imp-note
 <label><input type="radio" name="imp-oth" ${S.others==='remove'?'checked':''} onchange="Imp.s.others='remove';impReview()"> Remove all ${P.others.length} — they are test or old data; this file is the full list</label></div>`:'<p class="imp-note">None — every resident in the software is in this file.</p>')}
 <label class="chk-line" style="margin-top:12px"><input type="checkbox" ${S.backup?'checked':''} onchange="Imp.s.backup=this.checked"> Download a backup of the current data first (recommended)</label>`;
   const f=document.getElementById('active-modal').querySelector('.modal-footer');
-  const n=P.add.length+P.upd.length;
-  f.innerHTML=`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="imp-go" onclick="impApply()" ${n||S.others!=='keep'?'':'disabled'}>Import ${n} resident${n===1?'':'s'}</button>`;
+  const n=P.add.length+P.upd.length,mc=impMasterCount();
+  f.innerHTML=`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="imp-go" onclick="impApply()" ${n||mc||S.others!=='keep'?'':'disabled'}>Import ${n} resident${n===1?'':'s'}${mc?' + customers & prices':''}</button>`;
 }
 function jsq(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 async function impApply(){
@@ -6579,11 +6583,12 @@ async function impApply(){
   }
   const newCust=Object.entries(S.cmap).filter(([c,m])=>m.to==='__new__'&&S.rows.some(r=>(r.cust||'(no customer)')===c)).map(([c])=>c).filter(Boolean);
   const nRooms=Object.values(S.newRooms).filter(v=>v.make).length;
-  const parts=[`${P.add.length} new residents`,P.upd.length?`${P.upd.length} updated`:'',newCust.length?`${newCust.length} new customer${newCust.length>1?'s':''}`:'',nRooms?`${nRooms} new rooms`:'',P.tp.length&&S.tp.on?`${P.tp.length} placed in ${S.tp.code} (${S.tp.provider})`:'',
+  const parts=[...impMasterParts(),`${P.add.length} new residents`,P.upd.length?`${P.upd.length} updated`:'',newCust.length?`${newCust.length} new customer${newCust.length>1?'s':''}`:'',nRooms?`${nRooms} new rooms`:'',P.tp.length&&S.tp.on?`${P.tp.length} placed in ${S.tp.code} (${S.tp.provider})`:'',
     S.others==='remove'?`${P.others.length} old records removed`:S.others==='checkout'?`${P.othersActive.length} checked out on ${fmtDate(S.othersDate)}`:''].filter(Boolean);
   if(!await uiConfirm(parts.join('\n'),{title:'Import now?',ok:'Import'}))return;
   if(S.backup){try{exportBackup()}catch(e){}}
   const btn=document.getElementById('imp-go');if(btn){btn.disabled=true;btn.textContent='Importing…'}
+  const mres=impMasterApply();
   // customers
   newCust.forEach(c=>{db.companies.push(custNormalize({id:uid(),name:c,short:c,status:'active',vatNo:'',address:'',contact:'',phone:'',email:'',createdAt:nowISO(),createdBy:currentUser.name,log:[{at:nowISO(),by:currentUser.name,what:'Created by bulk import from '+S.file}]}))});
   // camp rooms
@@ -6622,7 +6627,7 @@ async function impApply(){
   saveDB();
   auditEvent('restore',`Bulk import of residents from ${S.file} (sheet ${S.sheet}): ${added} added, ${updated} updated${other?`, ${other} ${S.others==='remove'?'old records removed':'checked out'}`:''}`);
   closeModal();Imp.s=null;
-  uiAlert(`${added} residents added, ${updated} updated${newCust.length?`, ${newCust.length} new customers (add their prices before billing)`:''}${other?`, ${other} ${S.others==='remove'?'old records removed':'checked out'}`:''}.${P.skip.length?`\n\n${P.skip.length} rows were left out — see the list you reviewed.`:''}`,{title:'Import finished'});
+  uiAlert(`${mres.c||mres.u?`${mres.c} customers added, ${mres.u} updated, ${mres.r} prices saved.\n`:mres.r?`${mres.r} prices saved.\n`:''}${added} residents added, ${updated} updated${newCust.length?`, ${newCust.length} new customers (add their prices before billing)`:''}${other?`, ${other} ${S.others==='remove'?'old records removed':'checked out'}`:''}.${P.skip.length?`\n\n${P.skip.length} rows were left out — see the list you reviewed.`:''}`,{title:'Import finished'});
   nav('residents');
 }
 // buttons: Residents screen (administrators) and Settings → Data
@@ -6658,6 +6663,161 @@ if(typeof UserStore!=='undefined'&&UserStore.list){const _a13ul=UserStore.list.b
 // click-jacking: when connected to the cloud, do not run inside a frame of another site
 (function(){try{if(window.top!==window.self&&getCloudCfg()){let same=false;try{same=window.top.location.origin===location.origin}catch(e){}
   if(!same){document.documentElement.innerHTML='<body style="font-family:sans-serif;padding:40px"><h2>Trendos cannot be shown inside another website.</h2><p><a href="'+location.href.replace(/"/g,'')+'" target="_top">Open Trendos</a></p></body>';throw new Error('framed')}}}catch(e){if(e.message==='framed')throw e}})();
+
+// ═════════════════════════════════════════════════════════════
+//  START FRESH + CUSTOMERS & PRICES FROM EXCEL (v6.7, administrators only)
+//  • "Erase data" empties the system (keeps rooms, settings, users and the audit log by default).
+//  • The Excel import also reads sheets "Customers" and "Rates" (prices) in the same workbook,
+//    so customers, prices and residents can be loaded in one go.
+//  • "Download Excel template" gives an empty workbook with the three sheets.
+// ═════════════════════════════════════════════════════════════
+const IMP_CUST_COLS=[['short','Short code'],['name','Customer name'],['type','Type'],['vatNo','VAT number'],['crNo','CR number'],['city','City'],['address','Address'],['contact','Contact person'],['phone','Phone'],['email','Email'],['terms','Payment terms (days)'],['status','Status']];
+const IMP_RATE_COLS=[['short','Short code'],['cat','Room type'],['svc','Service'],['price','Price per bed per day (SAR excl. VAT)'],['from','From date'],['to','To date']];
+function impHdrRow(rows,need){for(let i=0;i<Math.min(15,rows.length);i++){const h=(rows[i]||[]).map(c=>String(c==null?'':c).toLowerCase().replace(/\s+/g,' ').trim());if(need.every(re=>h.some(x=>re.test(x))))return{row:i,h}}return null}
+function impMasterDetect(sheets){
+  const cs=sheets.find(s=>impHdrRow(s.rows,[/short/,/customer name|^name$/])&&!impHdrRow(s.rows,[/room type/]));
+  const rs=sheets.find(s=>impHdrRow(s.rows,[/short/,/room type/,/price/]));
+  return{cust:cs?cs.name:null,rate:rs?rs.name:null,any:!!(cs||rs)};
+}
+function impMasterParse(){
+  const S=Imp.s;const D=impMasterDetect(S.sheets);S.M={custSheet:D.cust,rateSheet:D.rate,cust:[],rates:[],issues:[]};
+  const col=(h,re)=>h.findIndex(x=>re.test(x));
+  if(D.cust){const sh=S.sheets.find(x=>x.name===D.cust);const H=impHdrRow(sh.rows,[/short/,/customer name|^name$/]);const h=H.h;
+    const ix={short:col(h,/short/),name:col(h,/customer name|^name$/),type:col(h,/^type/),vatNo:col(h,/vat/),crNo:col(h,/\bcr\b|commercial/),city:col(h,/city/),address:col(h,/address/),contact:col(h,/contact/),phone:col(h,/phone|mobile/),email:col(h,/e-?mail/),terms:col(h,/terms|days/),status:col(h,/status/)};
+    for(let i=H.row+1;i<sh.rows.length;i++){const r=sh.rows[i]||[];const g=k=>ix[k]>=0?impNorm(r[ix[k]]):'';const short=g('short').toUpperCase();if(!short)continue;
+      if(/^e\.?g\.?\b|^example/i.test(short))continue;
+      const o={line:i+1,short,name:g('name')||short,type:g('type'),vatNo:g('vatNo').replace(/\s/g,''),crNo:g('crNo').replace(/\s/g,''),city:g('city'),address:g('address'),contact:g('contact'),phone:g('phone'),email:g('email'),terms:g('terms'),status:(g('status')||'active').toLowerCase()};
+      if(S.M.cust.some(x=>x.short===short)){S.M.issues.push(`Customers line ${i+1}: short code ${short} appears twice — the first one is used`);continue}
+      S.M.cust.push(o)}}
+  if(D.rate){const sh=S.sheets.find(x=>x.name===D.rate);const H=impHdrRow(sh.rows,[/short/,/room type/,/price/]);const h=H.h;
+    const ix={short:col(h,/short/),cat:col(h,/room type/),svc:col(h,/service/),price:col(h,/price/),from:col(h,/from/),to:col(h,/^to\b|to date|until/)};
+    for(let i=H.row+1;i<sh.rows.length;i++){const r=sh.rows[i]||[];const short=ix.short>=0?impNorm(r[ix.short]).toUpperCase():'';if(!short||/^e\.?g\.?\b|^example/i.test(short))continue;
+      const cat=impNorm(r[ix.cat]).toLowerCase().replace(/\s/g,'').replace('×','x');const svcRaw=ix.svc>=0?impNorm(r[ix.svc]):'';
+      const svc=/food|meal|\+/i.test(svcRaw)?'Accommodation+Food':'Accommodation';const price=Number(String(r[ix.price]??'').replace(/[^0-9.]/g,''));
+      const from=ix.from>=0?impDate(r[ix.from]):'';const to=ix.to>=0?impDate(r[ix.to]):'';
+      const o={line:i+1,short,cat,svc,price,from:from&&from!=='?'?from:'',to:to&&to!=='?'?to:''};
+      if(!/^\d+x\d+$/.test(cat)){S.M.issues.push(`Rates line ${i+1} (${short}): room type "${impNorm(r[ix.cat])}" should look like 2x1`);continue}
+      if(!(price>0)){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): no price`);continue}
+      if(!o.from){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): no "From date"`);continue}
+      if(from==='?'||to==='?'){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): date not readable`);continue}
+      if(!S.M.cust.some(c=>c.short===short)&&!db.companies.some(c=>(c.short||'').toUpperCase()===short)){S.M.issues.push(`Rates line ${i+1}: customer ${short} is not in the Customers sheet or the software`);continue}
+      const dup=S.M.rates.find(x=>x.short===short&&x.cat===cat&&x.svc===svc&&x.from===o.from);
+      if(dup){S.M.issues.push(`Rates line ${i+1}: ${short} ${cat} from ${fmtDate(o.from)} is also on line ${dup.line} — line ${dup.line} is used`);continue}
+      S.M.rates.push(o)}}
+  S.M.plan=impMasterPlan();
+}
+function impFileCust(v){const S=Imp.s;if(!S||!S.M)return null;const u=String(v||'').toUpperCase();return S.M.cust.find(c=>c.short===u||c.name.toUpperCase()===u)||null}
+function impFileCustOptions(sel){const S=Imp.s;if(!S||!S.M)return'';return S.M.cust.filter(c=>!db.companies.some(x=>(x.short||'').toUpperCase()===c.short)).map(c=>`<option value="${esc(c.short)}" ${sel===c.short?'selected':''}>${esc(c.short)} (new, from Customers sheet)</option>`).join('')}
+function impMasterPlan(){
+  const S=Imp.s,M=S.M;const P={newC:[],updC:[],sameC:0,newR:0,sameR:0,chgR:0};
+  M.cust.forEach(c=>{const ex=db.companies.find(x=>(x.short||'').toUpperCase()===c.short);
+    if(!ex)return P.newC.push(c);const e=cust(ex);
+    const diff=(c.name&&c.name!==e.name)||(c.vatNo&&c.vatNo!==(e.vatNo||''))||(c.crNo&&c.crNo!==(e.crNo||''))||(c.type&&c.type!==(e.type||''))||(c.city&&c.city!==(e.addr.city||''))||(c.address&&c.address!==(e.addr.street||e.address||''))||(c.email&&c.email!==(e.email||''))||(c.terms&&Number(c.terms)!==Number(e.billing.terms))||(c.contact&&!e.contacts.some(k=>k.name===c.contact))||(c.status&&c.status!==e.status);
+    if(diff)P.updC.push(c);else P.sameC++});
+  M.rates.forEach(r=>{const co=db.companies.find(x=>(x.short||'').toUpperCase()===r.short);
+    const ex=co&&db.rates.find(x=>!x.archivedTier&&x.customerId===co.id&&x.roomCategory===r.cat&&x.serviceType===r.svc&&x.effectiveFrom===r.from);
+    if(!ex)P.newR++;else if(Number(ex.priceExclVat)!==r.price||(r.to&&ex.effectiveTo!==r.to))P.chgR++;else P.sameR++});
+  return P;
+}
+function impMasterCount(){const S=Imp.s;if(!S||!S.M)return 0;const P=S.M.plan;return P.newC.length+P.updC.length+P.newR+P.chgR}
+function impMasterParts(){const S=Imp.s;if(!S||!S.M)return[];const P=S.M.plan;return[P.newC.length?`${P.newC.length} new customers`:'',P.updC.length?`${P.updC.length} customers updated`:'',P.newR?`${P.newR} prices added`:'',P.chgR?`${P.chgR} prices changed`:''].filter(Boolean)}
+function impMasterSection(){
+  const S=Imp.s;if(!S||!S.M||(!S.M.custSheet&&!S.M.rateSheet))return'';const M=S.M,P=M.plan;
+  const byCust={};M.rates.forEach(r=>{(byCust[r.short]=byCust[r.short]||[]).push(r)});
+  const custList=M.cust.map(c=>{const st=P.newC.includes(c)?'<span class="badge badge-green">new</span>':P.updC.includes(c)?'<span class="badge badge-teal">update</span>':'<span class="badge badge-gray">same</span>';
+    const pr=(byCust[c.short]||[]).sort((a,b)=>a.cat.localeCompare(b.cat,undefined,{numeric:true})).map(r=>`${r.cat}${r.svc==='Accommodation+Food'?'+food':''} ${r.price}`).join(' · ');
+    return`<tr><td class="fw-bold">${esc(c.short)}</td><td>${esc(c.name)}</td><td>${st}</td><td style="font-size:12px">${pr?esc(pr):'<span class="imp-bad">no prices</span>'}</td></tr>`}).join('');
+  const extra=Object.keys(byCust).filter(s=>!M.cust.some(c=>c.short===s)).map(s=>`<tr><td class="fw-bold">${esc(s)}</td><td class="text-muted">already in the software</td><td></td><td style="font-size:12px">${esc(byCust[s].map(r=>r.cat+' '+r.price).join(' · '))}</td></tr>`).join('');
+  return`<div class="imp-sec"><h4>Customers and prices in this file</h4>
+<div class="imp-sum" style="grid-template-columns:repeat(4,1fr)"><div class="ok"><b>${P.newC.length}</b><span>new customers</span></div><div><b>${P.updC.length}</b><span>customers updated</span></div><div class="ok"><b>${P.newR}</b><span>new prices</span></div><div><b>${P.chgR}</b><span>prices changed</span></div></div>
+<p class="imp-note">Prices are per bed per day, excluding VAT, from the "From date". A new price for the same room type closes the old one the day before. Sheets read: ${[M.custSheet,M.rateSheet].filter(Boolean).map(esc).join(', ')}.</p>
+<div class="scroll-x" style="max-height:260px;overflow:auto"><table class="imp-table"><thead><tr><th>Short code</th><th>Customer name</th><th></th><th>Prices (SAR / bed / day)</th></tr></thead><tbody>${custList}${extra}</tbody></table></div>
+${M.issues.length?`<div class="imp-warnbox"><b>${M.issues.length} line${M.issues.length>1?'s':''} left out</b>:<ul class="imp-list">${M.issues.slice(0,12).map(x=>`<li>${esc(x)}</li>`).join('')}${M.issues.length>12?`<li class="text-muted">… and ${M.issues.length-12} more</li>`:''}</ul></div>`:''}</div>`;
+}
+function impMasterApply(){
+  const S=Imp.s;if(!S||!S.M)return{c:0,u:0,r:0};const M=S.M;let c=0,u=0,r=0;const who=currentUser.name,at=nowISO();
+  M.cust.forEach(x=>{let ex=db.companies.find(k=>(k.short||'').toUpperCase()===x.short);
+    if(!ex){ex=custNormalize({id:uid(),short:x.short,name:x.name,status:'active',vatNo:'',crNo:'',address:'',contact:'',phone:'',email:'',createdAt:at,createdBy:who,log:[]});db.companies.push(ex);c++;ex.log.push({at,by:who,what:'Created from Excel import ('+S.file+')'})}
+    else{custNormalize(ex);if(M.plan.updC.includes(x)){u++;ex.log.push({at,by:who,what:'Updated from Excel import ('+S.file+')'})}else return}
+    if(x.name)ex.name=x.name;if(x.type)ex.type=CUST_TYPES.find(t=>t.toLowerCase().startsWith(x.type.toLowerCase().slice(0,5)))||x.type;
+    if(x.vatNo)ex.vatNo=x.vatNo;if(x.crNo)ex.crNo=x.crNo;if(x.city)ex.addr.city=x.city;if(x.address){ex.addr.street=x.address;ex.address=addrText?addrText(ex.addr):x.address}
+    if(x.email){ex.email=x.email;if(!ex.billing.invoiceEmails)ex.billing.invoiceEmails=x.email}if(x.phone)ex.phone=x.phone;
+    if(x.terms&&Number(x.terms)>=0)ex.billing.terms=Number(x.terms);
+    if(x.status)ex.status=/hold/.test(x.status)?'hold':/close|inact/.test(x.status)?'closed':'active';
+    if(x.contact||x.phone||x.email){const k=ex.contacts.find(q=>q.primary)||ex.contacts[0];if(k){if(x.contact)k.name=x.contact;if(x.phone)k.phone=x.phone;if(x.email)k.email=x.email}else ex.contacts.push({id:uid(),name:x.contact||'',role:'HR / Admin',phone:x.phone||'',email:x.email||'',primary:true,notifyCheckin:!!x.email,notifyBilling:!!x.email});ex.contact=x.contact||ex.contact}
+  });
+  const groups={};M.rates.forEach(x=>{const k=x.short+'|'+x.from;(groups[k]=groups[k]||[]).push(x)});
+  Object.values(groups).forEach(g=>{const co=db.companies.find(k=>(k.short||'').toUpperCase()===g[0].short);if(!co)return;
+    r+=applyRateCard(co.id,{from:g[0].from,rows:g.map(x=>({cat:x.cat,svc:x.svc,price:x.price}))},null,'Excel import');
+    g.filter(x=>x.to).forEach(x=>{const rt=db.rates.find(q=>!q.archivedTier&&q.customerId===co.id&&q.roomCategory===x.cat&&q.serviceType===x.svc&&q.effectiveFrom===x.from);if(rt)rt.effectiveTo=x.to});
+    custNormalize(co).log.push({at,by:who,what:`Prices from ${fmtDate(g[0].from)} imported from Excel: ${g.map(x=>x.cat+' '+x.price).join(', ')}`})});
+  return{c,u,r};
+}
+// a workbook with only Customers / Rates sheets
+function impReviewMasterOnly(){
+  const S=Imp.s;const m=document.getElementById('active-modal');m.querySelector('.modal-title').textContent='Import customers and prices — check before importing';
+  m.querySelector('.modal-body').innerHTML=`<div class="imp-file">${ico('file')} <b>${esc(S.file)}</b> · no residents sheet · <button class="link" onclick="openImport()">choose another file</button></div>${impMasterSection()}
+<label class="chk-line" style="margin-top:12px"><input type="checkbox" ${S.backup?'checked':''} onchange="Imp.s.backup=this.checked"> Download a backup of the current data first (recommended)</label>`;
+  const n=impMasterCount();m.querySelector('.modal-footer').innerHTML=`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="imp-go" onclick="impMasterOnlyApply()" ${n?'':'disabled'}>Import</button>`;
+}
+async function impMasterOnlyApply(){
+  const S=Imp.s;const parts=impMasterParts();if(!parts.length)return;
+  if(!await uiConfirm(parts.join('\n'),{title:'Import now?',ok:'Import'}))return;
+  if(S.backup){try{exportBackup()}catch(e){}}
+  const x=impMasterApply();saveDB();
+  auditEvent('restore',`Customers and prices imported from ${S.file}: ${x.c} new customers, ${x.u} updated, ${x.r} prices`);
+  closeModal();Imp.s=null;uiAlert(`${x.c} customers added, ${x.u} updated, ${x.r} prices saved.`,{title:'Import finished'});nav('companies');
+}
+// empty Excel template
+async function downloadImportTemplate(){
+  try{await impLoadLib()}catch(e){return uiAlert(e.message)}
+  const wb=XLSX.utils.book_new();const t=today();
+  const add=(name,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,name)};
+  add('Read me',[['Trendos import template'],[''],['1. Customers: one row per customer. "Short code" is how the customer appears everywhere (e.g. GSCA). Required: Short code, Customer name.'],
+    ['2. Rates: one row per customer and room type. Price per bed per day in SAR excluding VAT. Service = "Room only" or "Room + food". Required: Short code, Room type, Price, From date.'],
+    ['3. Residents: one row per stay. Customer = the short code. Room empty = third-party accommodation (you choose the building when importing). Check-out empty = still staying.'],
+    ['Dates as real Excel dates or DD/MM/YYYY. Delete the example rows. Then: Residents → Import from Excel → choose this file.']],[110]);
+  add('Customers',[IMP_CUST_COLS.map(c=>c[1]),['EXAMPLE','Example Contracting Co.','Contractor','300000000000003','2050000000','Jubail','King Faisal Road','Mr. Ahmed','0500000000','ap@example.com',30,'active']],[12,30,14,18,13,10,24,18,13,22,10,9]);
+  add('Rates',[IMP_RATE_COLS.map(c=>c[1]),['EXAMPLE','2x1','Room only',65,t,''],['EXAMPLE','6x1','Room only',30,t,'']],[12,10,14,22,12,12]);
+  add('Residents',[['Customer','Employee name','ID number','Room No.','Check-in date','Check-out date'],['EXAMPLE','MOHAMMED ALI','2412345678','A-101',t,'']],[14,30,14,10,13,13]);
+  XLSX.writeFile(wb,'trendos-import-template.xlsx');
+}
+// ─── start fresh: erase data ───
+function openEraseData(){
+  if(!adminOnly('Erasing data'))return;
+  const cnt=k=>(db[k]||[]).length;const subB=db.blocks.filter(b=>b.type==='sublease');const subR=db.rooms.filter(r=>subB.some(b=>b.code===r.block));
+  const opt=(id,on,label,n,note)=>`<label class="chk-line"><input type="checkbox" id="er-${id}" ${on?'checked':''}> <span><b>${label}</b> <span class="text-muted">(${n})</span>${note?`<br><span class="text-muted" style="font-size:12px">${note}</span>`:''}</span></label>`;
+  showModal('Erase data — start fresh',`<p style="margin-top:0;font-size:13.5px">Removes the data you tick, for everyone. A full backup downloads first, so it can be restored. Use it before loading your real customers, prices and residents from Excel.</p>
+${opt('res',true,'Residents and their history',cnt('residents')+' residents','also movements, check-out handovers and messages')}
+${opt('bill',true,'Billing',cnt('invoices')+' invoices, '+cnt('closings')+' closings','invoices, month-end periods and closings, catering extras')}
+${opt('cust',true,'Customers and prices',cnt('companies')+' customers, '+cnt('rates')+' prices','')}
+${opt('sub',true,'Sub-lease',cnt('subleaseProviders')+' providers, '+cnt('subleaseContracts')+' contracts, '+subB.length+' third-party blocks, '+subR.length+' rooms','the third-party buildings are created again when you import residents')}
+${opt('mnt',true,'Maintenance',cnt('maintenance')+' tickets, '+cnt('inspections')+' inspections','')}
+${opt('ast',true,'Asset register',cnt('assets')+' items','')}
+${opt('rooms',false,'Camp rooms and blocks',db.rooms.filter(r=>!subR.includes(r)).length+' rooms','leave this unticked to keep the camp layout')}
+<p class="imp-note" style="margin-top:10px">Always kept: settings (company details, VAT, bank), users and roles, the audit log.</p>
+<div class="form-group" style="margin-top:10px"><label class="form-label req">Type ERASE to confirm</label><input id="er-word" placeholder="ERASE" autocomplete="off"></div>`,
+  [{label:'Erase',primary:true,danger:true,action:eraseData},{label:'Cancel',action:closeModal}]);
+}
+function eraseData(){
+  const g=id=>document.getElementById('er-'+id).checked;
+  if(document.getElementById('er-word').value.trim().toUpperCase()!=='ERASE')return uiAlert('Type ERASE in the box to confirm. Nothing was erased.');
+  const o={res:g('res'),bill:g('bill'),cust:g('cust'),sub:g('sub'),mnt:g('mnt'),ast:g('ast'),rooms:g('rooms')};
+  if(!Object.values(o).some(Boolean))return uiAlert('Nothing is ticked.');
+  try{exportBackup()}catch(e){}
+  const done=[];
+  if(o.res){done.push(db.residents.length+' residents');db.residents=[];db.movements=[];db.messages=[]}
+  if(o.bill){done.push(db.invoices.length+' invoices');db.invoices=[];db.monthEndPeriods=[];db.closings=[];db.cateringExtras=[]}
+  if(o.cust){done.push(db.companies.length+' customers',db.rates.length+' prices');db.companies=[];db.rates=[]}
+  if(o.sub){const sb=db.blocks.filter(b=>b.type==='sublease').map(b=>b.code);done.push('sub-lease');db.subleaseProviders=[];db.subleaseContracts=[];db.rooms=db.rooms.filter(r=>!sb.includes(r.block));db.blocks=db.blocks.filter(b=>b.type!=='sublease')}
+  if(o.mnt){done.push(db.maintenance.length+' tickets');db.maintenance=[];db.inspections=[]}
+  if(o.ast){done.push(db.assets.length+' assets');db.assets=[]}
+  if(o.rooms){done.push(db.rooms.length+' rooms');db.rooms=[];db.blocks=[]}
+  db.seeded=true;saveDB();
+  auditEvent('reset','Data erased to start fresh: '+done.join(', '));
+  closeModal();uiAlert('Erased: '+done.join(', ')+'.\n\nNext: Residents → Import from Excel, and choose the workbook with your Customers, Rates and Residents sheets.',{title:'Data erased'});nav('dashboard');
+}
+Object.assign(AR,{'Erase data — start fresh':'مسح البيانات — بداية جديدة','Customers and prices in this file':'العملاء والأسعار في هذا الملف','new customers':'عملاء جدد','customers updated':'عملاء محدّثون','new prices':'أسعار جديدة','prices changed':'أسعار معدّلة','Download Excel template':'تنزيل قالب Excel'});
 
 Lang.apply();if(Lang.cur==='ar')trTree(document.body);(()=>{const b=document.getElementById('auth-lang');if(b)b.textContent=Lang.cur==='ar'?'English':'العربية'})();
 const _v6nav=nav;nav=function(p){if(p==='rates')p='companies';document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
