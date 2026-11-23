@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.anthropic.com; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#132843">
 <meta name="mobile-web-app-capable" content="yes">
@@ -819,10 +821,27 @@ body.ai-open #ai-panel{transform:none}
  .audit-table td{border:0;padding:0}.audit-table td:nth-child(1){order:2;text-align:end}.audit-table td:nth-child(2){order:1;font-weight:600}.audit-table td:nth-child(3){order:3}.audit-table td:nth-child(4){order:4;text-align:end}.audit-table td:nth-child(5){order:5;grid-column:1/-1}}
 .kv-grid{display:grid;grid-template-columns:120px 1fr;gap:6px 12px;font-size:13px}.kv-grid>div:nth-child(odd){color:var(--gray500)}
 
+/* v6.5 bulk import */
+.imp-drop{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px dashed var(--gray300);border-radius:12px;padding:26px 16px;cursor:pointer;background:var(--gray50);text-align:center;color:var(--gray600)}
+.imp-drop:hover,.imp-drop.over{border-color:var(--teal);background:#eef8f7}.imp-drop input{display:none}.imp-drop svg{width:28px;height:28px}.imp-drop b{color:var(--ink);font-size:14px}.imp-drop span{font-size:12px}
+.imp-mini{font-size:12.5px;margin-top:6px}.imp-mini td{padding:4px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.imp-file{font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}.imp-file select{width:auto;display:inline-block;padding:3px 8px;font-size:13px}
+.imp-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.imp-sum>div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--white,#fff)}.imp-sum b{display:block;font-size:20px;line-height:1.2}.imp-sum span{font-size:11.5px;color:var(--gray500)}
+.imp-sum .ok b{color:var(--green)}.imp-sum .bad b{color:var(--red)}
+.imp-sec{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}.imp-sec h4{margin:0 0 6px;font-size:14px}
+.imp-note{font-size:12.5px;color:var(--gray600);margin:4px 0 8px}.imp-bad{color:var(--red);font-weight:600}
+.imp-table{font-size:12.5px}.imp-table select{padding:4px 6px;font-size:12.5px;min-width:140px}.imp-table td,.imp-table th{padding:6px 8px}
+.imp-tp{display:grid;grid-template-columns:1.4fr 1fr .8fr .8fr;gap:10px;margin:8px 0}.imp-tp .form-group{margin:0}
+.imp-list{margin:4px 0 8px 18px;padding:0;font-size:12.5px}.imp-list li{margin:2px 0}
+.imp-warnbox{background:#fff7e8;border:1px solid #f3d9a4;border-radius:8px;padding:8px 12px;margin:8px 0;font-size:12.5px}
+.imp-radio{display:flex;flex-direction:column;gap:6px;font-size:13px}.imp-radio label{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.imp-radio input[type=radio]{width:auto}
+@media (max-width:700px){.imp-sum{grid-template-columns:repeat(3,1fr)}.imp-tp{grid-template-columns:1fr 1fr}}
+
 .auth-panel{position:relative}.auth-lang{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'Readex Pro',var(--font)}
 </style>
 <!-- Cloud database client (Supabase). Ignored in local demo mode. -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
 <!-- Your connection settings live in config.js next to this file, so updating the app never touches them. -->
 <script src="config.js"></script>
 </head>
@@ -960,7 +979,7 @@ const AUTH_LINK=(()=>{try{const h=new URLSearchParams((location.hash||'').replac
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.4.0';
+const APP_VERSION='6.6.0';
 const SCHEMA_VERSION=6;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
@@ -1117,14 +1136,14 @@ const Store={
   },
 
   async loadAll(){
-    if(this.mode==='local'){try{db=JSON.parse(localStorage.getItem(DB)||'{}')||{}}catch(e){db={}}return}
+    if(this.mode==='local'){try{db=cleanData(JSON.parse(localStorage.getItem(DB)||'{}')||{})}catch(e){db={}}return}
     const all=[];const page=1000;let from=0;
     for(;;){
       const{data,error}=await this.sb.from(TABLE).select('collection,id,data').eq('deleted',false).order('collection').order('id').range(from,from+page-1);
       if(error)throw error;
       all.push(...data);if(data.length<page)break;from+=page;
     }
-    const rows=all.filter(r=>this.known(r.collection));
+    const rows=all.filter(r=>this.known(r.collection)).map(r=>{r.data=cleanData(r.data);return r});
     db=this.build(rows);
     this.synced=new Map(rows.map(r=>[r.collection+'|'+r.id,stable(r.data)]));
     this.lastSync=new Date();
@@ -1191,7 +1210,7 @@ const Store={
   async unsubscribe(){if(this.channel){try{await this.sb.removeChannel(this.channel)}catch(e){}this.channel=null}},
 
   applyRemote(p){
-    const r=p&&p.new;if(!r||!r.collection||!this.known(r.collection))return;
+    const r=p&&p.new;if(!r||!r.collection||!this.known(r.collection))return;if(r.data)r.data=cleanData(r.data);
     const k=r.collection+'|'+r.id;
     if(r.deleted){
       if(this.inflight.get(k)===null||!this.synced.has(k))return;
@@ -1212,7 +1231,7 @@ const Store={
   },
 };
 
-function loadDB(){if(Store.mode==='local'){try{db=JSON.parse(localStorage.getItem(DB)||'{}')||{}}catch(e){db={}}}}
+function loadDB(){if(Store.mode==='local'){try{db=cleanData(JSON.parse(localStorage.getItem(DB)||'{}')||{})}catch(e){db={}}}}
 function saveDB(){Store.schedule()}
 
 // ─── UI helpers for sync state ───
@@ -1251,7 +1270,7 @@ function downloadFile(content,filename,type){
   const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function uid(){try{const a=new Uint32Array(2);crypto.getRandomValues(a);return Date.now().toString(36)+a[0].toString(36).padStart(7,'0')+a[1].toString(36).slice(0,3)}catch(e){return Date.now().toString(36)+Math.random().toString(36).slice(2,12)}}
 function fmt(n,d=2){return Number(n||0).toLocaleString('en',{minimumFractionDigits:d,maximumFractionDigits:d})}
 function fmtDate(d){if(!d)return'';const x=(typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d))?new Date(d+'T00:00:00'):new Date(d);return isNaN(x)?'':x.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}
 // Dates are the camp's local calendar day (the device clock), never UTC — so a check-in at 01:30 in Jubail is today, not yesterday.
@@ -1887,10 +1906,10 @@ function _v5_renderRooms(el){
 <td>${bk.type==='sublease'?`<span class="badge badge-orange">Sub-lease</span> ${esc(prov)}`:'<span class="badge badge-navy">Own</span>'}</td>
 <td class="num">${rooms.length}</td><td class="num">${beds}</td><td class="num">${occ}</td>
 <td>${bk.billable===false?'<span class="badge badge-gray">No</span>':'<span class="badge badge-green">Yes</span>'}</td>
-<td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openBlockModal('${bk.id}')">Edit</button><button class="btn btn-xs btn-ghost" onclick="openRoomModal('${esc(bk.code)}')">+ Rooms</button></td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No blocks yet</td></tr>'}
+<td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openBlockModal('${jsa(bk.id)}')">Edit</button><button class="btn btn-xs btn-ghost" onclick="openRoomModal('${jsa(bk.code)}')">+ Rooms</button></td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No blocks yet</td></tr>'}
 </tbody></table></div></div>
 <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-${['ALL',...blocks.map(b=>b.code)].map(b=>`<button class="btn btn-sm ${filterBlock===b?'btn-secondary':'btn-ghost'}" onclick="setRoomBlock('${esc(b)}')">${b==='ALL'?'All Blocks':esc(b)}</button>`).join('')}
+${['ALL',...blocks.map(b=>b.code)].map(b=>`<button class="btn btn-sm ${filterBlock===b?'btn-secondary':'btn-ghost'}" onclick="setRoomBlock('${jsa(b)}')">${b==='ALL'?'All Blocks':esc(b)}</button>`).join('')}
 </div>
 <div class="room-grid" id="room-grid-container"></div>`;
   const container=el.querySelector('#room-grid-container');
@@ -1957,7 +1976,7 @@ function _v5_openRoomDetail(roomNo){
 <div class="card-title" style="margin-bottom:10px">Current Occupants (${occ.length})</div>
 ${occ.length?`<table><thead><tr><th>Name</th><th>Doc No</th><th>Company</th><th>Check In</th><th></th></tr></thead><tbody>
 ${occ.map(r=>`<tr><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.company)}</td><td>${fmtDate(r.checkIn)}</td>
-<td><button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${r.id}'])">Check Out</button></td></tr>`).join('')}
+<td><button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check Out</button></td></tr>`).join('')}
 </tbody></table>`:'<div class="empty-state"><div class="icon">🛏️</div><p>No current occupants</p></div>'}`,
   [{label:'Save',primary:true,action:()=>{
     room.cat=document.getElementById('ed-cat').value;
@@ -2036,24 +2055,24 @@ function renderResidents(el){
 <div class="card res-table"><div class="scroll-x"><table>
 <thead><tr><th class="edit-only" style="width:28px"><input type="checkbox" style="width:auto" title="Select all shown" onchange="resSelectAll(this.checked)"></th><th>Room</th><th>Name</th><th>Doc No</th><th>Phone</th><th>Nationality</th><th>Company</th><th>Block</th><th>Type</th><th>Check In</th><th>Check Out</th><th>Food</th><th></th></tr></thead>
 <tbody>${list.map(r=>{const room=getRoom(r.roomNo);const act=isAct(r);const sl=room&&isSubLeaseRoom(room);return`<tr>
-<td class="edit-only">${act?`<input type="checkbox" style="width:auto" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${r.id}',this.checked)">`:''}</td>
+<td class="edit-only">${act?`<input type="checkbox" style="width:auto" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${jsa(r.id)}',this.checked)">`:''}</td>
 <td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td class="mono">${esc(r.phone||'')}</td><td>${esc(r.nationality||'')}</td>
 <td><span class="badge badge-navy">${esc(r.company)}</span></td><td>${esc(room?room.block:r.block)}${sl?' <span class="badge badge-orange">SL</span>':''}</td>
 <td>${room?esc(room.cat):'-'}</td><td>${fmtDate(r.checkIn)}</td>
 <td>${r.checkOut?fmtDate(r.checkOut):'<span class="badge badge-green">Active</span>'}</td>
 <td>${esc(r.foodType||'')}</td>
 <td style="white-space:nowrap">
-<button class="btn btn-xs btn-ghost" onclick="editResident('${r.id}')">Edit</button>
-${act?`<button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${r.id}'])">Check Out</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="13" class="text-center text-muted">No residents found</td></tr>'}
+<button class="btn btn-xs btn-ghost" onclick="editResident('${jsa(r.id)}')">Edit</button>
+${act?`<button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check Out</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="13" class="text-center text-muted">No residents found</td></tr>'}
 </tbody></table></div></div>
 <div class="res-cards">${list.slice(0,el._shown||60).map(r=>{const room=getRoom(r.roomNo);const act=isAct(r);const sl=room&&isSubLeaseRoom(room);return`<div class="res-card">
 <div class="rc-room">${esc(r.roomNo)}</div>
 <div class="rc-name">${esc(r.name)}</div>
-<div>${act&&can('residents','edit')?`<input type="checkbox" class="edit-only" aria-label="Select ${esc(r.name)}" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${r.id}',this.checked)">`:act?'':'<span class="badge badge-gray">Out</span>'}</div>
+<div>${act&&can('residents','edit')?`<input type="checkbox" class="edit-only" aria-label="Select ${esc(r.name)}" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${jsa(r.id)}',this.checked)">`:act?'':'<span class="badge badge-gray">Out</span>'}</div>
 <div class="rc-meta"><span class="badge badge-navy">${esc(r.company)}</span> ${room?esc(room.cat):''}${sl?' <span class="badge badge-orange">Sub-lease</span>':''}<br>
 Iqama ${esc(r.docNo)}${r.phone?` · <a href="tel:${esc(r.phone.replace(/\s/g,''))}">${esc(r.phone)}</a>`:''}<br>
 In ${fmtDate(r.checkIn)}${r.checkOut?` · Out ${fmtDate(r.checkOut)}`:''}${r.nationality?` · ${esc(r.nationality)}`:''}</div>
-${can('residents','edit')?`<div class="rc-actions"><button class="btn btn-sm btn-outline" onclick="editResident('${r.id}')">Edit</button>${act?`<button class="btn btn-sm btn-outline" onclick="openBulkCheckout(['${r.id}'])">Check out</button>`:''}</div>`:''}
+${can('residents','edit')?`<div class="rc-actions"><button class="btn btn-sm btn-outline" onclick="editResident('${jsa(r.id)}')">Edit</button>${act?`<button class="btn btn-sm btn-outline" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check out</button>`:''}</div>`:''}
 </div>`}).join('')||'<div class="empty-state"><p>No residents match this search</p></div>'}
 ${list.length>(el._shown||60)?`<button class="btn btn-outline" style="justify-content:center" onclick="const e=document.getElementById('page-residents');e._shown=(e._shown||60)+60;renderResidents(e)">Show more (${list.length-(el._shown||60)} left)</button>`:''}</div>`;
   el._list=list.filter(isAct).map(r=>r.id);
@@ -2198,7 +2217,7 @@ function _v5_openMultiCheckin(){
 <button class="btn btn-sm btn-outline" style="margin-top:6px" onclick="mciPaste()">Fill the table</button></details>
 <datalist id="mc-rooms">${db.rooms.filter(r=>isBillableRoom(r)&&roomFree(r.no,today())>0).map(r=>`<option value="${esc(r.no)}">${esc(r.cat)} · Block ${esc(r.block)} · ${roomFree(r.no,today())} free</option>`).join('')}</datalist>
 <div class="scroll-x"><table class="mci"><thead><tr><th>#</th><th>Name *</th><th>Iqama / Doc *</th><th>Nationality</th><th>Phone</th><th>Room *</th><th>Food</th><th></th></tr></thead><tbody id="mc-body">${rowsHtml(5)}</tbody></table></div>
-<button class="btn btn-sm btn-ghost" style="margin-top:8px" onclick="document.getElementById('mc-body').insertAdjacentHTML('beforeend','${''}'+[1,2,3,4,5].map(()=>mciRow()).join(''));mciNumber()">+ 5 more rows</button>
+<button class="btn btn-sm btn-ghost" style="margin-top:8px" onclick="document.getElementById('mc-body').insertAdjacentHTML('beforeend','${jsa('')}'+[1,2,3,4,5].map(()=>mciRow()).join(''));mciNumber()">+ 5 more rows</button>
 <div id="mc-errors" style="margin-top:10px"></div>`,
   [{label:'Check in all',primary:true,action:mciSubmit},{label:'Cancel',action:closeModal}],'modal-xl');
   mciNumber();
@@ -2298,7 +2317,7 @@ ${tabs}
 <td>${fmtDate(m.date)}</td><td>${esc(m.company)}</td>
 <td><span class="badge ${m.activity==='Mob'?'badge-green':'badge-orange'}">${esc(m.activity)}</span></td>
 <td class="num">${m.count}</td><td>${esc(m.category||'')}</td><td>${esc(m.remarks||'')}</td>
-<td><button class="btn btn-xs btn-danger" onclick="delMovement('${m.id}')">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No movements logged</td></tr>'}
+<td><button class="btn btn-xs btn-danger" onclick="delMovement('${jsa(m.id)}')">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No movements logged</td></tr>'}
 </tbody></table></div></div>`;
     return;
   }
@@ -2436,8 +2455,8 @@ ${db.companies.map(c=>`<option value="${c.short}" ${filter.company===c.short?'se
 <td class="num fw-bold">SAR ${fmt(r.priceExclVat)}</td>
 <td>${fmtDate(r.effectiveFrom)}</td><td>${r.effectiveTo?fmtDate(r.effectiveTo):'—'}</td>
 <td class="mono" style="font-size:11px">${r.ref||''}</td>
-<td><button class="btn btn-xs btn-ghost" onclick="editRate('${r.id}')">Edit</button>
-<button class="btn btn-xs btn-danger" onclick="delRate('${r.id}')">×</button></td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No rates found</td></tr>'}
+<td><button class="btn btn-xs btn-ghost" onclick="editRate('${jsa(r.id)}')">Edit</button>
+<button class="btn btn-xs btn-danger" onclick="delRate('${jsa(r.id)}')">×</button></td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No rates found</td></tr>'}
 </tbody></table></div></div>`;
 }
 function setRateFilter(key,val){const el=document.getElementById('page-rates');if(!el._filter)el._filter={company:''};el._filter[key]=val;renderRates(el)}
@@ -2480,8 +2499,8 @@ function renderMandays(el){
 <div class="page-header">
   <div><div class="page-title">📅 Mandays Report</div><div class="page-sub">Occupancy-based daily snapshot billing</div></div>
   <div style="display:flex;gap:8px">
-    <button class="btn btn-sm btn-ghost" onclick="rptMandays('csv','${pd}')">⬇ Excel (CSV)</button>
-    <button class="btn btn-sm btn-outline" onclick="openDRR({yr:${yr},mo:${mo},company:'${el._co||''}'})">🗒️ Daily Rental Records</button>
+    <button class="btn btn-sm btn-ghost" onclick="rptMandays('csv','${jsa(pd)}')">⬇ Excel (CSV)</button>
+    <button class="btn btn-sm btn-outline" onclick="openDRR({yr:${yr},mo:${mo},company:'${jsa(el._co||'')}'})">🗒️ Daily Rental Records</button>
     ${can('monthend','view')?`<button class="btn btn-sm btn-outline" onclick="nav('monthend')">🗓 Monthly Closing →</button>`:''}
   </div>
 </div>
@@ -2616,10 +2635,10 @@ ${step(6,'Generate Invoice',locked?`${cnt('invoiced')}/${n} invoiced`:'Tax invoi
 <div class="card-body">
 ${issues.length?`<div style="max-height:240px;overflow:auto;margin-bottom:12px">${issues.map(i=>`<div class="alert ${i.level==='critical'?'alert-warn':'alert-info'}" style="margin-bottom:6px;padding:7px 10px;font-size:12.5px">${i.level==='critical'?'⛔':'⚠️'} ${esc(i.text)}</div>`).join('')}</div>`:'<div class="alert alert-info">✓ All residents, rooms, Iqama numbers, bed capacities and rate agreements check out for this month.</div>'}
 <table><thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays amount (excl. VAT)</th><th></th></tr></thead>
-<tbody>${Object.entries(byC).map(([cid,c])=>`<tr><td class="fw-bold">${esc(c.short)}</td><td class="num">${c.pd}</td><td class="num">SAR ${fmt(c.amt)}</td><td><button class="btn btn-xs btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${esc(c.short)}',block:'',cat:''})">Daily Rental Records</button></td></tr>`).join('')||'<tr><td colspan="4" class="text-center text-muted">No billable occupancy this month</td></tr>'}</tbody>
+<tbody>${Object.entries(byC).map(([cid,c])=>`<tr><td class="fw-bold">${esc(c.short)}</td><td class="num">${c.pd}</td><td class="num">SAR ${fmt(c.amt)}</td><td><button class="btn btn-xs btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${jsa(c.short)}',block:'',cat:''})">Daily Rental Records</button></td></tr>`).join('')||'<tr><td colspan="4" class="text-center text-muted">No billable occupancy this month</td></tr>'}</tbody>
 <tfoot><tr><td>TOTAL</td><td class="num">${rows.reduce((t,r)=>t+r.personDays,0)}</td><td class="num">SAR ${fmt(rows.reduce((t,r)=>t+r.amount,0))}</td><td></td></tr></tfoot></table>
 </div>
-<div class="modal-footer"><button class="btn btn-primary" onclick="meLockMandays('${pd}',${crit.length})">🔒 Lock mandays for ${B.label}</button></div></div>`;
+<div class="modal-footer"><button class="btn btn-primary" onclick="meLockMandays('${jsa(pd)}',${crit.length})">🔒 Lock mandays for ${B.label}</button></div></div>`;
   }else{
     const cur=computeMandays(B.start,B.end);const drift=[];
     cids.forEach(cid=>{const a=(P.mandaysRows||[]).filter(r=>r.customerId===cid).reduce((t,r)=>t+r.personDays,0);const b2=cur.filter(r=>r.customerId===cid).reduce((t,r)=>t+r.personDays,0);if(a!==b2)drift.push(`${getCompany(cid).short}: ${b2-a>0?'+':''}${b2-a} person-days`)});
@@ -2629,19 +2648,19 @@ ${issues.length?`<div style="max-height:240px;overflow:auto;margin-bottom:12px">
 <div class="card"><div class="card-body" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
 <div>🔒 <strong>Mandays locked</strong> on ${fmtDate(P.lockedAt)}${P.lockedBy?' by '+esc(P.lockedBy):''} · ${(P.mandaysRows||[]).reduce((t,r)=>t+r.personDays,0)} person-days · SAR ${fmt((P.mandaysRows||[]).reduce((t,r)=>t+r.amount,0))} excl. VAT
 ${drift.length?`<div class="alert alert-warn" style="margin:8px 0 0">Occupancy has changed since locking — ${esc(drift.join(' · '))}. ${anyInv?'Invoices exist for this month; void them before unlocking.':'Unlock to re-validate.'}</div>`:''}</div>
-${!anyInv?`<button class="btn btn-ghost btn-sm edit-only" onclick="meUnlock('${pd}')">Unlock & re-validate</button>`:''}
+${!anyInv?`<button class="btn btn-ghost btn-sm edit-only" onclick="meUnlock('${jsa(pd)}')">Unlock & re-validate</button>`:''}
 </div></div>
 <div class="card"><div class="card-header"><span class="card-title">Customers · steps 2 – 6</span>
 ${can('monthend','edit')?(()=>{const k=st=>cls.filter(c=>c.status===st).length;return`<span style="display:flex;gap:8px;flex-wrap:wrap" class="edit-only">
-${k('pending')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${pd}','verify')">Verify all (${k('pending')})</button>`:''}
-${k('verified')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${pd}','sent')">Mark all sent (${k('verified')})</button>`:''}
-${k('confirmed')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${pd}','invoice')">Generate invoices (${k('confirmed')})</button>`:''}</span>`})():''}</div><div class="scroll-x"><table>
+${k('pending')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','verify')">Verify all (${k('pending')})</button>`:''}
+${k('verified')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','sent')">Mark all sent (${k('verified')})</button>`:''}
+${k('confirmed')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','invoice')">Generate invoices (${k('confirmed')})</button>`:''}</span>`})():''}</div><div class="scroll-x"><table>
 <thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays</th><th class="text-right">Packages & extras</th><th class="text-right">Total excl. VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th><th>Status</th><th></th></tr></thead>
 <tbody>${cids.map(cid=>{const L=closingLines(pd,cid);const c=getClosing(pd,cid)||{status:'pending'};const co=getCompany(cid);return`<tr ${el._open===cid?'style="background:var(--pink-light)"':''}>
 <td class="fw-bold">${esc(co.short)}</td><td class="num">${L.personDays}</td><td class="num">${fmt(L.mandaysAmt)}</td><td class="num">${fmt(L.subtotal-L.mandaysAmt)}</td>
 <td class="num">${fmt(L.subtotal)}</td><td class="num">${fmt(L.vat)}</td><td class="num fw-bold">${fmt(L.total)}</td>
 <td><span class="badge ${CL_BADGE[c.status]}">${CL_LABEL[c.status]}</span></td>
-<td><button class="btn btn-xs btn-outline" onclick="meOpen('${cid}')">${el._open===cid?'Close':'Open'}</button></td></tr>`}).join('')}</tbody>
+<td><button class="btn btn-xs btn-outline" onclick="meOpen('${jsa(cid)}')">${el._open===cid?'Close':'Open'}</button></td></tr>`}).join('')}</tbody>
 <tfoot>${(()=>{const T=cids.map(cid=>closingLines(pd,cid));return`<tr><td>TOTAL</td><td class="num">${T.reduce((t,x)=>t+x.personDays,0)}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.mandaysAmt,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal-x.mandaysAmt,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.vat,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.total,0))}</td><td colspan="2"></td></tr>`})()}</tfoot>
 </table></div></div>
 ${el._open&&cids.includes(el._open)?closingPanel(pd,el._open):''}`;
@@ -2703,32 +2722,32 @@ function _v5_closingPanel(pd,cid){
   const inv0=db.invoices.find(i=>i.id===c.invoiceId);
   const sums={2:c.verifiedAt?`Verified ${fmtDate(c.verifiedAt)}${c.verifiedBy?' by '+esc(c.verifiedBy):''}`:'',3:(c.extras||[]).length?`${c.extras.length} item${c.extras.length>1?'s':''} · SAR ${fmt(L.subtotal-L.mandaysAmt)}`:'None added',
     4:c.sentAt?`Sent ${fmtDate(c.sentAt)} to ${esc(c.sentTo||'')}`:'',5:c.confirmedBy?`Confirmed by ${esc(c.confirmedBy)} on ${fmtDate(c.confirmedAt)}`:'',6:inv0?`Invoice ${esc(inv0.no)}`:''};
-  const sec=(num,title,state,body)=>{const collapsed=state!=='active'&&!openSet.has(num);return`<div class="cl-sec ${state}${collapsed?' collapsed':''}"><div class="cl-sec-h" role="button" tabindex="0" aria-expanded="${!collapsed}" onclick="clToggle('${cid}',${num})"><span class="cl-num">${state==='done'?'✓':num}</span>${title}<span class="cl-sum">${state==='locked'?'Waiting for the previous step':sums[num]||''}</span>${ico('chevdown')}</div><div class="cl-sec-b">${body}</div></div>`};
+  const sec=(num,title,state,body)=>{const collapsed=state!=='active'&&!openSet.has(num);return`<div class="cl-sec ${state}${collapsed?' collapsed':''}"><div class="cl-sec-h" role="button" tabindex="0" aria-expanded="${!collapsed}" onclick="clToggle('${jsa(cid)}',${num})"><span class="cl-num">${state==='done'?'✓':num}</span>${title}<span class="cl-sum">${state==='locked'?'Waiting for the previous step':sums[num]||''}</span>${ico('chevdown')}</div><div class="cl-sec-b">${body}</div></div>`};
   const st=i=>si>i?'done':si===i?'active':'locked';
   const mail=closingEmail(pd,cid);
   return`<div class="card" id="cl-panel"><div class="card-header"><span class="card-title">${esc(co.name)} — ${B.label}</span>
 <span class="cl-totals"><span>Before VAT <b>SAR ${fmt(L.subtotal)}</b></span><span>VAT <b>SAR ${fmt(L.vat)}</b></span><span>Total <b>SAR ${fmt(L.total)}</b></span></span>
-<span><span class="badge ${CL_BADGE[c.status]}">${CL_LABEL[c.status]}</span> ${ed&&(c.status==='sent'||c.status==='confirmed')?`<button class="btn btn-xs btn-ghost" onclick="clReopen('${pd}','${cid}')">Reopen for changes</button>`:''}</span></div>
+<span><span class="badge ${CL_BADGE[c.status]}">${CL_LABEL[c.status]}</span> ${ed&&(c.status==='sent'||c.status==='confirmed')?`<button class="btn btn-xs btn-ghost" onclick="clReopen('${jsa(pd)}','${jsa(cid)}')">Reopen for changes</button>`:''}</span></div>
 <div class="card-body">
 ${sec(2,'Verify the customer summary',st(0),`
 <table><thead><tr><th>Description</th><th class="text-right">Person-days</th><th class="text-right">Rate</th><th class="text-right">Amount</th></tr></thead>
 <tbody>${L.rows.map(r=>`<tr><td>${esc(accomDesc(r))}</td><td class="num">${r.personDays}</td><td class="num">${fmt(r.rate)}</td><td class="num">${fmt(r.amount)}</td></tr>`).join('')}</tbody>
 <tfoot><tr><td>Mandays total</td><td class="num">${L.personDays}</td><td></td><td class="num">${fmt(L.mandaysAmt)}</td></tr></tfoot></table>
 <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
-<button class="btn btn-sm btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${esc(co.short)}',block:'',cat:''})">🗒️ Check against Daily Rental Records</button>
-${ed&&si===0?`<button class="btn btn-sm btn-primary" onclick="clSetStatus('${pd}','${cid}','verified')">✓ Summary verified</button>`:''}
+<button class="btn btn-sm btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${jsa(co.short)}',block:'',cat:''})">🗒️ Check against Daily Rental Records</button>
+${ed&&si===0?`<button class="btn btn-sm btn-primary" onclick="clSetStatus('${jsa(pd)}','${jsa(cid)}','verified')">✓ Summary verified</button>`:''}
 ${c.verifiedAt?`<span class="text-muted" style="font-size:12px">Verified ${fmtDate(c.verifiedAt)} by ${esc(c.verifiedBy||'')}</span>`:''}</div>`)}
 ${sec(3,'Packages & other extra charges',si<=1?'active':'done',`
 <table><thead><tr><th>Type</th><th>Description</th><th class="text-right">Qty</th><th class="text-right">Rate</th><th>VAT</th><th class="text-right">Amount</th><th class="text-right">VAT ${db.settings.vatRate}%</th><th class="text-right">Net</th><th></th></tr></thead>
-<tbody>${(c.extras||[]).map((x,i)=>{const k=lineCalc(x,db.settings.vatRate);return`<tr><td><span class="badge ${x.type==='deduction'?'badge-red':x.type==='package'?'badge-teal':'badge-gold'}">${LINE_TYPES[x.type]}</span></td><td>${esc(x.desc)}</td><td class="num">${x.qty}</td><td class="num">${fmt(x.rate)}</td><td style="font-size:11.5px">${VAT_MODES[x.vatMode]}</td><td class="num">${fmt(k.amount)}</td><td class="num">${fmt(k.vat)}</td><td class="num">${fmt(k.net)}</td><td>${editable?`<button class="btn btn-xs btn-danger" onclick="clDelExtra('${pd}','${cid}',${i})">×</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No packages or extras</td></tr>'}</tbody></table>
+<tbody>${(c.extras||[]).map((x,i)=>{const k=lineCalc(x,db.settings.vatRate);return`<tr><td><span class="badge ${x.type==='deduction'?'badge-red':x.type==='package'?'badge-teal':'badge-gold'}">${LINE_TYPES[x.type]}</span></td><td>${esc(x.desc)}</td><td class="num">${x.qty}</td><td class="num">${fmt(x.rate)}</td><td style="font-size:11.5px">${VAT_MODES[x.vatMode]}</td><td class="num">${fmt(k.amount)}</td><td class="num">${fmt(k.vat)}</td><td class="num">${fmt(k.net)}</td><td>${editable?`<button class="btn btn-xs btn-danger" onclick="clDelExtra('${jsa(pd)}','${jsa(cid)}',${i})">×</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="9" class="text-center text-muted">No packages or extras</td></tr>'}</tbody></table>
 ${editable?`<div class="form-row" style="margin-top:10px;grid-template-columns:130px 2fr 80px 100px 150px auto;align-items:end">
 <div class="form-group"><label class="form-label">Type</label><select id="cx-type">${Object.entries(LINE_TYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">Description</label><input id="cx-desc" placeholder="e.g. Monthly food package / Laundry / Transport"></div>
 <div class="form-group"><label class="form-label">Qty</label><input type="number" id="cx-qty" value="1" step="any"></div>
 <div class="form-group"><label class="form-label">Rate (SAR)</label><input type="number" id="cx-rate" step="0.01"></div>
 <div class="form-group"><label class="form-label">VAT treatment</label><select id="cx-vat">${Object.entries(VAT_MODES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
-<div class="form-group"><button class="btn btn-primary btn-sm" onclick="clAddExtra('${pd}','${cid}')">+ Add</button></div></div>
-${cat.length?`<button class="btn btn-sm btn-ghost" onclick="clImportCatering('${pd}','${cid}')">⬇ Import ${cat.length} catering extra(s) for ${B.label}</button>`:''}`:(ed&&si>1?'<p class="auth-note">Locked because the summary was sent. Use "Reopen for changes" to edit.</p>':'')}
+<div class="form-group"><button class="btn btn-primary btn-sm" onclick="clAddExtra('${jsa(pd)}','${jsa(cid)}')">+ Add</button></div></div>
+${cat.length?`<button class="btn btn-sm btn-ghost" onclick="clImportCatering('${jsa(pd)}','${jsa(cid)}')">⬇ Import ${cat.length} catering extra(s) for ${B.label}</button>`:''}`:(ed&&si>1?'<p class="auth-note">Locked because the summary was sent. Use "Reopen for changes" to edit.</p>':'')}
 <div class="inv-totals" style="margin-top:12px"><div class="inv-total-row"><span>Total before VAT</span><span>SAR ${fmt(L.subtotal)}</span></div><div class="inv-total-row"><span>VAT</span><span>SAR ${fmt(L.vat)}</span></div><div class="inv-total-row grand"><span>TOTAL</span><span>SAR ${fmt(L.total)}</span></div></div>`)}
 ${sec(4,'Email the summary to the customer',st(1),`
 <div class="form-row"><div class="form-group"><label class="form-label">To</label><input id="cl-to" value="${esc(c.sentTo||co.email||'')}" placeholder="customer@company.com"></div>
@@ -2736,18 +2755,18 @@ ${sec(4,'Email the summary to the customer',st(1),`
 <div class="form-group"><label class="form-label">Message</label><textarea id="cl-body" rows="9" style="width:100%;font-size:12.5px">${esc(mail.body)}</textarea></div>
 <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
 <button class="btn btn-sm btn-outline" onclick="clOpenMail()">✉ Open in email app</button>
-<button class="btn btn-sm btn-outline" onclick="clPrintPack('${pd}','${cid}')">📄 Summary + Daily Rental Records (PDF to attach)</button>
-${ed&&si===1?`<button class="btn btn-sm btn-primary" onclick="clMarkSent('${pd}','${cid}')">Mark as sent</button>`:''}
+<button class="btn btn-sm btn-outline" onclick="clPrintPack('${jsa(pd)}','${jsa(cid)}')">📄 Summary + Daily Rental Records (PDF to attach)</button>
+${ed&&si===1?`<button class="btn btn-sm btn-primary" onclick="clMarkSent('${jsa(pd)}','${jsa(cid)}')">Mark as sent</button>`:''}
 ${c.sentAt?`<span class="text-muted" style="font-size:12px">Sent ${fmtDate(c.sentAt)} to ${esc(c.sentTo||'')} by ${esc(c.sentBy||'')}</span>`:''}</div>
 ${si<1?'<p class="auth-note">Verify the summary first.</p>':''}`)}
 ${sec(5,'Customer confirmation',st(2),si>=3?`<div>Confirmed by <strong>${esc(c.confirmedBy||'')}</strong> on ${fmtDate(c.confirmedAt)}${c.confirmRef?` · Ref: ${esc(c.confirmRef)}`:''}</div>`:`
 <div class="form-row"><div class="form-group"><label class="form-label">Confirmed by (customer contact)</label><input id="cl-cby" value="${esc(co.contact||'')}"></div>
 <div class="form-group"><label class="form-label">Confirmation date</label><input type="date" id="cl-cdate" value="${today()}"></div>
 <div class="form-group"><label class="form-label">Reference / remarks</label><input id="cl-cref" placeholder="e.g. Email reply 3 Sep, PO 2024/TCCL/5169"></div></div>
-${ed&&si===2?`<button class="btn btn-sm btn-primary" onclick="clConfirm('${pd}','${cid}')">✓ Mark customer confirmed</button>`:'<p class="auth-note">Mark the summary as sent first.</p>'}`)}
-${sec(6,'Generate the tax invoice',si>=4?'done':si===3?'active':'locked',si>=4?(()=>{const inv=db.invoices.find(i=>i.id===c.invoiceId);return inv?`<div>Invoice <strong class="mono">${esc(inv.no)}</strong> · SAR ${fmt(inv.total)} · <span class="badge status-${inv.status}">${inv.status}</span> <button class="btn btn-xs btn-outline" onclick="viewInvoice('${inv.id}')">View / print</button></div>`:'Invoice not found'})():`
+${ed&&si===2?`<button class="btn btn-sm btn-primary" onclick="clConfirm('${jsa(pd)}','${jsa(cid)}')">✓ Mark customer confirmed</button>`:'<p class="auth-note">Mark the summary as sent first.</p>'}`)}
+${sec(6,'Generate the tax invoice',si>=4?'done':si===3?'active':'locked',si>=4?(()=>{const inv=db.invoices.find(i=>i.id===c.invoiceId);return inv?`<div>Invoice <strong class="mono">${esc(inv.no)}</strong> · SAR ${fmt(inv.total)} · <span class="badge status-${inv.status}">${inv.status}</span> <button class="btn btn-xs btn-outline" onclick="viewInvoice('${jsa(inv.id)}')">View / print</button></div>`:'Invoice not found'})():`
 <p style="font-size:12.5px;margin-bottom:8px">Creates tax invoice ${esc(db.settings.invoicePrefix)}${String(db.settings.nextInvoiceNum).padStart(4,'0')} for SAR ${fmt(L.total)} from the confirmed summary.</p>
-${ed&&si===3?`<button class="btn btn-primary" onclick="clGenerate('${pd}','${cid}')">🧾 Generate invoice</button>`:'<p class="auth-note">Waiting for customer confirmation.</p>'}`)}
+${ed&&si===3?`<button class="btn btn-primary" onclick="clGenerate('${jsa(pd)}','${jsa(cid)}')">🧾 Generate invoice</button>`:'<p class="auth-note">Waiting for customer confirmation.</p>'}`)}
 ${(c.log||[]).length?`<details style="margin-top:10px"><summary class="link" style="font-size:12px">History (${c.log.length})</summary><div style="font-size:12px;color:var(--gray600);margin-top:6px">${c.log.slice().reverse().map(l=>`${new Date(l.at).toLocaleString('en-GB')} · ${esc(l.by)} · ${esc(l.action)}`).join('<br>')}</div></details>`:''}
 </div></div>`;
 }
@@ -2844,10 +2863,10 @@ function renderInvoices(el){
 <td class="num">${fmt(inv.vat)}</td>
 <td class="num fw-bold">${fmt(inv.total)}</td>
 <td><span class="badge status-${inv.status}">${inv.status}</span></td>
-<td><button class="btn btn-xs btn-outline" onclick="viewInvoice('${inv.id}')">View</button>
-${inv.status==='draft'?`<button class="btn btn-xs btn-primary" onclick="finaliseInv('${inv.id}')">Finalise</button>`:''}
-${inv.status==='finalised'?`<button class="btn btn-xs btn-secondary" onclick="markSent('${inv.id}')">Mark Sent</button>`:''}
-${isAdmin()&&inv.status!=='void'?`<button class="btn btn-xs btn-danger" onclick="voidInvoice('${inv.id}')">Void</button>`:''}
+<td><button class="btn btn-xs btn-outline" onclick="viewInvoice('${jsa(inv.id)}')">View</button>
+${inv.status==='draft'?`<button class="btn btn-xs btn-primary" onclick="finaliseInv('${jsa(inv.id)}')">Finalise</button>`:''}
+${inv.status==='finalised'?`<button class="btn btn-xs btn-secondary" onclick="markSent('${jsa(inv.id)}')">Mark Sent</button>`:''}
+${isAdmin()&&inv.status!=='void'?`<button class="btn btn-xs btn-danger" onclick="voidInvoice('${jsa(inv.id)}')">Void</button>`:''}
 </td></tr>`).join('')||'<tr><td colspan="9" class="text-center text-muted">No invoices yet. Generate them in Monthly Closing.</td></tr>'}
 </tbody></table></div></div>`;
 }
@@ -2980,7 +2999,7 @@ function renderCatering(el){
 <tbody>${extras.map(e=>`<tr>
 <td>${fmtDate(e.date)}</td><td>${e.company}</td><td>${e.item}</td>
 <td class="num">${e.qty}</td><td class="num">${fmt(e.rate)}</td><td class="num">${fmt(e.qty*e.rate)}</td>
-<td><button class="btn btn-xs btn-danger" onclick="delCat('${e.id}')">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No catering extras</td></tr>'}
+<td><button class="btn btn-xs btn-danger" onclick="delCat('${jsa(e.id)}')">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No catering extras</td></tr>'}
 </tbody></table></div></div>`;
 }
 function openCatModal(){
@@ -3011,7 +3030,7 @@ function _v5_renderCompanies(el){
 <tbody>${db.companies.map((c,i)=>`<tr>
 <td>${i+1}</td><td class="fw-bold">${c.short}</td><td>${c.name}</td><td class="mono">${c.vatNo||''}</td>
 <td>${c.contact||''}</td><td>${c.phone||''}</td><td class="mono">${c.poNo||''}</td>
-<td><button class="btn btn-xs btn-ghost" onclick="editComp('${c.id}')">Edit</button></td></tr>`).join('')}
+<td><button class="btn btn-xs btn-ghost" onclick="editComp('${jsa(c.id)}')">Edit</button></td></tr>`).join('')}
 </tbody></table></div></div>`;
 }
 function _v5_openCompModal(co){
@@ -3082,7 +3101,7 @@ ${cloud?`<div>Last saved</div><div>${Store.lastSync?Store.lastSync.toLocaleStrin
 </div>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <button class="btn btn-outline btn-sm" onclick="exportBackup()">⬇ Download full backup (.json)</button>
-${admin?`<button class="btn btn-ghost btn-sm" onclick="restoreBackup()">⬆ Restore from backup…</button>`:''}
+${admin?`<button class="btn btn-ghost btn-sm" onclick="restoreBackup()">⬆ Restore from backup…</button><button class="btn btn-ghost btn-sm" onclick="openImport()">⬆ Import residents from Excel…</button>`:''}
 ${!cloud?`<button class="btn btn-ghost btn-sm" onclick="openConnectCloud()">☁ Connect to cloud database</button>`:''}
 ${cloud&&Store.cfg.source==='browser'?`<button class="btn btn-ghost btn-sm" onclick="disconnectCloud()">Disconnect this browser</button>`:''}
 ${lc&&admin?`<button class="btn btn-ghost btn-sm" onclick="uploadLocalToCloud()">⬆ Upload this browser's old local data</button>`:''}
@@ -3245,7 +3264,7 @@ ${pending.length?`<div class="card" style="border:2px solid var(--pink)"><div cl
 <div class="scroll-x"><table><thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Requested</th><th>Give role</th><th></th></tr></thead>
 <tbody>${pending.map(u=>`<tr><td class="fw-bold">${esc(u.name||'')}</td><td class="mono">${esc(u.username||'')}</td><td>${esc(u.email||'')}</td><td style="font-size:12px">${u.created_at?fmtDate(u.created_at):''}</td>
 <td><select id="ap-role-${u.id}" style="min-width:150px">${roles.filter(r=>r.id!=='admin').map(r=>`<option value="${esc(r.id)}" ${r.id==='viewer'?'selected':''}>${esc(r.name)}</option>`).join('')}<option value="admin">Administrator</option></select></td>
-<td style="white-space:nowrap"><button class="btn btn-sm btn-primary" onclick="approveUser('${u.id}')">✓ Approve</button> <button class="btn btn-sm btn-ghost" onclick="declineUser('${u.id}')">Decline</button></td></tr>`).join('')}</tbody></table></div></div>`:''}
+<td style="white-space:nowrap"><button class="btn btn-sm btn-primary" onclick="approveUser('${jsa(u.id)}')">✓ Approve</button> <button class="btn btn-sm btn-ghost" onclick="declineUser('${jsa(u.id)}')">Decline</button></td></tr>`).join('')}</tbody></table></div></div>`:''}
 <div class="card"><div class="scroll-x"><table>
 <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Added</th><th></th></tr></thead>
 <tbody>${others.map(u=>{const master=(u.email||'').toLowerCase()===MASTER_EMAIL;return`<tr>
@@ -3253,7 +3272,7 @@ ${pending.length?`<div class="card" style="border:2px solid var(--pink)"><div cl
 <td>${master?'Administrator':esc(rn(u.role))}</td>
 <td>${u.active||master?'<span class="badge badge-green">Active</span>':'<span class="badge badge-gray">Off</span>'}</td>
 <td style="font-size:12px">${u.created_at?fmtDate(u.created_at):''}</td>
-<td style="white-space:nowrap"><button class="btn btn-sm btn-outline" onclick="openUserModal('${u.id}')">Edit</button></td></tr>`}).join('')}
+<td style="white-space:nowrap"><button class="btn btn-sm btn-outline" onclick="openUserModal('${jsa(u.id)}')">Edit</button></td></tr>`}).join('')}
 </tbody></table></div></div>
 <p class="auth-note">The master administrator (${MASTER_EMAIL}) always has full access and cannot be switched off. Set what each role can see and change under <a onclick="nav('roles')">Roles & Access</a>.</p>`;
   el._users=users;
@@ -3309,7 +3328,7 @@ async function renderRoles(el){
 <thead><tr><th>Screen</th>${roles.map(r=>`<th style="text-align:center">${esc(r.name)}<div style="font-weight:400;font-size:11px;color:var(--gray500)">${users.filter(u=>u.role===r.id).length} user(s)</div></th>`).join('')}</tr></thead>
 <tbody>${MODULES.map(m=>`<tr><td>${m.label}</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':cell(rolePermShown(r.perms||{},m.k))}</td>`).join('')}</tr>`).join('')}
 <tr><td>Users, roles, audit log, bulk upload, backup restore</td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="badge badge-green">Edit</span>':'<span class="text-muted">—</span>'}</td>`).join('')}</tr></tbody>
-<tfoot><tr><td></td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="text-muted" style="font-size:11px">Full access</span>':`<button class="btn btn-sm btn-outline" onclick="openRoleModal('${esc(r.id)}')">Edit</button>`}</td>`).join('')}</tr></tfoot>
+<tfoot><tr><td></td>${roles.map(r=>`<td style="text-align:center">${r.id==='admin'?'<span class="text-muted" style="font-size:11px">Full access</span>':`<button class="btn btn-sm btn-outline" onclick="openRoleModal('${jsa(r.id)}')">Edit</button>`}</td>`).join('')}</tr></tfoot>
 </table></div></div>
 <p class="auth-note"><strong>Edit</strong> is enforced by the database: a role without Edit cannot change those records even outside the app. <strong>View</strong> and <strong>None</strong> control which screens appear. Assign roles to people on the <a onclick="nav('users')">Users</a> page.</p>`;
 }
@@ -3318,7 +3337,7 @@ function openRoleModal(id){
   const perms=Object.assign({},r?r.perms:{});
   showModal(r?'Edit role — '+esc(r.name):'New role',`
 <div class="form-row"><div class="form-group"><label class="form-label req">Role name</label><input id="ro-name" value="${esc(r?r.name:'')}" placeholder="e.g. Accountant, Camp Supervisor"></div>
-<div class="form-group"><label class="form-label">Set all screens to</label><div style="display:flex;gap:6px">${['none','view','edit'].map(v=>`<button class="btn btn-sm btn-ghost" onclick="document.querySelectorAll('.ro-perm[value=${v}]:not(:disabled)').forEach(x=>x.checked=true)">${v==='none'?'None':v==='view'?'View':'Edit'}</button>`).join('')}</div></div></div>
+<div class="form-group"><label class="form-label">Set all screens to</label><div style="display:flex;gap:6px">${['none','view','edit'].map(v=>`<button class="btn btn-sm btn-ghost" onclick="document.querySelectorAll('.ro-perm[value=${jsa(v)}]:not(:disabled)').forEach(x=>x.checked=true)">${v==='none'?'None':v==='view'?'View':'Edit'}</button>`).join('')}</div></div></div>
 <table><thead><tr><th>Screen</th><th style="text-align:center">None</th><th style="text-align:center">View</th><th style="text-align:center">Edit</th></tr></thead>
 <tbody>${MODULES.map(m=>{const ms=MASTER_MODS.includes(m.k);return`<tr><td>${m.label}${ms?' <span class="badge badge-gray" style="font-size:10.5px">edit: admin only</span>':''}</td>${['none','view','edit'].map(v=>`<td style="text-align:center"><input type="radio" class="ro-perm" name="ro-${m.k}" value="${v}" style="width:auto" ${rolePermShown(perms,m.k)===v?'checked':''} ${v==='edit'&&ms?'disabled title="Administrators only"':''}></td>`).join('')}</tr>`}).join('')}</tbody></table>
 <p class="auth-note">Customers and prices, rooms and blocks, sub-lease, the asset register and settings are master data: only administrators change them. Other roles can view them.</p>`,
@@ -3434,9 +3453,9 @@ function renderSublease(el){
 <td style="font-size:12px">${fmtDate(c.startDate)}<br>→ ${c.endDate?fmtDate(c.endDate):'Open'}</td>
 <td><span class="badge ${c.status==='active'?'badge-green':'badge-gray'}">${c.status}</span></td>
 <td style="white-space:nowrap">
-${!(db.blocks||[]).some(b=>b.contractId===c.id)&&can('rooms','edit')?`<button class="btn btn-xs btn-ghost" title="Create a sub-lease block with rooms for this contract" onclick="slCreateBlock('${c.id}')">+ Block</button>`:''}
-<button class="btn btn-xs btn-ghost" onclick="editSL('${c.id}')">Edit</button>
-<button class="btn btn-xs btn-danger" onclick="delSL('${c.id}')">×</button></td></tr>`;}).join('')||'<tr><td colspan="11" class="text-center text-muted">No sub-lease contracts</td></tr>'}
+${!(db.blocks||[]).some(b=>b.contractId===c.id)&&can('rooms','edit')?`<button class="btn btn-xs btn-ghost" title="Create a sub-lease block with rooms for this contract" onclick="slCreateBlock('${jsa(c.id)}')">+ Block</button>`:''}
+<button class="btn btn-xs btn-ghost" onclick="editSL('${jsa(c.id)}')">Edit</button>
+<button class="btn btn-xs btn-danger" onclick="delSL('${jsa(c.id)}')">×</button></td></tr>`;}).join('')||'<tr><td colspan="11" class="text-center text-muted">No sub-lease contracts</td></tr>'}
 </tbody>
 <tfoot><tr><td colspan="3" class="fw-bold">TOTAL</td>
 <td class="num fw-bold">${totalBeds}</td><td></td>
@@ -3455,7 +3474,7 @@ ${!(db.blocks||[]).some(b=>b.contractId===c.id)&&can('rooms','edit')?`<button cl
   return`<tr><td class="fw-bold">${p.name}</td><td>${p.contact||''}</td><td>${p.phone||''}</td><td>${p.address||''}</td>
   <td><span class="badge badge-navy">${cnt}</span></td>
   <td>${(db.blocks||[]).filter(b=>b.providerId===p.id).map(b=>{const rooms=db.rooms.filter(r=>r.block===b.code);const beds=rooms.reduce((s2,r)=>s2+(r.beds||0),0);const occ=activeResidents().filter(r=>{const rm=getRoom(r.roomNo);return rm&&rm.block===b.code}).length;return`<span class="badge badge-orange">${esc(b.code)}</span> <span style="font-size:11px">${rooms.length} rooms · ${occ}/${beds} beds</span>`}).join('<br>')||'<span class="text-muted">—</span>'}</td>
-  <td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="editProvider('${p.id}')">Edit</button>${can('rooms','edit')?`<button class="btn btn-xs btn-ghost" onclick="openBlockModal(null,{type:'sublease',providerId:'${p.id}',name:'${esc(p.name).replace(/'/g,'')}',camp:'${esc(p.name).replace(/'/g,'').toUpperCase()}'})">+ Block</button>`:''}</td></tr>`;}).join('')||'<tr><td colspan="7" class="text-center text-muted">No providers yet</td></tr>'}
+  <td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="editProvider('${jsa(p.id)}')">Edit</button>${can('rooms','edit')?`<button class="btn btn-xs btn-ghost" onclick="openBlockModal(null,{type:'sublease',providerId:'${jsa(p.id)}',name:'${jsa(p.name)}',camp:'${jsa(String(p.name).toUpperCase())}'})">+ Block</button>`:''}</td></tr>`;}).join('')||'<tr><td colspan="7" class="text-center text-muted">No providers yet</td></tr>'}
 </tbody></table></div></div>`;
 }
 
@@ -3701,9 +3720,9 @@ function _v5_renderReports(el){
 <div class="card-body">
 <p style="font-size:12px;color:var(--gray500);margin-bottom:14px">Occupancy-based billing — person-days by company, room type and service. Period: <strong>${periodLabel}</strong></p>
 <div style="display:flex;flex-direction:column;gap:8px">
-<button class="btn btn-outline" onclick="rptMandays('pdf','${pd}')">📄 Export PDF</button>
-<button class="btn btn-ghost" onclick="rptMandays('excel','${pd}')">📊 Export Excel (CSV)</button>
-<button class="btn btn-ghost" onclick="rptMandays('csv','${pd}')">📝 Export CSV</button>
+<button class="btn btn-outline" onclick="rptMandays('pdf','${jsa(pd)}')">📄 Export PDF</button>
+<button class="btn btn-ghost" onclick="rptMandays('excel','${jsa(pd)}')">📊 Export Excel (CSV)</button>
+<button class="btn btn-ghost" onclick="rptMandays('csv','${jsa(pd)}')">📝 Export CSV</button>
 </div></div></div>
 
 <!-- Occupancy Report -->
@@ -4070,7 +4089,7 @@ function renderTabbar(){
   if(can('movement','view'))items.push({k:'movement',i:'movement',l:'In / Out'});
   else if(can('rooms','view'))items.push({k:'rooms',i:'building',l:'Rooms'});
   items.push({k:'_menu',i:'menu',l:'Menu'});
-  t.innerHTML=items.map(x=>`<button class="${x.main?'tb-main':''} ${currentPage===x.k?'on':''}" onclick="tabGo('${x.k}')" aria-label="${x.l}"><span class="ti">${ico(x.i)}</span>${x.l}</button>`).join('');
+  t.innerHTML=items.map(x=>`<button class="${x.main?'tb-main':''} ${currentPage===x.k?'on':''}" onclick="tabGo('${jsa(x.k)}')" aria-label="${x.l}"><span class="ti">${ico(x.i)}</span>${x.l}</button>`).join('');
 }
 function _v5_tabGo(k){
   if(k==='_menu')return toggleMenu();
@@ -4186,7 +4205,7 @@ function localUsage(){try{let n=0;for(let i=0;i<localStorage.length;i++){const k
 const PhotoDraft={list:[],reset(l){this.list=(l||[]).slice()},
   async add(boxId){const got=await Photos.pick(true);if(!got.length)return;this.list.push(...got);this.render(boxId)},
   remove(boxId,id){this.list=this.list.filter(p=>p.id!==id);this.render(boxId)},
-  render(boxId){const b=document.getElementById(boxId);if(!b)return;b.innerHTML=`<div class="ph-grid">${this.list.map(p=>`<div class="ph-th">${p.data?`<img src="${p.data}" alt="">`:`<img data-path="${esc(p.path)}" alt="">`}<button type="button" class="ph-del" aria-label="Remove photo" onclick="PhotoDraft.remove('${boxId}','${p.id}')">${ico('x')}</button></div>`).join('')}<button type="button" class="ph-add" onclick="PhotoDraft.add('${boxId}')">${ico('camera')}<span>${this.list.length?'Add more':'Take / add photos'}</span></button></div>`;Photos.hydrate(b)},
+  render(boxId){const b=document.getElementById(boxId);if(!b)return;b.innerHTML=`<div class="ph-grid">${this.list.map(p=>`<div class="ph-th">${p.data?`<img src="${p.data}" alt="">`:`<img data-path="${esc(p.path)}" alt="">`}<button type="button" class="ph-del" aria-label="Remove photo" onclick="PhotoDraft.remove('${jsa(boxId)}','${jsa(p.id)}')">${ico('x')}</button></div>`).join('')}<button type="button" class="ph-add" onclick="PhotoDraft.add('${jsa(boxId)}')">${ico('camera')}<span>${this.list.length?'Add more':'Take / add photos'}</span></button></div>`;Photos.hydrate(b)},
   async commit(folder){const out=[];for(const p of this.list){if(p.path){out.push(p);continue}const st=await Photos.store(p,folder);out.push(st)}return out}};
 
 // ─── demo data for the new screens (local demo only) ───
@@ -4247,7 +4266,7 @@ function renderAssets(el){
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <button class="btn btn-ghost btn-sm" onclick="exportAssets()">${ico('download')} Export CSV</button>
 ${ed?`<button class="btn btn-outline btn-sm" onclick="openAssetKit()">${ico('layers')} Add standard set to rooms</button><button class="btn btn-primary btn-sm" onclick="openAssetModal()">${ico('plus')} Add item</button>`:''}</div></div>
-<div class="chip-row">${['',...ASSET_COND].map(c=>`<button class="chip ${f.cond===c&&!f.due?'on':''}" onclick="assetF('cond','${c}')">${c||'All'} <b>${c?cnt[c]||0:all.length}</b></button>`).join('')}<button class="chip ${f.due?'on':''}" onclick="assetF('due',!document.getElementById('page-assets')._f.due)">${ico('clock')} Service due <b>${due}</b></button></div>
+<div class="chip-row">${['',...ASSET_COND].map(c=>`<button class="chip ${f.cond===c&&!f.due?'on':''}" onclick="assetF('cond','${jsa(c)}')">${c||'All'} <b>${c?cnt[c]||0:all.length}</b></button>`).join('')}<button class="chip ${f.due?'on':''}" onclick="assetF('due',!document.getElementById('page-assets')._f.due)">${ico('clock')} Service due <b>${due}</b></button></div>
 <div class="filters" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
 <input id="as-q" placeholder="Search tag, serial, room, item…" value="${esc(f.q)}" oninput="assetF('q',this.value)" style="width:240px">
 <select onchange="assetF('block',this.value)" style="width:auto">${opt('','All blocks')}${db.blocks.map(b=>opt(b.code,'Block '+b.code,f.block===b.code)).join('')}${opt('_store','Store',f.block==='_store')}</select>
@@ -4255,9 +4274,9 @@ ${ed?`<button class="btn btn-outline btn-sm" onclick="openAssetKit()">${ico('lay
 ${all.length?`<div class="card res-table"><div class="scroll-x"><table><thead><tr><th>Room</th><th>Item</th><th>Tag no.</th><th>Serial / model</th><th>Condition</th><th>Last service</th><th>Next service</th><th></th></tr></thead><tbody>
 ${shown.map(a=>`<tr><td class="fw-bold">${a.roomNo?esc(a.roomNo):'<span class="text-muted">Store</span>'}</td><td>${esc(a.category)}${a.desc?`<div class="text-muted" style="font-size:12px">${esc(a.desc)}</div>`:''}</td><td class="mono">${esc(a.tag||'')}</td><td>${esc([a.serial,a.brand].filter(Boolean).join(' · '))}</td>
 <td><span class="badge ${COND_BADGE[a.condition]||'badge-gray'}">${esc(a.condition||'')}</span></td><td>${fmtDate(a.lastService)}</td><td>${a.nextService?`<span ${assetDue(a)?'class="badge badge-red"':''}>${fmtDate(a.nextService)}</span>`:''}</td>
-<td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openAssetModal('${a.id}')">${ed?'Edit':'View'}</button>${can('maintenance','edit')?`<button class="btn btn-xs btn-ghost" onclick="openTicketModal(null,{roomNo:'${esc(a.roomNo||'')}',assetId:'${a.id}'})">Report fault</button>`:''}</td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No items match</td></tr>'}
+<td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openAssetModal('${jsa(a.id)}')">${ed?'Edit':'View'}</button>${can('maintenance','edit')?`<button class="btn btn-xs btn-ghost" onclick="openTicketModal(null,{roomNo:'${jsa(a.roomNo||'')}',assetId:'${jsa(a.id)}'})">Report fault</button>`:''}</td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No items match</td></tr>'}
 </tbody></table></div></div>
-<div class="res-cards">${shown.map(a=>`<div class="res-card as-card" onclick="openAssetModal('${a.id}')"><div class="rc-room">${esc(a.roomNo||'Store')}</div><div class="rc-name">${esc(a.category)}</div><div><span class="badge ${COND_BADGE[a.condition]||'badge-gray'}">${esc(a.condition||'')}</span></div>
+<div class="res-cards">${shown.map(a=>`<div class="res-card as-card" onclick="openAssetModal('${jsa(a.id)}')"><div class="rc-room">${esc(a.roomNo||'Store')}</div><div class="rc-name">${esc(a.category)}</div><div><span class="badge ${COND_BADGE[a.condition]||'badge-gray'}">${esc(a.condition||'')}</span></div>
 <div class="rc-meta"><span class="mono">${esc(a.tag||'')}</span>${a.serial?' · '+esc(a.serial):''}${a.nextService?`<br>Next service ${fmtDate(a.nextService)}${assetDue(a)?' <span class="badge badge-red">due</span>':''}`:''}</div></div>`).join('')}</div>
 ${list.length>shown.length?`<button class="btn btn-outline" style="margin-top:10px" onclick="const e=document.getElementById('page-assets');e._shown=(e._shown||200)+200;renderAssets(e)">Show more (${list.length-shown.length} left)</button>`:''}`
 :`<div class="card"><div class="empty-state"><div class="icon">${ico('box')}</div><p>No assets recorded yet.</p>${ed?`<p class="text-muted" style="font-size:13px;max-width:420px;margin:6px auto 14px">Start with <b>Add standard set to rooms</b>: for example 1 air conditioner per room and a bed, mattress and locker per bed, for a whole block at once.</p><button class="btn btn-primary" onclick="openAssetKit()">Add standard set to rooms</button>`:''}</div></div>`}`;
@@ -4282,7 +4301,7 @@ function openAssetModal(id,preset){
 <div class="form-group"><label class="form-label">Notes</label><input id="as-notes" value="${esc(v.notes||'')}"></div>
 </div></fieldset>
 ${a&&a.nextService?`<p class="auth-note">Next service: <b>${fmtDate(a.nextService)}</b>${assetDue(a)?' — <span style="color:var(--red)">due now</span>':''}</p>`:''}
-${hist.length?`<div class="divider"></div><div class="card-title" style="margin-bottom:6px">Repair history (${hist.length})</div><table><tbody>${hist.map(t=>`<tr><td class="mono">${esc(t.no)}</td><td>${fmtDate(t.reportedAt)}</td><td>${esc(t.title)}</td><td><span class="badge ${TK_BADGE[t.status]}">${TK_LABEL[t.status]}</span></td><td><button class="btn btn-xs btn-ghost" onclick="openTicketModal('${t.id}')">Open</button></td></tr>`).join('')}</tbody></table>`:''}`,
+${hist.length?`<div class="divider"></div><div class="card-title" style="margin-bottom:6px">Repair history (${hist.length})</div><table><tbody>${hist.map(t=>`<tr><td class="mono">${esc(t.no)}</td><td>${fmtDate(t.reportedAt)}</td><td>${esc(t.title)}</td><td><span class="badge ${TK_BADGE[t.status]}">${TK_LABEL[t.status]}</span></td><td><button class="btn btn-xs btn-ghost" onclick="openTicketModal('${jsa(t.id)}')">Open</button></td></tr>`).join('')}</tbody></table>`:''}`,
   [...(ed?[{label:a?'Save':'Add asset',primary:true,action:()=>saveAsset(a)}]:[]),
    ...(a&&can('maintenance','edit')?[{label:'Report fault',action:()=>openTicketModal(null,{roomNo:a.roomNo,assetId:a.id})}]:[]),
    ...(a&&ed?[{label:'Delete',action:()=>delAsset(a.id)}]:[]),{label:ed?'Cancel':'Close',action:closeModal}],'modal-lg');
@@ -4346,14 +4365,14 @@ function renderMaintenance(el){
   if(p.tab==='insp'){
     const L=(db.inspections||[]).slice().sort((a,b)=>b.date.localeCompare(a.date)||String(b.at).localeCompare(String(a.at)));
     el.innerHTML=head+`<div class="card"><div class="scroll-x"><table><thead><tr><th>Date</th><th>Room</th><th>Type</th><th>Resident</th><th>Result</th><th>Photos</th><th>By</th><th></th></tr></thead><tbody>
-${L.map(i=>`<tr><td>${fmtDate(i.date)}</td><td class="fw-bold">${esc(i.roomNo)}</td><td>${esc(INS_TYPE[i.type]||i.type)}</td><td>${esc(i.residentName||'')}</td><td><span class="badge ${INS_BADGE[i.result]||'badge-gray'}">${esc(i.result||'')}</span></td><td>${(i.photos||[]).length}</td><td>${esc(i.by||'')}</td><td><button class="btn btn-xs btn-ghost" onclick="viewInspection('${i.id}')">Open</button></td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No inspections yet. Take room photos at check-in, check-out, or with New inspection.</td></tr>'}</tbody></table></div></div>`;
+${L.map(i=>`<tr><td>${fmtDate(i.date)}</td><td class="fw-bold">${esc(i.roomNo)}</td><td>${esc(INS_TYPE[i.type]||i.type)}</td><td>${esc(i.residentName||'')}</td><td><span class="badge ${INS_BADGE[i.result]||'badge-gray'}">${esc(i.result||'')}</span></td><td>${(i.photos||[]).length}</td><td>${esc(i.by||'')}</td><td><button class="btn btn-xs btn-ghost" onclick="viewInspection('${jsa(i.id)}')">Open</button></td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No inspections yet. Take room photos at check-in, check-out, or with New inspection.</td></tr>'}</tbody></table></div></div>`;
     return;
   }
   const q=(p.q||'').toLowerCase();
   const L=(p.tab==='open'?open:T).filter(t=>!q||[t.no,t.roomNo,t.title,t.category,t.assignedTo].some(v=>v&&String(v).toLowerCase().includes(q)))
     .sort((a,b)=>p.tab==='open'?(({urgent:0,normal:1,low:2}[a.priority]-{urgent:0,normal:1,low:2}[b.priority])||a.reportedAt.localeCompare(b.reportedAt)):b.reportedAt.localeCompare(a.reportedAt));
   el.innerHTML=head+`<div style="margin-bottom:12px"><input id="mt-q" placeholder="Search fault no., room, problem, technician…" value="${esc(p.q||'')}" oninput="mtSearch(this.value)" style="width:280px;max-width:100%"></div>
-<div class="tk-list">${L.map(t=>{const a=t.assetId&&(db.assets||[]).find(x=>x.id===t.assetId);return`<div class="tk-row" role="button" tabindex="0" onclick="openTicketModal('${t.id}')">
+<div class="tk-list">${L.map(t=>{const a=t.assetId&&(db.assets||[]).find(x=>x.id===t.assetId);return`<div class="tk-row" role="button" tabindex="0" onclick="openTicketModal('${jsa(t.id)}')">
 <div class="tk-main"><div class="tk-title"><span class="mono tk-no">${esc(t.no)}</span> ${esc(t.title)}</div>
 <div class="tk-meta">Room <b>${esc(t.roomNo)}</b>${a?` · ${esc(lx(a.category,AR[a.category]))} ${esc(a.tag)}`:''} · ${esc(lx(t.category||'',AR[t.category]))} · ${lx('reported','أُبلغ في')} ${fmtDate(t.reportedAt)} ${lx('by','بواسطة')} ${esc(t.reportedBy||'')}${t.assignedTo?` · <b>${esc(t.assignedTo)}</b>`:''}${(t.photos||[]).length?` · ${ico('image')} ${(t.photos||[]).length}`:''}</div></div>
 <div class="tk-side">${t.blocksRoom&&!['fixed','closed'].includes(t.status)?'<span class="badge badge-red">Room out of service</span>':''}<span class="badge ${PRIO_BADGE[t.priority]}">${TK_PRIO[t.priority]}</span><span class="badge ${TK_BADGE[t.status]}">${TK_LABEL[t.status]}</span><span class="tk-age">${['fixed','closed'].includes(t.status)?'took '+tkAge(t)+'d':tkAge(t)+'d open'}</span></div></div>`}).join('')||`<div class="card"><div class="empty-state"><div class="icon">${ico('wrench')}</div><p>${p.tab==='open'?'No open faults. ':''}${ed?'Use <b>Report a fault</b> when something in a room is broken.':''}</p></div></div>`}</div>`;
@@ -4461,15 +4480,15 @@ function openRoomDetail(roomNo,tab){
   const oT=T.filter(t=>!['fixed','closed'].includes(t.status));const oos=roomOOS(roomNo);
   const seg=[['occ',`Occupants (${occ.length}/${room.beds})`],['assets',`Assets (${A.length})`],['mt',`Maintenance${oT.length?` (${oT.length} open)`:''}`],['insp',`Inspections (${I.length})`],...(can('rooms','edit')?[['edit','Room settings']]:[])];
   let body='';
-  if(tab==='occ')body=occ.length?`<table><thead><tr><th>Name</th><th>Iqama</th><th>Company</th><th>Check in</th><th></th></tr></thead><tbody>${occ.map(r=>`<tr><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.company)}</td><td>${fmtDate(r.checkIn)}</td><td style="white-space:nowrap">${can('residents','edit')?`<button class="btn btn-xs btn-ghost" onclick="editResident('${r.id}')">Open</button><button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${r.id}'])">Check out</button>`:''}</td></tr>`).join('')}</tbody></table>`:`<div class="empty-state"><div class="icon">${ico('bed')}</div><p>No one in this room today</p></div>`;
-  if(tab==='assets')body=(A.length?`<table><thead><tr><th>Item</th><th>Tag no.</th><th>Condition</th><th>Next service</th><th></th></tr></thead><tbody>${A.map(a=>`<tr><td>${esc(a.category)}${a.desc?` <span class="text-muted">${esc(a.desc)}</span>`:''}</td><td class="mono">${esc(a.tag)}</td><td><span class="badge ${COND_BADGE[a.condition]}">${esc(a.condition)}</span></td><td>${a.nextService?`<span ${assetDue(a)?'class="badge badge-red"':''}>${fmtDate(a.nextService)}</span>`:''}</td><td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openAssetModal('${a.id}')">${can('assets','edit')?'Edit':'View'}</button>${can('maintenance','edit')?`<button class="btn btn-xs btn-ghost" onclick="openTicketModal(null,{roomNo:'${esc(roomNo)}',assetId:'${a.id}'})">Fault</button>`:''}</td></tr>`).join('')}</tbody></table>`:'<p class="text-muted" style="font-size:13px">No items recorded for this room.</p>')+(can('assets','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openAssetModal(null,{roomNo:'${esc(roomNo)}'})">${ico('plus')} Add item</button>`:'');
-  if(tab==='mt')body=(T.length?`<table><thead><tr><th>No.</th><th>Problem</th><th>Reported</th><th>Status</th><th></th></tr></thead><tbody>${T.map(t=>`<tr><td class="mono">${esc(t.no)}</td><td>${esc(t.title)}</td><td>${fmtDate(t.reportedAt)}</td><td><span class="badge ${TK_BADGE[t.status]}">${TK_LABEL[t.status]}</span></td><td><button class="btn btn-xs btn-ghost" onclick="openTicketModal('${t.id}')">Open</button></td></tr>`).join('')}</tbody></table>`:'<p class="text-muted" style="font-size:13px">No faults reported for this room.</p>')+(can('maintenance','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openTicketModal(null,{roomNo:'${esc(roomNo)}'})">${ico('wrench')} Report a fault</button>`:'');
-  if(tab==='insp')body=(I.length?`<div class="insp-list">${I.map(i=>`<div class="insp-item" role="button" tabindex="0" onclick="viewInspection('${i.id}')"><div><b>${fmtDate(i.date)}</b> · ${esc(INS_TYPE[i.type]||i.type)}${i.residentName?' · '+esc(i.residentName):''}</div><div><span class="badge ${INS_BADGE[i.result]||'badge-gray'}">${esc(i.result||'')}</span> ${ico('image')} ${(i.photos||[]).length}</div></div>`).join('')}</div>`:'<p class="text-muted" style="font-size:13px">No inspections yet.</p>')+(can('maintenance','edit')||can('residents','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openInspectionModal({roomNo:'${esc(roomNo)}'})">${ico('camera')} New inspection</button>`:'');
+  if(tab==='occ')body=occ.length?`<table><thead><tr><th>Name</th><th>Iqama</th><th>Company</th><th>Check in</th><th></th></tr></thead><tbody>${occ.map(r=>`<tr><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.company)}</td><td>${fmtDate(r.checkIn)}</td><td style="white-space:nowrap">${can('residents','edit')?`<button class="btn btn-xs btn-ghost" onclick="editResident('${jsa(r.id)}')">Open</button><button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check out</button>`:''}</td></tr>`).join('')}</tbody></table>`:`<div class="empty-state"><div class="icon">${ico('bed')}</div><p>No one in this room today</p></div>`;
+  if(tab==='assets')body=(A.length?`<table><thead><tr><th>Item</th><th>Tag no.</th><th>Condition</th><th>Next service</th><th></th></tr></thead><tbody>${A.map(a=>`<tr><td>${esc(a.category)}${a.desc?` <span class="text-muted">${esc(a.desc)}</span>`:''}</td><td class="mono">${esc(a.tag)}</td><td><span class="badge ${COND_BADGE[a.condition]}">${esc(a.condition)}</span></td><td>${a.nextService?`<span ${assetDue(a)?'class="badge badge-red"':''}>${fmtDate(a.nextService)}</span>`:''}</td><td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="openAssetModal('${jsa(a.id)}')">${can('assets','edit')?'Edit':'View'}</button>${can('maintenance','edit')?`<button class="btn btn-xs btn-ghost" onclick="openTicketModal(null,{roomNo:'${jsa(roomNo)}',assetId:'${jsa(a.id)}'})">Fault</button>`:''}</td></tr>`).join('')}</tbody></table>`:'<p class="text-muted" style="font-size:13px">No items recorded for this room.</p>')+(can('assets','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openAssetModal(null,{roomNo:'${jsa(roomNo)}'})">${ico('plus')} Add item</button>`:'');
+  if(tab==='mt')body=(T.length?`<table><thead><tr><th>No.</th><th>Problem</th><th>Reported</th><th>Status</th><th></th></tr></thead><tbody>${T.map(t=>`<tr><td class="mono">${esc(t.no)}</td><td>${esc(t.title)}</td><td>${fmtDate(t.reportedAt)}</td><td><span class="badge ${TK_BADGE[t.status]}">${TK_LABEL[t.status]}</span></td><td><button class="btn btn-xs btn-ghost" onclick="openTicketModal('${jsa(t.id)}')">Open</button></td></tr>`).join('')}</tbody></table>`:'<p class="text-muted" style="font-size:13px">No faults reported for this room.</p>')+(can('maintenance','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openTicketModal(null,{roomNo:'${jsa(roomNo)}'})">${ico('wrench')} Report a fault</button>`:'');
+  if(tab==='insp')body=(I.length?`<div class="insp-list">${I.map(i=>`<div class="insp-item" role="button" tabindex="0" onclick="viewInspection('${jsa(i.id)}')"><div><b>${fmtDate(i.date)}</b> · ${esc(INS_TYPE[i.type]||i.type)}${i.residentName?' · '+esc(i.residentName):''}</div><div><span class="badge ${INS_BADGE[i.result]||'badge-gray'}">${esc(i.result||'')}</span> ${ico('image')} ${(i.photos||[]).length}</div></div>`).join('')}</div>`:'<p class="text-muted" style="font-size:13px">No inspections yet.</p>')+(can('maintenance','edit')||can('residents','edit')?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openInspectionModal({roomNo:'${jsa(roomNo)}'})">${ico('camera')} New inspection</button>`:'');
   if(tab==='edit')body=`<div class="form-row"><div class="form-group"><label class="form-label">Block</label><select id="ed-block">${db.blocks.map(b=>`<option value="${esc(b.code)}" ${room.block===b.code?'selected':''}>${esc(blockLabel(b))}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">Category</label><select id="ed-cat">${ROOM_CATS.map(c=>`<option ${room.cat===c?'selected':''}>${c}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">Beds</label><input type="number" id="ed-beds" value="${room.beds}"></div></div>`;
   showModal(`Room ${esc(roomNo)} · ${esc(room.cat)}${oos?' <span class="badge badge-red">Out of service</span>':''}`,
-    `<div class="seg rd-seg" role="tablist">${seg.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="openRoomDetail('${esc(roomNo)}','${k}')">${l}</button>`).join('')}</div>${oos?`<div class="alert alert-warn">${ico('wrench')} Out of service since ${fmtDate(oos.reportedAt)}: ${esc(oos.title)} (${esc(oos.no)}). No new check-ins until it is fixed.</div>`:''}${body}`,
+    `<div class="seg rd-seg" role="tablist">${seg.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="openRoomDetail('${jsa(roomNo)}','${jsa(k)}')">${l}</button>`).join('')}</div>${oos?`<div class="alert alert-warn">${ico('wrench')} Out of service since ${fmtDate(oos.reportedAt)}: ${esc(oos.title)} (${esc(oos.no)}). No new check-ins until it is fixed.</div>`:''}${body}`,
     tab==='edit'?[{label:'Save',primary:true,action:()=>{
       room.cat=document.getElementById('ed-cat').value;const nb=parseInt(document.getElementById('ed-beds').value);room.beds=isNaN(nb)?room.beds:nb;
       room.block=document.getElementById('ed-block').value;room.isSubLease=isSubLeaseRoom({block:room.block});
@@ -4526,7 +4545,7 @@ ${out?`<div class="alert alert-info">Checked out on ${fmtDate(res.checkOut)}. Us
 <div class="form-row">
 <div class="form-group"><label class="form-label req">Full name</label><input id="rr-name" value="${esc(res?res.name:'')}" autocomplete="off"></div>
 <div class="form-group"><label class="form-label req">Iqama / document no.</label><input id="rr-doc" inputmode="numeric" value="${esc(res?res.docNo:'')}" placeholder="10 digits, starts with 1 or 2" autocomplete="off"></div>
-<div class="form-group"><label class="form-label">Phone</label><div class="inp-act"><input id="rr-phone" type="tel" placeholder="05XXXXXXXX" value="${esc(res?res.phone||'':'')}">${edit&&res.phone?`<button type="button" class="icon-btn wa" title="WhatsApp" aria-label="WhatsApp ${esc(res.name)}" onclick="waChooser('${res.id}')">${ico('chat')}</button>`:''}</div></div>
+<div class="form-group"><label class="form-label">Phone</label><div class="inp-act"><input id="rr-phone" type="tel" placeholder="05XXXXXXXX" value="${esc(res?res.phone||'':'')}">${edit&&res.phone?`<button type="button" class="icon-btn wa" title="WhatsApp" aria-label="WhatsApp ${esc(res.name)}" onclick="waChooser('${jsa(res.id)}')">${ico('chat')}</button>`:''}</div></div>
 <div class="form-group"><label class="form-label">Nationality</label><input id="rr-nat" value="${esc(res?res.nationality||'':'')}" placeholder="IND / PHL / PAK…"></div>
 <div class="form-group"><label class="form-label req">Company</label><select id="rr-co" onchange="rrCompanyChanged()">${custOptions(co0)}</select><div class="room-free" id="rr-co-note"></div></div>
 <div class="form-group"><label class="form-label req">Check-in date</label><input type="date" id="rr-ci" value="${ci0}" onchange="rrRefreshRooms(true)"></div>
@@ -4753,13 +4772,13 @@ async function waAutoSend(list,kind){
 function afterMoveSheet(list,dir,auto){
   const one=list.length===1,r=list[0];const kind=dir==='in'?'welcome':'checkout';const co=getCompanyByShort(r.company)||{short:r.company};
   const autoLine=auto&&auto.on?`<div class="alert ${auto.failed?'alert-warn':'alert-info'}">${ico('chat')} Automatic WhatsApp: ${auto.sent} sent${auto.failed?`, ${auto.failed} failed (${esc(auto.err)})`:''}${auto.nophone?`, ${auto.nophone} without a phone number`:''}.</div>`:'';
-  const waList=!auto||!auto.sent||auto.failed?`<div class="wa-list">${list.map(x=>`<div class="wa-item"><span><b>${esc(x.name)}</b><small class="text-muted">${esc(x.roomNo)}${x.phone?' · '+esc(x.phone):''}</small></span>${waNumber(x.phone)?`<button class="btn btn-sm btn-wa" data-wa="${x.id}-${kind}" onclick="waOpen('${x.id}','${kind}')">${ico('chat')} WhatsApp</button>`:'<span class="text-muted" style="font-size:12px">no phone</span>'}</div>`).join('')}</div>`:'';
+  const waList=!auto||!auto.sent||auto.failed?`<div class="wa-list">${list.map(x=>`<div class="wa-item"><span><b>${esc(x.name)}</b><small class="text-muted">${esc(x.roomNo)}${x.phone?' · '+esc(x.phone):''}</small></span>${waNumber(x.phone)?`<button class="btn btn-sm btn-wa" data-wa="${x.id}-${kind}" onclick="waOpen('${jsa(x.id)}','${jsa(kind)}')">${ico('chat')} WhatsApp</button>`:'<span class="text-muted" style="font-size:12px">no phone</span>'}</div>`).join('')}</div>`:'';
   showModal(dir==='in'?(one?`${esc(r.name)} checked in`:`${list.length} residents checked in`):(one?`${esc(r.name)} checked out`:`${list.length} residents checked out`),`
 <div class="done-head">${ico('check')}<div>${one?`Room <b>${esc(r.roomNo)}</b> · ${esc(r.company)} · ${fmtDate(dir==='in'?r.checkIn:r.checkOut)}`:`${esc(co.short)} · ${fmtDate(dir==='in'?r.checkIn:r.checkOut)}`}</div></div>
 ${autoLine}
 <div class="card-title" style="margin:6px 0 8px">Let people know</div>
 ${waList}
-<div class="wa-item" style="margin-top:6px"><span><b>${ico('mail')} Email ${esc(co.short)}</b>${co.email?`<small class="text-muted">${esc(co.email)}</small>`:''}</span><button class="btn btn-sm btn-outline" data-mail onclick="emailCompany(${esc(JSON.stringify(list.map(x=>x.id)))},'${dir==='in'?'checkin-notice':'checkout-notice'}')">${ico('mail')} Email ${list.length>1?'the list':'notice'}</button></div>
+<div class="wa-item" style="margin-top:6px"><span><b>${ico('mail')} Email ${esc(co.short)}</b>${co.email?`<small class="text-muted">${esc(co.email)}</small>`:''}</span><button class="btn btn-sm btn-outline" data-mail onclick="emailCompany(${esc(JSON.stringify(list.map(x=>x.id)))},'${jsa(dir==='in'?'checkin-notice':'checkout-notice')}')">${ico('mail')} Email ${list.length>1?'the list':'notice'}</button></div>
 <p class="auth-note">WhatsApp and email open on this device with the message ready — you press Send.</p>`,
   [...(dir==='in'&&can('residents','edit')?[{label:one?'Check in another':'Check in more',action:()=>{closeModal();one?openResidentModal(null,{company:r.company,date:r.checkIn}):openMultiCheckin()}}]:[]),{label:'Done',primary:true,action:closeModal}]);
 }
@@ -5004,7 +5023,7 @@ function renderPage(page,el){
 function aiSumBtn(page,el){
   if(!AI.ready()||(page==='revenue'&&!can('revenue','view')))return;const h=el.querySelector('.page-header');if(!h||h.querySelector('.ai-sum-btn'))return;
   const now=new Date();const pd=`${el._yr||now.getFullYear()}-${String(el._mo||now.getMonth()+1).padStart(2,'0')}`;
-  const box=h.children.length>1?h.lastElementChild:h;box.insertAdjacentHTML('beforeend',`<button class="btn btn-outline btn-sm ai-sum-btn" onclick="aiMonthlySummary('${pd}')">${ico('sparkle')} Monthly summary</button>`);
+  const box=h.children.length>1?h.lastElementChild:h;box.insertAdjacentHTML('beforeend',`<button class="btn btn-outline btn-sm ai-sum-btn" onclick="aiMonthlySummary('${jsa(pd)}')">${ico('sparkle')} Monthly summary</button>`);
 }
 function renderMonthEnd(el){_v5_renderMonthEnd(el);aiSumBtn('monthend',el)}
 function renderRevenue(el){_v5_renderRevenue(el);aiSumBtn('revenue',el)}
@@ -5058,8 +5077,8 @@ function handoverCharges(pd,short,c){
 }
 function closingPanel(pd,cid){
   let html=_v5_closingPanel(pd,cid);const c=getClosing(pd,cid);const co=getCompany(cid);const si=CL_STATUS.indexOf(c?c.status:'pending');
-  if(can('monthend','edit')&&si<=1){const ch=handoverCharges(pd,co.short,c);if(ch.length){const k=html.indexOf('<div class="inv-totals" style="margin-top:12px">');if(k>0)html=html.slice(0,k)+`<button class="btn btn-sm btn-ghost" onclick="clImportHandover('${pd}','${cid}')">${ico('key2')} Import ${ch.length} missing / damaged item charge${ch.length>1?'s':''} (SAR ${fmt(ch.reduce((s,y)=>s+y.x.charge,0),0)})</button>`+html.slice(k)}}
-  if(AI.ready())html=html.replace(`<button class="btn btn-sm btn-outline" onclick="clOpenMail()">`,`<button class="btn btn-sm btn-outline" onclick="aiDraftClosingEmail('${pd}','${cid}')">${ico('sparkle')} Draft with AI</button><button class="btn btn-sm btn-outline" onclick="clOpenMail()">`);
+  if(can('monthend','edit')&&si<=1){const ch=handoverCharges(pd,co.short,c);if(ch.length){const k=html.indexOf('<div class="inv-totals" style="margin-top:12px">');if(k>0)html=html.slice(0,k)+`<button class="btn btn-sm btn-ghost" onclick="clImportHandover('${jsa(pd)}','${jsa(cid)}')">${ico('key2')} Import ${ch.length} missing / damaged item charge${ch.length>1?'s':''} (SAR ${fmt(ch.reduce((s,y)=>s+y.x.charge,0),0)})</button>`+html.slice(k)}}
+  if(AI.ready())html=html.replace(`<button class="btn btn-sm btn-outline" onclick="clOpenMail()">`,`<button class="btn btn-sm btn-outline" onclick="aiDraftClosingEmail('${jsa(pd)}','${jsa(cid)}')">${ico('sparkle')} Draft with AI</button><button class="btn btn-sm btn-outline" onclick="clOpenMail()">`);
   return html;
 }
 function clImportHandover(pd,cid){
@@ -5075,7 +5094,7 @@ function renderReports(el){
   let h='';
   if(can('assets','view'))h+=card('box','Room Assets','Every item per room with tag, condition and service dates.',`<button class="btn btn-ghost" onclick="exportAssets()">Export CSV</button>`);
   if(can('maintenance','view'))h+=card('wrench','Maintenance Log','All faults with status, days open, cost and what was done.',`<button class="btn btn-ghost" onclick="exportMaintenance()">Export CSV</button>`);
-  if(can('residents','view'))h+=card('key2','Item Charges','Missing or damaged items at check-out for the chosen month.',`<button class="btn btn-ghost" onclick="exportHandover('${pd}')">Export CSV</button>`)+card('chat','Messages Log','WhatsApp and email messages sent from Trendos.',`<button class="btn btn-ghost" onclick="exportMessages()">Export CSV</button>`);
+  if(can('residents','view'))h+=card('key2','Item Charges','Missing or damaged items at check-out for the chosen month.',`<button class="btn btn-ghost" onclick="exportHandover('${jsa(pd)}')">Export CSV</button>`)+card('chat','Messages Log','WhatsApp and email messages sent from Trendos.',`<button class="btn btn-ghost" onclick="exportMessages()">Export CSV</button>`);
   box.insertAdjacentHTML('beforeend',h);
 }
 function exportHandover(pd){const rows=[['Check-out','Company','Resident','Iqama','Room','Item','Status','Charge (SAR)','Recorded by']];
@@ -5149,7 +5168,7 @@ async function testServer(btn){const out=document.getElementById('srv-status');b
 function openUserMenu(){
   _v5_openUserMenu();const f=document.querySelector('#active-modal .modal-footer');if(!f)return;
   const ar=Lang.cur==='ar';
-  f.insertAdjacentHTML('afterbegin',`<button class="btn btn-ghost notr" onclick="closeModal();Lang.set('${ar?'en':'ar'}')">${ico('globe')} ${ar?'English':'العربية'}</button><button class="btn btn-ghost" onclick="closeModal();startTour(true)">${ico('help')} Take the tour</button>`);
+  f.insertAdjacentHTML('afterbegin',`<button class="btn btn-ghost notr" onclick="closeModal();Lang.set('${jsa(ar?'en':'ar')}')">${ico('globe')} ${ar?'English':'العربية'}</button><button class="btn btn-ghost" onclick="closeModal();startTour(true)">${ico('help')} Take the tour</button>`);
 }
 
 // ─── HELP on every screen ───
@@ -5312,10 +5331,10 @@ function renderCompanies(el){
   el.innerHTML=`
 <div class="page-header"><div><div class="page-title">Customers</div><div class="page-sub">${cnt.active||0} active${cnt.prospect?` · ${cnt.prospect} prospect`:''}${cnt.hold?` · ${cnt.hold} on hold`:''} · ${activeResidents().length} people in camp</div></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="exportCustomers()">${ico('download')} Export CSV</button>${ed?`<button class="btn btn-primary btn-sm" onclick="openCustomerForm()">${ico('plus')} New customer</button>`:''}</div></div>
-<div class="chip-row">${[['','All',all.length],...Object.entries(CUST_STATUS).map(([k,l])=>[k,l,cnt[k]||0])].map(([k,l,n])=>`<button class="chip ${f.st===k?'on':''}" onclick="custF('st','${k}')">${l} <b>${n}</b></button>`).join('')}</div>
+<div class="chip-row">${[['','All',all.length],...Object.entries(CUST_STATUS).map(([k,l])=>[k,l,cnt[k]||0])].map(([k,l,n])=>`<button class="chip ${f.st===k?'on':''}" onclick="custF('st','${jsa(k)}')">${l} <b>${n}</b></button>`).join('')}</div>
 <div style="margin-bottom:12px"><input id="cu-q" placeholder="Search name, VAT, CR, contact…" value="${esc(f.q)}" oninput="custF('q',this.value)" style="width:280px;max-width:100%"></div>
 <div class="cust-grid">${list.map(c=>{const s=S[c.id];const gaps=custGaps(c);const pct=s.alloc?Math.round(s.inCamp/s.alloc*100):0;const po=custPO(c);return`
-<div class="cust-card" role="button" tabindex="0" onclick="openCustomer('${c.id}')">
+<div class="cust-card" role="button" tabindex="0" onclick="openCustomer('${jsa(c.id)}')">
 <div class="cc-head"><div class="cc-logo">${esc(c.short.slice(0,2))}</div><div class="cc-name"><b>${esc(c.short)}</b><span>${esc(c.name)}</span></div><span class="badge ${CUST_BADGE[c.status]}">${CUST_STATUS[c.status]}</span></div>
 <div class="cc-kpis"><div><small>In camp</small><b>${s.inCamp}${s.alloc?`<span class="text-muted"> / ${s.alloc}</span>`:''}</b></div>${rev?`<div><small>This month</small><b>SAR ${fmt(s.amt,0)}</b></div><div><small>Outstanding</small><b ${s.overdue?'style="color:var(--red)"':''}>SAR ${fmt(s.outstanding,0)}</b></div>`:`<div><small>Person-days (month)</small><b>${s.pd}</b></div>`}</div>
 ${s.alloc?`<div class="rev-bar-track" title="${s.inCamp} of ${s.alloc} allocated beds"><div class="rev-bar-fill ${pct>100?'pink':pct>85?'teal':'green'}" style="width:${Math.min(100,pct)}%"></div></div>`:''}
@@ -5348,7 +5367,7 @@ function openCustomerForm(id,step){
   const body=`
 <div class="cw-steps" role="tablist">${CW_STEPS.map((s,i)=>`<button type="button" class="cw-st" data-s="${i+1}" onclick="cwGo(${i+1},true)"><span>${i+1}</span>${s}</button>`).join('')}</div>
 <section class="cw-step" data-s="1"><div class="form-row">
-<div class="form-group"><label class="form-label req">Short name</label><input id="cw-short" value="${esc(c.short)}" placeholder="e.g. NBC" ${id&&custInUse(src)?'disabled':''} style="text-transform:uppercase"><div class="room-free">${id&&custInUse(src)?`Used on residents and billing.${isAdmin()?` <a class="link" href="#" onclick="event.preventDefault();renameCustomer('${id}')">Rename everywhere…</a>`:''}`:'Shown on resident lists, reports and invoices.'}</div></div>
+<div class="form-group"><label class="form-label req">Short name</label><input id="cw-short" value="${esc(c.short)}" placeholder="e.g. NBC" ${id&&custInUse(src)?'disabled':''} style="text-transform:uppercase"><div class="room-free">${id&&custInUse(src)?`Used on residents and billing.${isAdmin()?` <a class="link" href="#" onclick="event.preventDefault();renameCustomer('${jsa(id)}')">Rename everywhere…</a>`:''}`:'Shown on resident lists, reports and invoices.'}</div></div>
 <div class="form-group" style="grid-column:span 2"><label class="form-label req">Full legal name</label><input id="cw-name" value="${esc(c.name)}" placeholder="As on the Commercial Registration"></div>
 <div class="form-group" style="grid-column:span 2"><label class="form-label">Name in Arabic</label><input id="cw-namear" value="${esc(c.nameAr||'')}" dir="rtl"></div>
 <div class="form-group"><label class="form-label">Status</label><select id="cw-status">${Object.entries(CUST_STATUS).map(([k,l])=>opt(k,l,c.status===k)).join('')}</select></div>
@@ -5511,7 +5530,7 @@ MIGRATIONS[6]=function(d){const g={};(d.rates||[]).forEach(r=>{if(!r.occupancyTi
     L.forEach(r=>{if(r===keep){r.tierPrices=Object.fromEntries(L.map(x=>[x.occupancyTier,x.priceExclVat]));r.fromTier=r.occupancyTier;delete r.occupancyTier}else r.archivedTier=true})});
   (d.rates||[]).forEach(r=>{if(r.serviceType==='Food Only'&&!r.archivedTier)r.archivedTier=r.archivedTier||false})};
 // documents (CR, VAT certificate, contract…): images are compressed; PDFs kept as they are
-function cwDocs(){const b=document.getElementById('cw-docs');if(!b)return;b.innerHTML=`${_cw.docs.length?`<div class="doc-list">${_cw.docs.map(d=>`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div><button type="button" class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove document" onclick="_cw.docs=_cw.docs.filter(x=>x.id!=='${d.id}');cwDocs()">${ico('x')}</button></div>`).join('')}</div>`:''}
+function cwDocs(){const b=document.getElementById('cw-docs');if(!b)return;b.innerHTML=`${_cw.docs.length?`<div class="doc-list">${_cw.docs.map(d=>`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div><button type="button" class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button><button type="button" class="btn btn-xs btn-ghost" aria-label="Remove document" onclick="_cw.docs=_cw.docs.filter(x=>x.id!=='${jsa(d.id)}');cwDocs()">${ico('x')}</button></div>`).join('')}</div>`:''}
 <div class="form-row" style="align-items:end;margin-top:8px"><div class="form-group"><label class="form-label">Type</label><select id="dc-kind">${DOC_KINDS.map(k=>opt(k)).join('')}</select></div><div class="form-group"><label class="form-label">Expiry (if any)</label><input type="date" id="dc-exp"></div>
 <div class="form-group"><button type="button" class="btn btn-outline btn-sm" onclick="cwAddDoc()">${ico('upload')} Add file (PDF or photo)</button></div></div>`}
 async function cwAddDoc(){
@@ -5561,7 +5580,7 @@ function openCustomer(id,tab){
   const tabs=[['ov','Overview'],['ct',`Contacts (${c.contacts.length})`],['bill','Billing & contract'],['rates','Rates'],['res',`Residents (${s.inCamp})`],...(can('invoices','view')?[['inv',`Invoices (${s.invoices.length})`]]:[]),['docs',`Documents (${c.docs.length})`],['log','History']];
   let body='';const po=custPO(c);const gaps=custGaps(c);
   if(tab==='ov'){const cats=Object.entries(s.byCat);body=`
-${gaps.length&&c.status!=='closed'?`<div class="alert alert-info">${ico('alert')} Missing: ${esc(gaps.join(', '))}.${ed?` <a class="link" href="#" onclick="event.preventDefault();openCustomerForm('${id}')">Complete the record</a>`:''}</div>`:''}
+${gaps.length&&c.status!=='closed'?`<div class="alert alert-info">${ico('alert')} Missing: ${esc(gaps.join(', '))}.${ed?` <a class="link" href="#" onclick="event.preventDefault();openCustomerForm('${jsa(id)}')">Complete the record</a>`:''}</div>`:''}
 <div class="cp-kpis"><div><small>In camp now</small><b>${s.inCamp}</b>${s.alloc?`<span>of ${s.alloc} allocated beds</span>`:''}</div><div><small>Person-days this month</small><b>${s.pd}</b></div>
 ${rev?`<div><small>Billed this month</small><b>SAR ${fmt(s.amt,0)}</b><span>before VAT</span></div><div><small>Outstanding</small><b ${s.overdue?'style="color:var(--red)"':''}>SAR ${fmt(s.outstanding,0)}</b><span>${s.overdueN?`${s.overdueN} overdue (> ${c.billing.terms} days)`:'none overdue'}${c.billing.creditLimit?` · limit ${fmt(c.billing.creditLimit,0)}`:''}</span></div>`:''}
 <div><small>Contract</small><b>${c.contract.end?(s.daysLeft<0?'Ended':`${s.daysLeft} days left`):c.contract.start?'Open-ended':'—'}</b><span>${c.contract.end?'to '+fmtDate(c.contract.end):''}</span></div></div>
@@ -5569,8 +5588,8 @@ ${s.alloc?`<div class="rev-bar-wrap"><div class="rev-bar-label"><span>Allocated 
 <div class="kv" style="margin-top:12px"><div>Legal name</div><div>${esc(c.name)}${c.nameAr?`<br><span dir="rtl">${esc(c.nameAr)}</span>`:''}</div><div>CR / VAT</div><div>${esc(c.crNo||'—')}${c.crExpiry?` (to ${fmtDate(c.crExpiry)})`:''} · ${esc(c.vatNo||'—')}</div>
 <div>Address</div><div>${esc(addrText(c.addr)||'—')}</div><div>Main contact</div><div>${(p=>p?esc([p.name,p.role].filter(Boolean).join(', '))+(p.phone?` · <a href="tel:${esc(p.phone)}">${esc(p.phone)}</a>`:'')+(p.email?` · <a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:''):'—')(c.contacts.find(x=>x.primary)||c.contacts[0])}</div>
 <div>By room type</div><div>${cats.map(([k,n])=>`${k}: <b>${n}</b>`).join(' · ')||'—'}</div><div>Current PO</div><div>${po?`${esc(po.no)}${po.to?` (to ${fmtDate(po.to)})`:''}`:c.billing.poRequired?'<span class="badge badge-orange">PO required — none valid today</span>':'—'}</div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${can('residents','edit')&&c.status!=='closed'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openResidentModal(null,{company:'${esc(c.short)}'})">${ico('user')} Check in for ${esc(c.short)}</button><button class="btn btn-sm btn-outline" onclick="closeModal();openMultiCheckin();setTimeout(()=>{const s=document.getElementById('mc-co');if(s)s.value='${esc(c.short)}'},50)">${ico('users')} Group check-in</button>`:''}
-${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeModal();openDRR({company:'${esc(c.short)}'})">${ico('clipboard')} Daily Rental Records</button>`:''}${custEmails(c,'billing').length?`<a class="btn btn-sm btn-outline" href="mailto:${esc(custEmails(c,'billing').join(','))}">${ico('mail')} Email</a>`:''}</div>`}
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${can('residents','edit')&&c.status!=='closed'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openResidentModal(null,{company:'${jsa(c.short)}'})">${ico('user')} Check in for ${esc(c.short)}</button><button class="btn btn-sm btn-outline" onclick="closeModal();openMultiCheckin();setTimeout(()=>{const s=document.getElementById('mc-co');if(s)s.value='${jsa(c.short)}'},50)">${ico('users')} Group check-in</button>`:''}
+${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeModal();openDRR({company:'${jsa(c.short)}'})">${ico('clipboard')} Daily Rental Records</button>`:''}${custEmails(c,'billing').length?`<a class="btn btn-sm btn-outline" href="mailto:${esc(custEmails(c,'billing').join(','))}">${ico('mail')} Email</a>`:''}</div>`}
   if(tab==='ct')body=c.contacts.length?`<div class="scroll-x"><table><thead><tr><th>Name</th><th>Role</th><th>Phone</th><th>Email</th><th>Receives</th></tr></thead><tbody>${c.contacts.map(x=>`<tr><td>${esc(x.name)}${x.primary?' <span class="badge badge-navy">Main</span>':''}</td><td>${esc(x.role)}</td><td>${x.phone?`<a href="tel:${esc(x.phone)}">${esc(x.phone)}</a>`:''}</td><td>${x.email?`<a href="mailto:${esc(x.email)}">${esc(x.email)}</a>`:''}</td><td>${[x.notifyCheckin?'check-in notices':'',x.notifyBilling?'billing':''].filter(Boolean).join(', ')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="text-muted">No contacts yet.</p>';
   if(tab==='bill')body=`<div class="kv"><div>Payment terms</div><div>${c.billing.terms} days</div><div>Credit limit</div><div>${c.billing.creditLimit?'SAR '+fmt(c.billing.creditLimit,0):'—'}</div><div>Invoice emails</div><div>${esc(custEmails(c,'billing').join(', ')||'—')}</div><div>PO required</div><div>${c.billing.poRequired?'Yes':'No'}</div><div>Cost centre</div><div>${esc(c.billing.costCenter||'—')}</div>
 <div>Contract no.</div><div>${esc(c.contract.no||'—')}</div><div>Period</div><div>${c.contract.start?fmtDate(c.contract.start)+' to '+(fmtDate(c.contract.end)||'open'):'—'}</div><div>Allocated beds</div><div>${c.contract.beds||'—'}</div><div>Service</div><div>${esc(c.contract.service)}</div><div>Room types</div><div>${c.contract.categories.join(', ')||'—'}</div>${c.notes?`<div>Notes</div><div>${esc(c.notes)}</div>`:''}</div>
@@ -5579,20 +5598,20 @@ ${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeMo
     const pe=can('rates','edit');const cats=custRateCats(id,[...(pe?c.contract.categories:[]),...(window._prCats||[])]);const conv=R.filter(r=>r.tierPrices);
     body=`<p class="auth-note" style="margin-top:0">SAR per person per day, before VAT. <b>Room only</b> applies to residents without a food type, <b>Room + food</b> to residents with one. If only one is agreed, it is used for everyone in that room type.</p>
 ${pe?`<div class="form-row" style="align-items:end;margin-bottom:6px"><div class="form-group"><label class="form-label">New prices start on</label><input type="date" id="pr-from" value="${today()}"></div>
-<div class="form-group"><label class="form-label">Add a room type</label><select onchange="prAddCat('${id}',this.value)">${opt('','—')}${ALL_CATS.filter(k=>!cats.includes(k)).map(k=>opt(k)).join('')}</select></div></div>`:''}
+<div class="form-group"><label class="form-label">Add a room type</label><select onchange="prAddCat('${jsa(id)}',this.value)">${opt('','—')}${ALL_CATS.filter(k=>!cats.includes(k)).map(k=>opt(k)).join('')}</select></div></div>`:''}
 <div id="pr-grid">${rateGridHTML(id,cats,null,pe)}</div>
-${pe&&cats.length?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn btn-primary btn-sm" onclick="prSave('${id}')">Save prices</button>${cats.filter(k=>R.some(r=>r.roomCategory===k&&(!r.effectiveTo||r.effectiveTo>=today()))).map(k=>`<button class="btn btn-ghost btn-sm" onclick="prEndCat('${id}','${k}')">Stop ${k} prices</button>`).join('')}</div>`:''}
+${pe&&cats.length?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn btn-primary btn-sm" onclick="prSave('${jsa(id)}')">Save prices</button>${cats.filter(k=>R.some(r=>r.roomCategory===k&&(!r.effectiveTo||r.effectiveTo>=today()))).map(k=>`<button class="btn btn-ghost btn-sm" onclick="prEndCat('${jsa(id)}','${jsa(k)}')">Stop ${k} prices</button>`).join('')}</div>`:''}
 ${R.length?`<details style="margin-top:12px"><summary class="link" style="font-size:12.5px">Price history (${R.length})</summary><table style="margin-top:6px"><thead><tr><th>Room type</th><th>Service</th><th class="text-right">Price</th><th>From</th><th>To</th><th>Note</th></tr></thead><tbody>${R.map(r=>`<tr><td>${esc(r.roomCategory)}</td><td>${esc(SVC_LABEL[r.serviceType]||r.serviceType)}</td><td class="num">${fmt(r.priceExclVat)}</td><td>${fmtDate(r.effectiveFrom)}</td><td>${r.effectiveTo?fmtDate(r.effectiveTo):'open'}</td><td class="text-muted" style="font-size:12px">${r.tierPrices?`was priced by occupancy: ${Object.entries(r.tierPrices).map(([t,p])=>`${t} ${fmt(p)}`).join(', ')}; kept ${r.fromTier}`:esc(r.ref||'')}</td></tr>`).join('')}</tbody></table></details>`:''}
 ${conv.length?`<div class="alert alert-info" style="margin-top:10px">${ico('alert')} These prices were converted from occupancy-tier pricing in version 6.2: the full-room price was kept (e.g. 6x1 room at 6 sharing). Check them and change any that are not right.</div>`:''}`;}
   if(tab==='res'){const L=activeResidents().filter(r=>r.company===c.short).sort((a,b)=>a.roomNo.localeCompare(b.roomNo,undefined,{numeric:true}));
-    body=L.length?`<div class="scroll-x" style="max-height:420px;overflow:auto"><table><thead><tr><th>Room</th><th>Name</th><th>Iqama</th><th>Phone</th><th>Since</th></tr></thead><tbody>${L.map(r=>`<tr><td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.phone||'')}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div><button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="closeModal();const e=document.getElementById('page-residents');e._filter={company:'${esc(c.short)}',search:'',active:'active',block:''};nav('residents')">Open in Residents</button>`:'<p class="text-muted">Nobody from this customer is in camp today.</p>'}
+    body=L.length?`<div class="scroll-x" style="max-height:420px;overflow:auto"><table><thead><tr><th>Room</th><th>Name</th><th>Iqama</th><th>Phone</th><th>Since</th></tr></thead><tbody>${L.map(r=>`<tr><td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td>${esc(r.phone||'')}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div><button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="closeModal();const e=document.getElementById('page-residents');e._filter={company:'${jsa(c.short)}',search:'',active:'active',block:''};nav('residents')">Open in Residents</button>`:'<p class="text-muted">Nobody from this customer is in camp today.</p>'}
   if(tab==='inv'){const L=s.invoices.slice().sort((a,b)=>b.date.localeCompare(a.date));const ie=can('invoices','edit')||can('monthend','edit');
-    body=L.length?`<div class="scroll-x"><table><thead><tr><th>Invoice</th><th>Period</th><th>Date</th><th class="text-right">Total</th><th>Status</th><th>Age</th><th></th></tr></thead><tbody>${L.map(i=>{const age=daysBetween(i.date,today());const od=i.status!=='paid'&&age>c.billing.terms;return`<tr><td class="mono">${esc(i.no)}</td><td>${esc(i.period||'')}</td><td>${fmtDate(i.date)}</td><td class="num">${fmt(i.total)}</td><td><span class="badge status-${i.status}">${esc(i.status)}</span>${i.paidAt?` <span class="text-muted" style="font-size:11.5px">${fmtDate(i.paidAt)}</span>`:''}</td><td>${i.status==='paid'?'':`<span ${od?'class="badge badge-red"':''}>${age} d</span>`}</td><td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="viewInvoice('${i.id}')">View</button>${ie&&i.status!=='paid'?`<button class="btn btn-xs btn-ghost" onclick="markInvoicePaid('${i.id}','${id}')">Mark paid</button>`:''}</td></tr>`}).join('')}</tbody><tfoot><tr><td colspan="3">Outstanding</td><td class="num">${fmt(s.outstanding)}</td><td colspan="3">${s.overdue?`<span style="color:var(--red)">SAR ${fmt(s.overdue)} overdue</span>`:''}</td></tr></tfoot></table></div>`:'<p class="text-muted">No invoices yet.</p>'}
-  if(tab==='docs')body=(c.docs.length?`<div class="doc-list">${c.docs.map(d=>{const dl=d.expiry?daysBetween(today(),d.expiry):null;return`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')} · added ${fmtDate(d.at)}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div>${dl!=null&&dl<=30?`<span class="badge ${dl<0?'badge-red':'badge-orange'}">${dl<0?'expired':dl+' days'}</span>`:''}<button class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button></div>`}).join('')}</div>`:'<p class="text-muted">No documents. Keep the CR, VAT certificate and contract here.</p>')+(ed?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openCustomerForm('${id}',4)">${ico('upload')} Add documents</button>`:'');
+    body=L.length?`<div class="scroll-x"><table><thead><tr><th>Invoice</th><th>Period</th><th>Date</th><th class="text-right">Total</th><th>Status</th><th>Age</th><th></th></tr></thead><tbody>${L.map(i=>{const age=daysBetween(i.date,today());const od=i.status!=='paid'&&age>c.billing.terms;return`<tr><td class="mono">${esc(i.no)}</td><td>${esc(i.period||'')}</td><td>${fmtDate(i.date)}</td><td class="num">${fmt(i.total)}</td><td><span class="badge status-${i.status}">${esc(i.status)}</span>${i.paidAt?` <span class="text-muted" style="font-size:11.5px">${fmtDate(i.paidAt)}</span>`:''}</td><td>${i.status==='paid'?'':`<span ${od?'class="badge badge-red"':''}>${age} d</span>`}</td><td style="white-space:nowrap"><button class="btn btn-xs btn-ghost" onclick="viewInvoice('${jsa(i.id)}')">View</button>${ie&&i.status!=='paid'?`<button class="btn btn-xs btn-ghost" onclick="markInvoicePaid('${jsa(i.id)}','${jsa(id)}')">Mark paid</button>`:''}</td></tr>`}).join('')}</tbody><tfoot><tr><td colspan="3">Outstanding</td><td class="num">${fmt(s.outstanding)}</td><td colspan="3">${s.overdue?`<span style="color:var(--red)">SAR ${fmt(s.overdue)} overdue</span>`:''}</td></tr></tfoot></table></div>`:'<p class="text-muted">No invoices yet.</p>'}
+  if(tab==='docs')body=(c.docs.length?`<div class="doc-list">${c.docs.map(d=>{const dl=d.expiry?daysBetween(today(),d.expiry):null;return`<div class="doc-item">${ico('file')}<div><b>${esc(d.kind)}</b><small>${esc(d.name||'')} · added ${fmtDate(d.at)}${d.expiry?` · expires ${fmtDate(d.expiry)}`:''}</small></div>${dl!=null&&dl<=30?`<span class="badge ${dl<0?'badge-red':'badge-orange'}">${dl<0?'expired':dl+' days'}</span>`:''}<button class="btn btn-xs btn-ghost" onclick="openDoc(${esc(JSON.stringify(d))})">View</button></div>`}).join('')}</div>`:'<p class="text-muted">No documents. Keep the CR, VAT certificate and contract here.</p>')+(ed?`<button class="btn btn-sm btn-outline" style="margin-top:10px" onclick="openCustomerForm('${jsa(id)}',4)">${ico('upload')} Add documents</button>`:'');
   if(tab==='log'){const msgs=(db.messages||[]).filter(m=>m.company===c.short).slice(-15).reverse();
     body=`${(c.log||[]).length?`<div style="font-size:12.5px;color:var(--gray700);line-height:1.8">${c.log.slice().reverse().map(l=>`${new Date(l.at).toLocaleString('en-GB')} · ${esc(l.by)} · ${esc(l.action)}`).join('<br>')}</div>`:'<p class="text-muted">No changes recorded yet.</p>'}
 ${msgs.length?`<div class="card-title" style="margin:14px 0 6px">Messages</div><div style="font-size:12.5px;line-height:1.8">${msgs.map(m=>`${new Date(m.at).toLocaleString('en-GB')} · ${MSG_KIND[m.kind]||m.kind} by ${m.channel} to ${esc(m.to||'')} · ${esc(m.by||'')}`).join('<br>')}</div>`:''}`}
-  showModal(`<span class="cc-logo sm">${esc(c.short.slice(0,2))}</span> ${esc(c.short)} <span class="badge ${CUST_BADGE[c.status]}">${CUST_STATUS[c.status]}</span>`,`<div class="seg rd-seg" role="tablist">${tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="openCustomer('${id}','${k}')">${l}</button>`).join('')}</div>${body}`,
+  showModal(`<span class="cc-logo sm">${esc(c.short.slice(0,2))}</span> ${esc(c.short)} <span class="badge ${CUST_BADGE[c.status]}">${CUST_STATUS[c.status]}</span>`,`<div class="seg rd-seg" role="tablist">${tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" onclick="openCustomer('${jsa(id)}','${jsa(k)}')">${l}</button>`).join('')}</div>${body}`,
     [...(ed?[{label:'Edit',primary:true,action:()=>openCustomerForm(id)}]:[]),{label:'Close',action:closeModal}],'modal-xl');
 }
 async function markInvoicePaid(invId,cid){
@@ -5697,8 +5716,8 @@ function renderManagement(el){
   el.innerHTML=`
 <div class="page-header"><div><div class="page-title">Management dashboard</div><div class="page-sub">${esc(R.label)} · updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print"><div class="seg" role="tablist" aria-label="View"><button class="${!det?'on':''}" onclick="mgSet('view','simple')">Simple</button><button class="${det?'on':''}" onclick="mgSet('view','detailed')">Detailed</button></div>
-<button class="btn btn-ghost btn-sm" onclick="mgCSV()">${ico('download')} Data (CSV)</button><button class="btn btn-ghost btn-sm" onclick="window.print()">${ico('printer')} Print / PDF</button>${AI.ready()?`<button class="btn btn-outline btn-sm" onclick="openAI('Give me a short management summary for ${esc(R.label)}: occupancy, movement, billing and any problems.',true)">${ico('sparkle')} Summary</button>`:''}</div></div>
-<div class="mg-filters no-print">${[['month','This month'],['last','Last month'],['30','Last 30 days'],['90','Last 90 days'],['ytd','Year to date'],['custom','Custom']].map(([k,l])=>`<button class="chip ${m.range===k?'on':''}" onclick="mgSet('range','${k}')">${l}</button>`).join('')}
+<button class="btn btn-ghost btn-sm" onclick="mgCSV()">${ico('download')} Data (CSV)</button><button class="btn btn-ghost btn-sm" onclick="window.print()">${ico('printer')} Print / PDF</button>${AI.ready()?`<button class="btn btn-outline btn-sm" onclick="openAI('Give me a short management summary for ${jsa(R.label)}: occupancy, movement, billing and any problems.',true)">${ico('sparkle')} Summary</button>`:''}</div></div>
+<div class="mg-filters no-print">${[['month','This month'],['last','Last month'],['30','Last 30 days'],['90','Last 90 days'],['ytd','Year to date'],['custom','Custom']].map(([k,l])=>`<button class="chip ${m.range===k?'on':''}" onclick="mgSet('range','${jsa(k)}')">${l}</button>`).join('')}
 ${m.range==='custom'?`<input type="date" value="${esc(R.from)}" onchange="mgSet('from',this.value)" aria-label="From"> <input type="date" value="${esc(R.to)}" onchange="mgSet('to',this.value)" aria-label="To">`:''}</div>
 <div class="mg-tiles">
 ${tile('In camp today',D.now.toLocaleString('en-US'),`${delta>=0?'+':''}${delta} since ${fmtDate(R.from)}`,'hero')}
@@ -5714,7 +5733,7 @@ ${invV?tile('Outstanding invoices','SAR '+fK(D.outstanding),D.aging[2]+D.aging[3
 </div>
 <div class="card"><div class="card-header"><span class="card-title">Customers</span><span class="text-muted" style="font-size:12px">in camp today${rev?', billed in the period':''}</span></div><div class="scroll-x"><table class="mg-co">
 <thead><tr><th>Customer</th><th class="text-right">In camp</th><th style="width:28%">Share of camp</th><th class="text-right">In</th><th class="text-right">Out</th><th class="text-right">Person-days</th>${rev?'<th class="text-right">Billed (SAR)</th>':''}</tr></thead>
-<tbody>${(det?D.byCo:D.byCo.slice(0,8)).map(c=>`<tr><td class="fw-bold">${can('companies','view')&&getCompanyByShort(c.short)?`<a class="link" href="#" onclick="event.preventDefault();openCustomer('${getCompanyByShort(c.short).id}')">${esc(c.short)}</a>`:esc(c.short)}</td><td class="num">${c.inCamp}</td><td><div class="mg-bar"><span style="width:${D.now?c.inCamp/D.now*100:0}%"></span></div><small class="text-muted">${D.now?Math.round(c.inCamp/D.now*100):0}%</small></td><td class="num">${c.ins||''}</td><td class="num">${c.outs||''}</td><td class="num">${c.pd.toLocaleString('en-US')}</td>${rev?`<td class="num">${fmt(c.amt,0)}</td>`:''}</tr>`).join('')||`<tr><td colspan="7" class="text-center text-muted">No activity</td></tr>`}</tbody>
+<tbody>${(det?D.byCo:D.byCo.slice(0,8)).map(c=>`<tr><td class="fw-bold">${can('companies','view')&&getCompanyByShort(c.short)?`<a class="link" href="#" onclick="event.preventDefault();openCustomer('${jsa(getCompanyByShort(c.short).id)}')">${esc(c.short)}</a>`:esc(c.short)}</td><td class="num">${c.inCamp}</td><td><div class="mg-bar"><span style="width:${D.now?c.inCamp/D.now*100:0}%"></span></div><small class="text-muted">${D.now?Math.round(c.inCamp/D.now*100):0}%</small></td><td class="num">${c.ins||''}</td><td class="num">${c.outs||''}</td><td class="num">${c.pd.toLocaleString('en-US')}</td>${rev?`<td class="num">${fmt(c.amt,0)}</td>`:''}</tr>`).join('')||`<tr><td colspan="7" class="text-center text-muted">No activity</td></tr>`}</tbody>
 ${D.byCo.length>8&&!det?`<tfoot><tr><td colspan="7"><button class="link" onclick="mgSet('view','detailed')">All ${D.byCo.length} customers in Detailed view</button></td></tr></tfoot>`:''}</table></div></div>
 ${det?mgDetailHTML(D):''}`;
   requestAnimationFrame(()=>mgDraw(el));
@@ -6097,7 +6116,7 @@ function tempPassword(){
   const r=n=>{const x=new Uint32Array(1);crypto.getRandomValues(x);return x[0]%n};const p=s=>s[r(s.length)];
   return p(U)+p(l)+p(l)+p(l)+'-'+p(d)+p(d)+p(d)+p(d)+'-'+p(l)+p(U)+p(l)+p(l);
 }
-function pwGenField(id,val){return`<div class="pw-gen"><input id="${id}" type="text" class="mono" value="${esc(val||tempPassword())}" autocomplete="off" spellcheck="false"><button type="button" class="btn btn-sm btn-ghost" title="Make a new password" onclick="document.getElementById('${id}').value=tempPassword()">${ico('refresh')} New</button></div>`}
+function pwGenField(id,val){return`<div class="pw-gen"><input id="${id}" type="text" class="mono" value="${esc(val||tempPassword())}" autocomplete="off" spellcheck="false"><button type="button" class="btn btn-sm btn-ghost" title="Make a new password" onclick="document.getElementById('${jsa(id)}').value=tempPassword()">${ico('refresh')} New</button></div>`}
 function loginMessage(o){
   const first=o.reset?'A new temporary password has been set for your account in':'Your account has been created in';
   return`Dear ${o.name||o.username},
@@ -6283,7 +6302,7 @@ async function auditFetch(f,offset,limit){
     .order('at',{ascending:false}).order('id',{ascending:false}).range(offset,offset+limit-1);
   if(f.user)qq=qq.eq('user_id',f.user);if(acts)qq=acts.length===1?qq.eq('action',acts[0]):qq.in('action',acts);if(f.col)qq=qq.eq('collection',f.col);
   if(q){const s=q.replace(/[,()%*\\]/g,' ').trim();if(s)qq=qq.or(`label.ilike.%${s}%,record_id.ilike.%${s}%,user_name.ilike.%${s}%`)}
-  const{data,error}=await qq;if(error)throw error;return data||[];
+  const{data,error}=await qq;if(error)throw error;return cleanData(data||[]);
 }
 async function auditLoad(reset){
   const el=document.getElementById('page-audit');const box=document.getElementById('audit-body');if(!el||!box)return;
@@ -6354,6 +6373,291 @@ Object.assign(AR,{'Audit log':'سجل التدقيق','Who':'من','What':'ال�
   'Local demo: the audit log is kept in this browser only (the newest 5,000 entries).':'العرض التجريبي: سجل التدقيق محفوظ في هذا المتصفح فقط (أحدث 5000 إدخال).',
   'Kept in the cloud database. Failed sign-in attempts are in Supabase → Authentication → Logs.':'محفوظ في قاعدة البيانات السحابية. محاولات الدخول الفاشلة في Supabase ← Authentication ← Logs.',
   'Today':'اليوم','7 days':'7 أيام','30 days':'30 يومًا','90 days':'90 يومًا'});
+
+// ═════════════════════════════════════════════════════════════
+//  BULK IMPORT OF RESIDENTS FROM EXCEL (v6.5, administrators only)
+//  Reads an occupancy sheet (e.g. the monthly "Consolidated" sheet), shows what will happen,
+//  then adds / updates residents in one go. Matching is by ID number + check-in date, so the
+//  same file can be imported again after fixing it without making duplicates.
+// ═════════════════════════════════════════════════════════════
+const Imp={s:null};
+function impLoadLib(){
+  if(window.XLSX)return Promise.resolve();
+  return new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.integrity='sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw';s.crossOrigin='anonymous';
+    s.onload=()=>window.XLSX?ok():no(new Error('reader not loaded'));s.onerror=()=>no(new Error('The Excel reader could not be loaded. Check the internet connection and try again.'));document.head.appendChild(s)});
+}
+function openImport(){
+  if(!adminOnly('Importing residents'))return;Imp.s=null;
+  showModal('Import residents from Excel',`
+<p style="margin-top:0;font-size:13.5px">Choose your occupancy file (Excel .xlsx or .csv). If it has a sheet called <b>Consolidated</b>, that sheet is used. Nothing is saved until you review it and click <b>Import</b>.</p>
+<label class="imp-drop"><input type="file" id="imp-file" accept=".xlsx,.xls,.csv" onchange="impFile(this.files[0])">${ico('upload')}<b>Choose file</b><span>or drop it here</span></label>
+<div id="imp-msg"></div>
+<details style="margin-top:12px"><summary class="link" style="font-size:12.5px">Which columns does the file need?</summary>
+<table class="imp-mini"><tbody>
+<tr><td><b>Customer</b></td><td>"Vendor Name", "Customer" or "Company" — who is billed</td></tr>
+<tr><td><b>Name</b></td><td>"Employee Name" or "Name"</td></tr>
+<tr><td><b>ID number</b></td><td>"ID Number", "Iqama" or "Passport" (optional)</td></tr>
+<tr><td><b>Room</b></td><td>"Room No." like A-103. Empty = third-party accommodation (you choose where)</td></tr>
+<tr><td><b>Check-in</b></td><td>"Check-In Date" (required)</td></tr>
+<tr><td><b>Check-out</b></td><td>"Check-Out Date" — empty means still staying</td></tr>
+</tbody></table><p class="auth-note">The header row can be anywhere in the first 20 rows. Extra columns are ignored.</p></details>`,
+  [{label:'Cancel',action:closeModal}],'modal-lg');
+  const d=document.querySelector('.imp-drop');if(d){d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});d.addEventListener('dragleave',()=>d.classList.remove('over'));d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('over');if(e.dataTransfer.files[0])impFile(e.dataTransfer.files[0])})}
+}
+async function impFile(f){
+  if(!f)return;const msg=document.getElementById('imp-msg');if(msg)msg.innerHTML='<div class="text-muted" style="padding:10px 0">Reading '+esc(f.name)+'…</div>';
+  try{
+    await impLoadLib();
+    const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{type:'array',cellDates:false,raw:false});
+    const sheets=wb.SheetNames.map(n=>({name:n,rows:XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null,blankrows:false})}));
+    const pick=sheets.find(s=>/consolidated/i.test(s.name)&&impHeader(s.rows))||sheets.find(s=>impHeader(s.rows));
+    if(!pick){msg.innerHTML='<div class="alert alert-warn">No sheet in this file has the columns needed (at least a name and a check-in date). See "Which columns does the file need?" below.</div>';return}
+    Imp.s={file:f.name,sheets,sheet:pick.name};impParse();impReview();
+  }catch(e){if(msg)msg.innerHTML=`<div class="alert alert-warn">${esc(e.message||String(e))}</div>`}
+}
+// header row and columns
+function impHeader(rows){
+  for(let i=0;i<Math.min(20,rows.length);i++){
+    const h=(rows[i]||[]).map(c=>String(c==null?'':c).toLowerCase().replace(/\s+/g,' ').trim());
+    const f=re=>h.findIndex(x=>x&&re.test(x));
+    const name=h.findIndex(x=>/name/.test(x)&&!/company|vendor|customer|client|contractor|sheet|project/.test(x));
+    const ci=f(/check.?in|mob.?date|arrival|date in|^in date/);
+    if(name<0||ci<0)continue;
+    const vend=f(/vendor|customer|client|contractor/),comp=f(/compan/);
+    return{row:i,name,ci,co:f(/check.?out|demob|departure|date out|out date/),cust:vend>=0?vend:comp,id:h.findIndex(x=>/\b(id|iqama|passport|document|doc)\b/.test(x)&&!/^sl/.test(x)),
+      room:f(/room/),food:f(/food|meal/),nat:f(/national/),phone:f(/phone|mobile|contact no/),headers:h};
+  }
+  return null;
+}
+function impDate(v){
+  if(v==null||v==='')return'';
+  if(typeof v==='number'&&v>20000&&v<80000){const d=new Date(Date.UTC(1899,11,30)+Math.round(v)*864e5);return d.toISOString().slice(0,10)}
+  if(v instanceof Date&&!isNaN(v))return ymd(v);
+  const s=String(v).trim();let m;
+  if((m=s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/)))return`${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+  if((m=s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})$/))){const y=m[3].length===2?'20'+m[3]:m[3];return`${y}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`}
+  const M={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  if((m=s.match(/^(\d{1,2})[-\s/]([a-z]{3})[a-z]*[-\s/,]+(\d{2,4})$/i))&&M[m[2].toLowerCase()]){const y=m[3].length===2?'20'+m[3]:m[3];return`${y}-${String(M[m[2].toLowerCase()]).padStart(2,'0')}-${m[1].padStart(2,'0')}`}
+  return'?';
+}
+const impNorm=s=>cleanText(String(s==null?'':s).replace(/\s+/g,' ').trim());
+function impRoomNo(v){const s=impNorm(v).toUpperCase().replace(/\s*-\s*/g,'-');if(!s)return'';if(getRoom(s))return s;const m=s.match(/^([A-Z]{1,3})-?\s?(\d{2,4})$/);if(m){const t=m[1]+'-'+m[2];return t}return s}
+function impDocType(id){return/^[12]\d{9}$/.test(id)?'Iqama':/^[34]\d{9}$/.test(id)?'Border No':'Passport'}
+function impParse(){
+  const S=Imp.s;const sh=S.sheets.find(x=>x.name===S.sheet);const H=impHeader(sh.rows);S.H=H;S.rows=[];
+  const get=(r,i)=>i>=0?r[i]:null;
+  for(let i=H.row+1;i<sh.rows.length;i++){
+    const r=sh.rows[i]||[];const name=impNorm(get(r,H.name));if(!name||/^total/i.test(name))continue;
+    let id=get(r,H.id);id=id==null?'':(typeof id==='number'?String(Math.round(id)):impNorm(id).replace(/\s/g,''));if(/^0+$/.test(id)||/^(na|n\/a|nil|-)$/i.test(id))id='';
+    S.rows.push({line:i+1,cust:impNorm(get(r,H.cust)).toUpperCase(),name:name.toUpperCase(),id,roomRaw:impNorm(get(r,H.room)),room:impRoomNo(get(r,H.room)),
+      ci:impDate(get(r,H.ci)),co:impDate(get(r,H.co)),nat:impNorm(get(r,H.nat)).toUpperCase(),phone:impNorm(get(r,H.phone)),food:impNorm(get(r,H.food))});
+  }
+  // decisions with defaults
+  const custs=[...new Set(S.rows.map(r=>r.cust||'(no customer)'))];
+  S.cmap={};custs.forEach(c=>{const m=impMatchCust(c);S.cmap[c]={to:m?m.short:'__new__',food:impFoodDefault(m?m.short:'')}});
+  const pat=/^[A-Z]{1,3}-\d{2,4}$/;
+  const unknown=[...new Set(S.rows.filter(r=>r.room&&!getRoom(r.room)&&pat.test(r.room)).map(r=>r.room))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  S.newRooms={};unknown.forEach(no=>{const b=no.split('-')[0];const sib=db.rooms.filter(x=>x.block===b&&x.beds>0);const cat=impMode(sib.map(x=>x.cat))||'6x1';
+    S.newRooms[no]={make:true,block:b,cat,beds:(sib.find(x=>x.cat===cat)||{}).beds||parseInt(cat)||6}});
+  S.zeroRooms={};[...new Set(S.rows.filter(r=>getRoom(r.room)&&!getRoom(r.room).beds&&!r.co).map(r=>r.room))].forEach(no=>{const rm=getRoom(no);const sib=db.rooms.filter(x=>x.block===rm.block&&x.beds>0);const cat=impMode(sib.map(x=>x.cat))||'2x1';
+    S.zeroRooms[no]={fix:true,was:rm.cat||'no beds',cat,beds:(sib.find(x=>x.cat===cat)||{}).beds||parseInt(cat)||2}});
+  const codes=[...new Set(S.rows.filter(r=>r.room&&!getRoom(r.room)&&!pat.test(r.room)).map(r=>r.room))];
+  const code=(codes[0]||'TP').replace(/[^A-Z0-9]/g,'').slice(0,6)||'TP';
+  const pv=(db.subleaseProviders||[]).find(p=>p.name.toUpperCase().startsWith(code))||db.companies.find(c=>(c.short||'').toUpperCase().startsWith(code)&&code.length>=3);
+  const bk=getBlock(code);
+  S.tp={on:true,codes,provider:pv?(pv.name||pv.short):(bk&&bk.type==='sublease'?((db.subleaseProviders||[]).find(p=>p.id===bk.providerId)||{}).name||'':''),location:((db.settings||{}).location||'Jubail').replace(/^\w+/,w=>w[0]+w.slice(1).toLowerCase()),code,cat:'2x1'};
+  S.fixYears=true;S.others='keep';S.othersDate=today();S.moves=true;S.backup=true;
+}
+function impMode(a){const c={};a.forEach(x=>{if(x)c[x]=(c[x]||0)+1});return Object.keys(c).sort((x,y)=>c[y]-c[x])[0]||''}
+function impMatchCust(v){
+  const N=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9 ]/g,' ').replace(/\b(CO|COMPANY|LTD|LIMITED|EST|ARABIA|INTERNATIONAL|INTL|TRADING|CONTRACTING|GROUP)\b/g,' ').replace(/\s+/g,' ').trim();
+  const n=N(v);if(!n)return null;const cs=db.companies.filter(c=>c.status!=='closed');
+  return cs.find(c=>(c.short||'').toUpperCase()===String(v).toUpperCase()||(c.name||'').toUpperCase()===String(v).toUpperCase())||cs.find(c=>N(c.short)===n||N(c.name)===n)||null;
+}
+function impFoodDefault(short){if(!short)return'';const r=db.residents.filter(x=>x.company===short);const v=r.length?impMode(r.map(x=>x.foodType||'·')):'';return v==='·'?'':v}
+// work out exactly what will happen (called after every change on the review screen)
+function impPlan(){
+  const S=Imp.s;const t=today();const lim=(()=>{const d=new Date(t+'T00:00:00');d.setDate(d.getDate()+30);return ymd(d)})();
+  const P={add:[],upd:[],same:0,skip:[],warn:[],fixed:[],moves:[],noId:[],tp:[],others:[],over:[]};
+  const pat=/^[A-Z]{1,3}-\d{2,4}$/;const minus1=d=>d&&d.length===10?(+d.slice(0,4)-1)+d.slice(4):d;
+  const R=S.rows.map(r=>Object.assign({},r));
+  R.forEach(r=>{
+    if(S.fixYears){['ci','co'].forEach(k=>{if(r[k]&&r[k]!=='?'&&r[k]>lim&&minus1(r[k])<=lim){P.fixed.push({r,k,from:r[k],to:minus1(r[k])});r[k]=minus1(r[k])}})}
+    if(!r.ci||r.ci==='?')return P.skip.push({r,why:'check-in date missing or not readable'});
+    if(r.co==='?')return P.skip.push({r,why:'check-out date not readable'});
+    if(r.co&&r.co<r.ci)return P.skip.push({r,why:`check-out ${fmtDate(r.co)} is before check-in ${fmtDate(r.ci)}`});
+    if(r.ci>t)P.warn.push({r,why:`check-in ${fmtDate(r.ci)} is in the future`});
+    const m=S.cmap[r.cust||'(no customer)'];r.short=m.to==='__new__'?(r.cust||''):m.to;
+    if(!r.short)return P.skip.push({r,why:'no customer'});
+    if(!r.room||(!getRoom(r.room)&&!pat.test(r.room))){if(!S.tp.on)return P.skip.push({r,why:r.room?`room "${r.roomRaw}" not in the software`:'no room'});r.tp=true;P.tp.push(r);return}
+    if(!getRoom(r.room)&&!(S.newRooms[r.room]&&S.newRooms[r.room].make))return P.skip.push({r,why:`room ${r.room} is not in the software`});
+    if(!r.id)P.noId.push(r);
+    r.ok=true;
+  });
+  const ok=R.filter(r=>r.ok||r.tp);
+  // same person in two rooms at once in the file → the earlier stay ends when the next one starts
+  const key=r=>r.id||('N:'+r.name+'|'+r.short);const by={};ok.forEach(r=>(by[key(r)]=by[key(r)]||[]).push(r));
+  Object.values(by).forEach(L=>{L.sort((a,b)=>a.ci.localeCompare(b.ci));for(let i=0;i<L.length-1;i++){const a=L[i],b=L[i+1];if(!a.co||a.co>b.ci){if(S.moves){P.moves.push({a,b,was:a.co});a.co=b.ci}else P.warn.push({r:a,why:`also in ${b.room||'third-party'} from ${fmtDate(b.ci)}`})}}});
+  // match with residents already in the software
+  const used=new Set();
+  ok.forEach(r=>{
+    const same=x=>!used.has(x.id)&&(r.id?String(x.docNo||'').replace(/\s/g,'').toUpperCase()===r.id.toUpperCase():(String(x.name||'').toUpperCase()===r.name&&x.company===r.short));
+    let ex=db.residents.find(x=>same(x)&&x.checkIn===r.ci)||db.residents.find(x=>same(x)&&!x.checkOut&&x.active!==false&&!ok.some(o=>o!==r&&o.ci===x.checkIn&&key(o)===key(r)));
+    if(ex){used.add(ex.id);r.ex=ex;const ch=(ex.roomNo!==r.room&&!r.tp)||ex.checkIn!==r.ci||(ex.checkOut||'')!==(r.co||'')||ex.company!==r.short||String(ex.name||'').toUpperCase()!==r.name;if(ch||r.tp&&!isSubLeaseRoom(getRoom(ex.roomNo)))P.upd.push(r);else P.same++}
+    else P.add.push(r);
+  });
+  P.others=db.residents.filter(x=>!used.has(x.id));P.othersActive=P.others.filter(x=>!x.checkOut&&x.active!==false);
+  // rooms over their beds today (after import)
+  const occ={};const stay=(no,ci,co)=>{if(ci<=t&&(!co||co>t))occ[no]=(occ[no]||0)+1};
+  ok.filter(r=>!r.tp).forEach(r=>stay(r.room,r.ci,r.co));
+  (S.others==='keep'?P.othersActive:[]).forEach(x=>stay(x.roomNo,x.checkIn,x.checkOut));
+  Object.entries(occ).forEach(([no,n])=>{const rm=getRoom(no),nr=S.newRooms[no],zr=S.zeroRooms[no];const beds=zr&&zr.fix?+zr.beds:rm?rm.beds:nr?+nr.beds:0;if(n>beds)P.over.push({no,n,beds})});
+  P.over.sort((a,b)=>a.no.localeCompare(b.no,undefined,{numeric:true}));
+  P.rows=R;P.ok=ok;return P;
+}
+function impReview(){
+  const S=Imp.s;const P=impPlan();S.P=P;const t=today();
+  const cats=[...new Set(['1x1','2x1','3x1','4x1','5x1','6x1',...db.rooms.map(r=>r.cat).filter(c=>/^\d+x\d+$/i.test(c||''))])];
+  const catSel=(id,v,on)=>`<select onchange="${on}">${cats.map(c=>`<option ${c===v?'selected':''}>${c}</option>`).join('')}</select>`;
+  const foodSel=(c,v)=>`<select onchange="Imp.s.cmap['${jsa(c)}'].food=this.value;impReview()"><option value="">Room only (no food)</option>${(db.settings.foodTypes||[]).map(f=>`<option value="${esc(f.code)}" ${v===f.code?'selected':''}>Room + food (${esc(f.code)})</option>`).join('')}</select>`;
+  const custRows=Object.entries(S.cmap).map(([c,m])=>{const n=S.rows.filter(r=>(r.cust||'(no customer)')===c).length,act=S.rows.filter(r=>(r.cust||'(no customer)')===c&&!r.co).length;
+    return`<tr><td class="fw-bold">${esc(c)}</td><td class="num">${act}<span class="text-muted"> / ${n}</span></td><td><select onchange="Imp.s.cmap['${jsa(c)}'].to=this.value;impReview()"><option value="__new__" ${m.to==='__new__'?'selected':''}>+ New customer "${esc(c)}"</option>${db.companies.filter(x=>x.status!=='closed').map(x=>`<option value="${esc(x.short)}" ${m.to===x.short?'selected':''}>${esc(x.short)}</option>`).join('')}</select></td><td>${foodSel(c,m.food)}</td></tr>`}).join('');
+  const nr=Object.entries(S.newRooms),zr=Object.entries(S.zeroRooms);
+  const tpBy={};P.tp.forEach(r=>{tpBy[r.short]=(tpBy[r.short]||0)+1});
+  const tpBeds=parseInt(S.tp.cat)||2;const tpActive=P.tp.filter(r=>!r.co||r.co>t).length;
+  const sec=(title,body,cls='')=>`<div class="imp-sec ${cls}"><h4>${title}</h4>${body}</div>`;
+  const list=(a,f,max=8)=>`<ul class="imp-list">${a.slice(0,max).map(f).join('')}${a.length>max?`<li class="text-muted">… and ${a.length-max} more</li>`:''}</ul>`;
+  const rowTxt=r=>`<b>${esc(r.name)}</b> <span class="text-muted">(${esc(r.cust||'')}${r.room?' · '+esc(r.room):''}, line ${r.line})</span>`;
+  document.getElementById('active-modal').querySelector('.modal-title').textContent='Import residents — check before importing';
+  const body=document.getElementById('active-modal').querySelector('.modal-body');
+  body.innerHTML=`
+<div class="imp-file">${ico('file')} <b>${esc(S.file)}</b> · sheet <select onchange="Imp.s.sheet=this.value;impParse();impReview()">${S.sheets.filter(x=>impHeader(x.rows)).map(x=>`<option ${x.name===S.sheet?'selected':''}>${esc(x.name)}</option>`).join('')}</select> · ${S.rows.length} rows · <button class="link" onclick="openImport()">choose another file</button></div>
+<div class="imp-sum">
+<div class="ok"><b>${P.add.length}</b><span>new residents</span></div>
+<div><b>${P.upd.length}</b><span>updated</span></div>
+<div><b>${P.same}</b><span>already the same</span></div>
+<div class="${P.skip.length?'bad':''}"><b>${P.skip.length}</b><span>left out</span></div>
+<div><b>${P.ok.filter(r=>!r.co||r.co>t).length}</b><span>staying today</span></div>
+</div>
+${sec('1. Customers',`<p class="imp-note">Each name in the file is matched to a customer in the software. Change it if the match is wrong. New customers are created with just the name; add their prices on the customer page before billing.</p>
+<div class="scroll-x"><table class="imp-table"><thead><tr><th>Name in file</th><th class="num">Staying / rows</th><th>Customer in the software</th><th>Billing</th></tr></thead><tbody>${custRows}</tbody></table></div>`)}
+${P.tp.length||S.tp.codes.length?sec('2. Third-party accommodation',`<label class="chk-line"><input type="checkbox" ${S.tp.on?'checked':''} onchange="Imp.s.tp.on=this.checked;impReview()"> Place the <b>${P.tp.length||S.rows.filter(r=>!r.room||S.tp.codes.includes(r.room)).length}</b> people without a camp room in a sub-leased (third-party) building</label>
+${S.tp.on?`<div class="imp-tp">
+<div class="form-group"><label class="form-label req">Provider (building owner)</label><input value="${esc(S.tp.provider)}" placeholder="e.g. Kawther" onchange="Imp.s.tp.provider=this.value.trim();impReview()"></div>
+<div class="form-group"><label class="form-label">Location</label><input value="${esc(S.tp.location)}" onchange="Imp.s.tp.location=this.value.trim()"></div>
+<div class="form-group"><label class="form-label req">Block code</label><input value="${esc(S.tp.code)}" maxlength="6" style="text-transform:uppercase" onchange="Imp.s.tp.code=this.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');impReview()"></div>
+<div class="form-group"><label class="form-label req">Room type</label>${catSel('tp',S.tp.cat,"Imp.s.tp.cat=this.value;impReview()")}</div></div>
+<p class="imp-note">${Object.entries(tpBy).map(([c,n])=>`${esc(c)}: ${n}`).join(' · ')}${S.tp.codes.length?` (includes room "${S.tp.codes.map(esc).join('", "')}" in the file)`:''}. They are placed ${tpBeds} per room in ${esc(S.tp.code||'?')}-101, ${esc(S.tp.code||'?')}-102 … — about <b>${Math.ceil(tpActive/tpBeds)}</b> rooms. The block and rooms are created under Sub-Lease, billed to each customer at their ${esc(S.tp.cat)} price.${getBlock(S.tp.code)&&getBlock(S.tp.code).type!=='sublease'?` <span class="imp-bad">Block ${esc(S.tp.code)} already exists as a camp block — choose another code.</span>`:getBlock(S.tp.code)?' The existing block is used.':''}</p>`:'<p class="imp-note">They will be left out.</p>'}`):''}
+${nr.length||zr.length?sec('3. Rooms',`${nr.length?`<p class="imp-note">These rooms are in the file but not in the software. Tick to create them (check the room type).</p>
+<div class="scroll-x"><table class="imp-table"><thead><tr><th></th><th>Room</th><th>Room type</th><th class="num">Beds</th><th class="num">Staying</th></tr></thead><tbody>${nr.map(([no,v])=>`<tr><td><input type="checkbox" ${v.make?'checked':''} onchange="Imp.s.newRooms['${jsa(no)}'].make=this.checked;impReview()"></td><td class="fw-bold">${no}</td><td>${catSel('',v.cat,`Imp.s.newRooms['${no}'].cat=this.value;Imp.s.newRooms['${no}'].beds=parseInt(this.value)||Imp.s.newRooms['${no}'].beds;impReview()`)}</td><td class="num"><input type="number" min="1" max="30" value="${v.beds}" style="width:64px" onchange="Imp.s.newRooms['${jsa(no)}'].beds=parseInt(this.value)||1;impReview()"></td><td class="num">${S.rows.filter(r=>r.room===no&&!r.co).length}</td></tr>`).join('')}</tbody></table></div>`:''}
+${zr.length?`<p class="imp-note" style="margin-top:10px">These rooms have <b>no beds</b> in the software (office, kitchen, staff…) but people stay in them in the file. Tick to change them to a bedroom so they can be billed.</p>
+<div class="scroll-x"><table class="imp-table"><thead><tr><th></th><th>Room</th><th>Now</th><th>Change to</th><th class="num">Beds</th><th class="num">Staying</th></tr></thead><tbody>${zr.map(([no,v])=>`<tr><td><input type="checkbox" ${v.fix?'checked':''} onchange="Imp.s.zeroRooms['${jsa(no)}'].fix=this.checked;impReview()"></td><td class="fw-bold">${no}</td><td class="text-muted">${esc(v.was)}</td><td>${catSel('',v.cat,`Imp.s.zeroRooms['${no}'].cat=this.value;Imp.s.zeroRooms['${no}'].beds=parseInt(this.value)||2;impReview()`)}</td><td class="num"><input type="number" min="1" max="30" value="${v.beds}" style="width:64px" onchange="Imp.s.zeroRooms['${jsa(no)}'].beds=parseInt(this.value)||1;impReview()"></td><td class="num">${S.rows.filter(r=>r.room===no&&!r.co).length}</td></tr>`).join('')}</tbody></table></div>`:''}`):''}
+${sec('4. Corrections and checks',`
+${P.fixed.length||S.rows.some(r=>r.ci>'2026-12-31')?`<label class="chk-line"><input type="checkbox" ${S.fixYears?'checked':''} onchange="Imp.s.fixYears=this.checked;impReview()"> Correct dates typed a year ahead (e.g. 2027 → 2026): <b>${P.fixed.length}</b></label>${S.fixYears?list(P.fixed,x=>`<li>${rowTxt(x.r)} ${x.k==='ci'?'check-in':'check-out'} ${fmtDate(x.from)} → <b>${fmtDate(x.to)}</b></li>`,5):''}`:''}
+${P.moves.length||!S.moves?`<label class="chk-line"><input type="checkbox" ${S.moves?'checked':''} onchange="Imp.s.moves=this.checked;impReview()"> Same person in two rooms at once — end the earlier stay when the next starts (room change): <b>${P.moves.length}</b></label>${S.moves?list(P.moves,x=>`<li>${rowTxt(x.a)} → ${esc(x.b.room||S.tp.code)} on <b>${fmtDate(x.b.ci)}</b></li>`,5):''}`:''}
+${P.skip.length?`<div class="imp-warnbox"><b>${P.skip.length} row${P.skip.length>1?'s':''} will be left out</b> — fix them in the file and import it again, or add them by hand:${list(P.skip,x=>`<li>${rowTxt(x.r)}: ${esc(x.why)}</li>`,10)}</div>`:''}
+${P.noId.length?`<p class="imp-note">${P.noId.length} ${P.noId.length>1?'people have':'person has'} no ID number in the file (imported; add it later): ${P.noId.slice(0,6).map(r=>esc(r.name)).join(', ')}${P.noId.length>6?'…':''}</p>`:''}
+${P.warn.length?`<p class="imp-note">Please check: ${P.warn.slice(0,6).map(x=>`${esc(x.r.name)} — ${esc(x.why)}`).join('; ')}${P.warn.length>6?'…':''}</p>`:''}
+${P.over.length?`<div class="imp-warnbox"><b>${P.over.length} room${P.over.length>1?'s have':' has'} more people today than beds</b> (imported anyway — correct the room or its beds in Rooms & Blocks):${list(P.over,x=>`<li>${x.no}: ${x.n} people, ${x.beds} beds</li>`,10)}</div>`:''}
+${!P.fixed.length&&!P.moves.length&&!P.skip.length&&!P.noId.length&&!P.warn.length&&!P.over.length?'<p class="imp-note">✓ No problems found.</p>':''}`)}
+${sec('5. Residents already in the software',P.others.length?`<p class="imp-note"><b>${P.others.length}</b> resident records in the software are not in this file (<b>${P.othersActive.length}</b> of them still checked in).</p>
+<div class="imp-radio"><label><input type="radio" name="imp-oth" ${S.others==='keep'?'checked':''} onchange="Imp.s.others='keep';impReview()"> Keep them as they are</label>
+<label><input type="radio" name="imp-oth" ${S.others==='checkout'?'checked':''} onchange="Imp.s.others='checkout';impReview()"> Check out the ${P.othersActive.length} still in, on <input type="date" value="${S.othersDate}" onchange="Imp.s.othersDate=this.value" style="width:auto;display:inline-block;padding:2px 6px"></label>
+<label><input type="radio" name="imp-oth" ${S.others==='remove'?'checked':''} onchange="Imp.s.others='remove';impReview()"> Remove all ${P.others.length} — they are test or old data; this file is the full list</label></div>`:'<p class="imp-note">None — every resident in the software is in this file.</p>')}
+<label class="chk-line" style="margin-top:12px"><input type="checkbox" ${S.backup?'checked':''} onchange="Imp.s.backup=this.checked"> Download a backup of the current data first (recommended)</label>`;
+  const f=document.getElementById('active-modal').querySelector('.modal-footer');
+  const n=P.add.length+P.upd.length;
+  f.innerHTML=`<button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="imp-go" onclick="impApply()" ${n||S.others!=='keep'?'':'disabled'}>Import ${n} resident${n===1?'':'s'}</button>`;
+}
+function jsq(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+async function impApply(){
+  const S=Imp.s;const P=impPlan();const t=today();
+  if(P.tp.length&&S.tp.on){
+    if(!S.tp.provider)return uiAlert('Enter the provider (building owner) for the third-party accommodation.');
+    if(!S.tp.code)return uiAlert('Enter a block code for the third-party accommodation, e.g. KAW.');
+    const b=getBlock(S.tp.code);if(b&&b.type!=='sublease')return uiAlert(`Block ${S.tp.code} is a camp block. Choose another code for the third-party accommodation.`);
+  }
+  const newCust=Object.entries(S.cmap).filter(([c,m])=>m.to==='__new__'&&S.rows.some(r=>(r.cust||'(no customer)')===c)).map(([c])=>c).filter(Boolean);
+  const nRooms=Object.values(S.newRooms).filter(v=>v.make).length;
+  const parts=[`${P.add.length} new residents`,P.upd.length?`${P.upd.length} updated`:'',newCust.length?`${newCust.length} new customer${newCust.length>1?'s':''}`:'',nRooms?`${nRooms} new rooms`:'',P.tp.length&&S.tp.on?`${P.tp.length} placed in ${S.tp.code} (${S.tp.provider})`:'',
+    S.others==='remove'?`${P.others.length} old records removed`:S.others==='checkout'?`${P.othersActive.length} checked out on ${fmtDate(S.othersDate)}`:''].filter(Boolean);
+  if(!await uiConfirm(parts.join('\n'),{title:'Import now?',ok:'Import'}))return;
+  if(S.backup){try{exportBackup()}catch(e){}}
+  const btn=document.getElementById('imp-go');if(btn){btn.disabled=true;btn.textContent='Importing…'}
+  // customers
+  newCust.forEach(c=>{db.companies.push(custNormalize({id:uid(),name:c,short:c,status:'active',vatNo:'',address:'',contact:'',phone:'',email:'',createdAt:nowISO(),createdBy:currentUser.name,log:[{at:nowISO(),by:currentUser.name,what:'Created by bulk import from '+S.file}]}))});
+  // camp rooms
+  const addBlock=(code,o)=>{if(!getBlock(code))db.blocks.push(Object.assign({id:uid(),code,name:'Block '+code,camp:'TRENDOS CAMP',type:'own',providerId:'',contractId:'',billable:true,remarks:''},o||{}))};
+  Object.entries(S.newRooms).forEach(([no,v])=>{if(!v.make||getRoom(no))return;addBlock(v.block);db.rooms.push({id:uid(),no,block:v.block,cat:v.cat,beds:+v.beds||1,isSubLease:false})});
+  Object.entries(S.zeroRooms).forEach(([no,v])=>{const rm=getRoom(no);if(v.fix&&rm){rm.cat=v.cat;rm.beds=+v.beds||1}});
+  // third-party building
+  if(P.tp.length&&S.tp.on){
+    let pv=(db.subleaseProviders||[]).find(p=>p.name.toUpperCase()===S.tp.provider.toUpperCase());
+    if(!pv){pv={id:uid(),name:S.tp.provider,contact:'',phone:'',address:S.tp.location};db.subleaseProviders.push(pv)}
+    addBlock(S.tp.code,{name:`${pv.name} — ${S.tp.location}`,camp:pv.name.toUpperCase(),type:'sublease',providerId:pv.id,remarks:'Created by bulk import'});
+    const beds=parseInt(S.tp.cat)||2;const inRoom={};
+    db.residents.forEach(x=>{if(!x.checkOut&&x.active!==false&&(getRoom(x.roomNo)||{}).block===S.tp.code)inRoom[x.roomNo]=(inRoom[x.roomNo]||0)+1});
+    const sorted=P.tp.slice().sort((a,b)=>(a.short+a.name).localeCompare(b.short+b.name));
+    sorted.forEach(r=>{
+      if(r.ex&&(getRoom(r.ex.roomNo)||{}).block===S.tp.code){r.room=r.ex.roomNo;return}
+      const stays=!r.co||r.co>t;let i=101,no;
+      while(true){no=`${S.tp.code}-${i}`;const rm=getRoom(no);if(!rm){db.rooms.push({id:uid(),no,block:S.tp.code,cat:S.tp.cat,beds,isSubLease:true});break}if(!stays||(inRoom[no]||0)<rm.beds)break;i++}
+      r.room=no;if(stays)inRoom[no]=(inRoom[no]||0)+1;
+    });
+  }
+  // residents
+  let added=0,updated=0;const stamp=nowISO();
+  P.ok.forEach(r=>{
+    const rm=getRoom(r.room);if(!rm)return;
+    const m=S.cmap[r.cust||'(no customer)'];
+    const obj={name:r.name,docNo:r.id||(r.ex?r.ex.docNo:''),docType:r.id?impDocType(r.id):(r.ex?r.ex.docType:'Iqama'),company:r.short,roomNo:rm.no,block:rm.block,isSubLease:isSubLeaseRoom(rm),checkIn:r.ci,checkOut:r.co||'',active:!r.co,importedFrom:S.file,importedAt:stamp};
+    if(r.phone)obj.phone=r.phone;if(r.nat)obj.nationality=r.nat;
+    if(r.ex){if(P.upd.includes(r)){Object.assign(r.ex,obj);updated++}}
+    else{const ft=m?m.food:'';db.residents.push(Object.assign({id:uid(),phone:'',nationality:'',foodType:ft==='·'?'':ft,food:!!(ft&&ft!=='·'),overrideNote:''},obj));added++}
+  });
+  // residents not in the file
+  let other=0;
+  if(S.others==='remove'){const ids=new Set(P.others.map(x=>x.id));db.residents=db.residents.filter(x=>!ids.has(x.id));other=ids.size}
+  else if(S.others==='checkout'){P.othersActive.forEach(x=>{x.checkOut=S.othersDate<x.checkIn?x.checkIn:S.othersDate;x.active=false});other=P.othersActive.length}
+  saveDB();
+  auditEvent('restore',`Bulk import of residents from ${S.file} (sheet ${S.sheet}): ${added} added, ${updated} updated${other?`, ${other} ${S.others==='remove'?'old records removed':'checked out'}`:''}`);
+  closeModal();Imp.s=null;
+  uiAlert(`${added} residents added, ${updated} updated${newCust.length?`, ${newCust.length} new customers (add their prices before billing)`:''}${other?`, ${other} ${S.others==='remove'?'old records removed':'checked out'}`:''}.${P.skip.length?`\n\n${P.skip.length} rows were left out — see the list you reviewed.`:''}`,{title:'Import finished'});
+  nav('residents');
+}
+// buttons: Residents screen (administrators) and Settings → Data
+const _a12res=renderResidents;
+renderResidents=function(el){_a12res(el);if(!isAdmin()||!el)return;const h=el.querySelector('.page-header');if(!h||h.querySelector('.imp-btn'))return;
+  const box=h.lastElementChild&&h.lastElementChild!==h.firstElementChild?h.lastElementChild:h;const b=document.createElement('button');b.className='btn btn-outline btn-sm imp-btn';b.innerHTML=ico('upload')+' Import from Excel';b.onclick=openImport;box.insertBefore(b,box.firstChild)};
+HELP.residents=(HELP.residents||[]).concat(['Administrators: <b>Import from Excel</b> loads a whole occupancy sheet at once (for example the monthly Consolidated sheet) and shows what will change before saving.']);
+Object.assign(AR,{'Import from Excel':'استيراد من Excel','Import residents from Excel':'استيراد المقيمين من Excel','Choose file':'اختر الملف','or drop it here':'أو اسحبه هنا','new residents':'مقيمون جدد','updated':'محدّث','already the same':'بدون تغيير','left out':'مستبعد','staying today':'مقيمون اليوم',
+  '1. Customers':'1. العملاء','2. Third-party accommodation':'2. سكن طرف ثالث','3. Rooms':'3. الغرف','4. Corrections and checks':'4. التصحيحات والتحقق','5. Residents already in the software':'5. المقيمون الموجودون في النظام','Import finished':'اكتمل الاستيراد','Import now?':'الاستيراد الآن؟','Import':'استيراد'});
+
+// ═════════════════════════════════════════════════════════════
+//  SECURITY HARDENING (v6.6) — from the security test of 23 Nov 2026
+//  1. Text from the database can never become HTML or script: < > " are replaced by look-alike
+//     characters (‹ › ″) whenever data is loaded, received live, imported or saved.
+//  2. Values placed inside onclick="…" handlers are escaped for JavaScript (jsa), done at build time.
+//  3. The page refuses to run inside another site's frame (click-jacking) when it is connected to the cloud.
+// ═════════════════════════════════════════════════════════════
+const SAFE_MAP={'<':'‹','>':'›','"':'″'};
+function cleanText(s){return typeof s==='string'&&/[<>"]/.test(s)?s.replace(/[<>"]/g,c=>SAFE_MAP[c]):s}
+function cleanData(o,depth){
+  depth=depth||0;if(depth>12||o==null)return o;
+  if(typeof o==='string')return cleanText(o);
+  if(Array.isArray(o)){for(let i=0;i<o.length;i++){const v=o[i];if(typeof v==='string'){if(/[<>"]/.test(v))o[i]=cleanText(v)}else if(v&&typeof v==='object')cleanData(v,depth+1)}return o}
+  if(typeof o==='object'){for(const k in o){if(!Object.prototype.hasOwnProperty.call(o,k))continue;const v=o[k];if(typeof v==='string'){if(/[<>"]/.test(v))o[k]=cleanText(v)}else if(v&&typeof v==='object')cleanData(v,depth+1)}}
+  return o;
+}
+// a value inside a JavaScript string inside an HTML attribute: escape for JS first, then for HTML
+function jsa(s){return esc(String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,'\\n').replace(/[\u2028\u2029]/g,' '))}
+// everything typed or imported is cleaned before it is saved and shown
+const _a13save=saveDB;saveDB=function(){try{cleanData(db)}catch(e){}return _a13save.apply(this,arguments)};
+// user accounts (people can choose their own name when they ask for access)
+if(typeof UserStore!=='undefined'&&UserStore.list){const _a13ul=UserStore.list.bind(UserStore);UserStore.list=async function(){const r=await _a13ul.apply(this,arguments);return cleanData(r)}}
+// click-jacking: when connected to the cloud, do not run inside a frame of another site
+(function(){try{if(window.top!==window.self&&getCloudCfg()){let same=false;try{same=window.top.location.origin===location.origin}catch(e){}
+  if(!same){document.documentElement.innerHTML='<body style="font-family:sans-serif;padding:40px"><h2>Trendos cannot be shown inside another website.</h2><p><a href="'+location.href.replace(/"/g,'')+'" target="_top">Open Trendos</a></p></body>';throw new Error('framed')}}}catch(e){if(e.message==='framed')throw e}})();
 
 Lang.apply();if(Lang.cur==='ar')trTree(document.body);(()=>{const b=document.getElementById('auth-lang');if(b)b.textContent=Lang.cur==='ar'?'English':'العربية'})();
 const _v6nav=nav;nav=function(p){if(p==='rates')p='companies';document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
