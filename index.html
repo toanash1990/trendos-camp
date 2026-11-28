@@ -877,6 +877,19 @@ body.ai-open #ai-panel{transform:none}
 .nav-badge{margin-left:auto;background:var(--pink,#c4006c);color:#fff;border-radius:999px;font-size:11px;font-weight:600;padding:1px 7px}
 .text-green{color:#15803d}
 
+/* v6.10 resident filters, occupancy */
+.res-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.res-filters select,.res-filters input[type=date],.res-filters input[type=month]{width:auto;min-width:130px}
+.res-filters #res-search{width:260px;max-width:100%}
+.res-date{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--gray600,#4b5563)}
+.res-selbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 12px;margin-bottom:10px;border-radius:10px;background:var(--gray50,#f9fafb);border:1px solid var(--line,#e5e7eb)}
+tr.res-on td{background:#fdf2f8}.res-card.res-on{outline:2px solid var(--pink,#c4006c);outline-offset:-2px}
+.occ-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
+.occ-bar{height:6px;border-radius:99px;background:var(--gray100,#f3f4f6);overflow:hidden;margin-top:8px}.occ-bar span{display:block;height:100%;background:var(--pink,#c4006c);border-radius:99px}
+.occ-cell{display:flex;align-items:center;gap:8px}.occ-cell .occ-bar{flex:1;margin:0;min-width:50px}.occ-cell span:last-child{font-variant-numeric:tabular-nums;font-size:12px;min-width:42px;text-align:right}
+@media (max-width:720px){.occ-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.res-filters select,.res-filters input{flex:1 1 140px}.res-filters #res-search{width:100%;flex-basis:100%}}
+.occ-table td:nth-child(2),.res-table td:nth-child(2),.res-table td:nth-child(10),.res-table td:nth-child(11){white-space:nowrap}
+
 .auth-panel{position:relative}.auth-lang{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'Readex Pro',var(--font)}
 </style>
 <!-- Cloud database client (Supabase). Ignored in local demo mode. -->
@@ -968,6 +981,7 @@ body.ai-open #ai-panel{transform:none}
       <div class="nav-item" onclick="nav('sublease')"><span class="icon">🔁</span>Sub-Lease Contracts</div>
       <div class="nav-item" id="nav-rent" style="display:none" onclick="nav('rent')"><span class="icon">🔑</span>Rent</div>
       <div class="nav-section">Reports</div>
+      <div class="nav-item" onclick="nav('occupancy')"><span class="icon">🏢</span>Room Occupancy</div>
       <div class="nav-item" onclick="nav('drr')"><span class="icon">🗒️</span>Daily Rental Records</div>
       <div class="nav-item" onclick="nav('reports')"><span class="icon">📊</span>Reports & Export</div>
       <div class="nav-section">Setup</div>
@@ -994,6 +1008,7 @@ body.ai-open #ai-panel{transform:none}
       <div id="page-pricereq" style="display:none"></div>
       <div id="page-sublease" style="display:none"></div>
       <div id="page-reports" style="display:none"></div>
+      <div id="page-occupancy" style="display:none"></div>
       <div id="page-companies" style="display:none"></div>
       <div id="page-settings" style="display:none"></div>
       <div id="page-users" style="display:none"></div>
@@ -1022,7 +1037,7 @@ const AUTH_LINK=(()=>{try{const h=new URLSearchParams((location.hash||'').replac
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.9.0';
+const APP_VERSION='6.10.0';
 const SCHEMA_VERSION=6;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
@@ -4826,6 +4841,103 @@ ${waList}
   [...(dir==='in'&&can('residents','edit')?[{label:one?'Check in another':'Check in more',action:()=>{closeModal();one?openResidentModal(null,{company:r.company,date:r.checkIn}):openMultiCheckin()}}]:[]),{label:'Done',primary:true,action:closeModal}]);
 }
 
+// ─── v6.10 Residents: more filters; check-out acts only on what the filter shows; select / unselect all fixed ───
+const RES_F0={company:'',search:'',active:'active',block:'',cat:'',food:'',place:'',inFrom:'',inTo:''};
+function resIsAct(r){return presentOn(r,today())||(!r.checkOut&&r.active!==false)}
+function resFiltered(el){
+  const f=Object.assign({},RES_F0,el._filter||{});
+  const base=f.active==='all'?db.residents:f.active==='active'?db.residents.filter(resIsAct):db.residents.filter(r=>!resIsAct(r));
+  const q=(f.search||'').trim().toLowerCase();
+  const list=base.filter(r=>{const rm=getRoom(r.roomNo)||{};
+    if(f.company&&r.company!==f.company)return false;
+    if(f.block&&(rm.block||r.block)!==f.block)return false;
+    if(f.cat&&rm.cat!==f.cat)return false;
+    if(f.food&&(r.foodType||'')!==f.food)return false;
+    if(f.place){const sl=!!(rm.no&&isSubLeaseRoom(rm));if(f.place==='own'&&sl)return false;if(f.place==='sub'&&!sl)return false}
+    if(f.inFrom&&(r.checkIn||'')<f.inFrom)return false;
+    if(f.inTo&&(r.checkIn||'')>f.inTo)return false;
+    if(q&&![r.name,r.docNo,r.roomNo,r.phone,r.nationality,r.company].some(v=>v&&String(v).toLowerCase().includes(q)))return false;
+    return true;
+  }).sort((a,b)=>String(a.roomNo).localeCompare(String(b.roomNo),undefined,{numeric:true})||String(a.name).localeCompare(String(b.name)));
+  return{f,list};
+}
+renderResidents=function(el){
+  const{f,list}=resFiltered(el);el._sel=el._sel||new Set();
+  const ed=can('residents','edit');
+  const shownAct=list.filter(resIsAct).map(r=>r.id);const shownSet=new Set(shownAct);
+  // only residents the current filter shows can stay selected
+  [...el._sel].forEach(id=>{if(!shownSet.has(id))el._sel.delete(id)});
+  const nSel=el._sel.size;const allOn=shownAct.length>0&&nSel===shownAct.length;
+  const cats=[...new Set(db.rooms.filter(isBillableRoom).map(r=>r.cat))].sort((a,b)=>String(a).localeCompare(String(b),undefined,{numeric:true}));
+  const foods=[...new Set(db.residents.map(r=>r.foodType).filter(Boolean))].sort();
+  const anyF=['company','search','block','cat','food','place','inFrom','inTo'].some(k=>f[k])||f.active!=='active';
+  const sel=(k,all,opts)=>`<select onchange="setResFilter('${jsa(k)}',this.value)" aria-label="${esc(all)}"><option value="">${esc(all)}</option>${opts}</select>`;
+  el.innerHTML=`
+<div class="page-header">
+  <div><div class="page-title">👥 Residents</div><div class="page-sub">${list.length} shown${shownAct.length!==list.length?` · ${shownAct.length} in camp`:''}${nSel?` · <b>${nSel} selected</b>`:''}</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    ${ed?`<button class="btn btn-danger btn-sm" ${nSel?'':'disabled'} onclick="resCheckoutSelected()">⇥ Check out selected (${nSel})</button>
+    <button class="btn btn-outline btn-sm edit-only" onclick="openMultiCheckin()">👥 Multi Check-In</button>
+    <button class="btn btn-primary btn-sm" onclick="openResidentModal()">+ Check In</button>`:''}
+  </div>
+</div>
+<div class="res-filters">
+  <input id="res-search" placeholder="Search name, iqama, room, phone, nationality…" value="${esc(f.search)}" oninput="setResFilter('search',this.value)" aria-label="Search">
+  ${sel('company','All customers',db.companies.filter(c=>c.status!=='rejected').map(c=>opt(c.short,c.short,f.company===c.short)).join(''))}
+  ${sel('block','All blocks',db.blocks.map(b=>opt(b.code,b.code+(b.type==='sublease'?' (sub-lease)':''),f.block===b.code)).join(''))}
+  ${sel('cat','All room types',cats.map(c=>opt(c,c,f.cat===c)).join(''))}
+  <select onchange="setResFilter('active',this.value)" aria-label="Status">${opt('active','In camp',f.active==='active')}${opt('inactive','Checked out',f.active==='inactive')}${opt('all','All residents',f.active==='all')}</select>
+  ${sel('place','Own camp + sub-lease',opt('own','Own camp only',f.place==='own')+opt('sub','Sub-lease only',f.place==='sub'))}
+  ${foods.length?sel('food','All food types',foods.map(x=>opt(x,x,f.food===x)).join('')):''}
+  <label class="res-date">Checked in from <input type="date" value="${esc(f.inFrom)}" onchange="setResFilter('inFrom',this.value)"></label>
+  <label class="res-date">to <input type="date" value="${esc(f.inTo)}" onchange="setResFilter('inTo',this.value)"></label>
+  ${anyF?`<button class="btn btn-ghost btn-sm" onclick="resClearFilters()">Clear filters</button>`:''}
+</div>
+${ed&&shownAct.length?`<div class="res-selbar">
+  <label class="chk-line" style="margin:0"><input type="checkbox" id="res-all" ${allOn?'checked':''} onchange="resSelectAll(this.checked)"> Select all ${shownAct.length} shown</label>
+  ${nSel?`<button class="btn btn-ghost btn-sm" onclick="resSelectAll(false)">Clear selection</button><span class="text-muted" style="font-size:12.5px">Only the residents shown by your filters can be selected and checked out.</span>`:''}
+</div>`:''}
+<div class="card res-table"><div class="scroll-x"><table>
+<thead><tr><th class="edit-only" style="width:28px">${ed&&shownAct.length?`<input type="checkbox" id="res-all-h" style="width:auto" aria-label="Select all shown" title="Select all shown" ${allOn?'checked':''} onchange="resSelectAll(this.checked)">`:''}</th><th>Room</th><th>Name</th><th>Doc No</th><th>Phone</th><th>Nationality</th><th>Company</th><th>Block</th><th>Type</th><th>Check In</th><th>Check Out</th><th>Food</th><th></th></tr></thead>
+<tbody>${list.map(r=>{const room=getRoom(r.roomNo);const act=resIsAct(r);const sl=room&&isSubLeaseRoom(room);return`<tr class="${el._sel.has(r.id)?'res-on':''}">
+<td class="edit-only">${act&&ed?`<input type="checkbox" class="res-cb" style="width:auto" aria-label="Select ${esc(r.name)}" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${jsa(r.id)}',this.checked)">`:''}</td>
+<td class="fw-bold">${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td class="mono">${esc(r.docNo)}</td><td class="mono">${esc(r.phone||'')}</td><td>${esc(r.nationality||'')}</td>
+<td><span class="badge badge-navy">${esc(r.company)}</span></td><td>${esc(room?room.block:r.block||'')}${sl?' <span class="badge badge-orange">SL</span>':''}</td>
+<td>${room?esc(room.cat):'-'}</td><td>${fmtDate(r.checkIn)}</td>
+<td>${r.checkOut?fmtDate(r.checkOut):'<span class="badge badge-green">Active</span>'}</td>
+<td>${esc(r.foodType||'')}</td>
+<td style="white-space:nowrap">${ed?`<button class="btn btn-xs btn-ghost" onclick="editResident('${jsa(r.id)}')">Edit</button>${act?`<button class="btn btn-xs btn-ghost" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check Out</button>`:''}`:''}</td></tr>`}).join('')||'<tr><td colspan="13" class="text-center text-muted">No residents match these filters</td></tr>'}
+</tbody></table></div></div>
+<div class="res-cards">${list.slice(0,el._shown||60).map(r=>{const room=getRoom(r.roomNo);const act=resIsAct(r);const sl=room&&isSubLeaseRoom(room);return`<div class="res-card ${el._sel.has(r.id)?'res-on':''}">
+<div class="rc-room">${esc(r.roomNo)}</div>
+<div class="rc-name">${esc(r.name)}</div>
+<div>${act&&ed?`<input type="checkbox" class="res-cb" aria-label="Select ${esc(r.name)}" ${el._sel.has(r.id)?'checked':''} onchange="resToggle('${jsa(r.id)}',this.checked)">`:act?'':'<span class="badge badge-gray">Out</span>'}</div>
+<div class="rc-meta"><span class="badge badge-navy">${esc(r.company)}</span> ${room?esc(room.cat):''}${sl?' <span class="badge badge-orange">Sub-lease</span>':''}<br>
+Iqama ${esc(r.docNo)}${r.phone?` · <a href="tel:${esc(String(r.phone).replace(/\s/g,''))}">${esc(r.phone)}</a>`:''}<br>
+In ${fmtDate(r.checkIn)}${r.checkOut?` · Out ${fmtDate(r.checkOut)}`:''}${r.nationality?` · ${esc(r.nationality)}`:''}</div>
+${ed?`<div class="rc-actions"><button class="btn btn-sm btn-outline" onclick="editResident('${jsa(r.id)}')">Edit</button>${act?`<button class="btn btn-sm btn-outline" onclick="openBulkCheckout(['${jsa(r.id)}'])">Check out</button>`:''}</div>`:''}
+</div>`}).join('')||'<div class="empty-state"><p>No residents match these filters</p></div>'}
+${list.length>(el._shown||60)?`<button class="btn btn-outline" style="justify-content:center" onclick="const e=document.getElementById('page-residents');e._shown=(e._shown||60)+60;renderResidents(e)">Show more (${list.length-(el._shown||60)} left)</button>`:''}</div>`;
+  const h=el.querySelector('#res-all-h'),a=el.querySelector('#res-all');[h,a].forEach(x=>{if(x)x.indeterminate=nSel>0&&!allOn});
+  el._list=shownAct;
+};
+setResFilter=function(key,val){
+  const el=document.getElementById('page-residents');el._filter=Object.assign({},RES_F0,el._filter||{});el._filter[key]=val;el._shown=60;renderResidents(el);
+  if(key==='search'){const i=document.getElementById('res-search');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}
+};
+function resClearFilters(){const el=document.getElementById('page-residents');el._filter=Object.assign({},RES_F0);el._sel.clear();el._shown=60;renderResidents(el)}
+resToggle=function(id,on){const el=document.getElementById('page-residents');el._sel=el._sel||new Set();if(on)el._sel.add(id);else el._sel.delete(id);renderResidents(el)};
+resSelectAll=function(on){
+  const el=document.getElementById('page-residents');el._sel=el._sel||new Set();
+  if(on){const{list}=resFiltered(el);el._sel.clear();list.filter(resIsAct).forEach(r=>el._sel.add(r.id))}else el._sel.clear();
+  renderResidents(el);
+};
+function resCheckoutSelected(){
+  const el=document.getElementById('page-residents');const{list}=resFiltered(el);const shown=new Set(list.filter(resIsAct).map(r=>r.id));
+  const ids=[...(el._sel||[])].filter(id=>shown.has(id));if(!ids.length)return toast('Select residents first');
+  openBulkCheckout(ids);
+}
+
 // ─── SERVER FUNCTIONS (Supabase Edge Function "trendos-api": holds the AI key and the WhatsApp token) ───
 const Api={
   async call(action,payload){
@@ -7424,6 +7536,97 @@ async function saveBillRules(){
 
 Object.assign(AR,{'Billing rules':'قواعد الفوترة','Bill the check-out day (count it as a full day)':'احتساب يوم المغادرة يوماً كاملاً','For check-outs from':'للمغادرة ابتداءً من','Customer prices need approval':'أسعار العملاء تحتاج إلى موافقة','Price approvers':'معتمدو الأسعار','Save billing rules':'حفظ قواعد الفوترة',
   'Price approvals':'اعتماد الأسعار','The check-out day is billed as a full day.':'يُحتسب يوم المغادرة يوماً كاملاً.','Withdraw':'سحب','Decided':'تم البت','Waiting for a price approver.':'بانتظار معتمد الأسعار.','Another approver must approve your own change.':'يجب أن يعتمد تغييرك معتمد آخر.'});
+
+// ═════════════════════════════════════════════════════════════
+//  v6.10 — ROOM OCCUPANCY REPORT
+//  Every room with its total beds (space), occupied and free beds and occupancy %,
+//  on one date or as a month average, with totals by block and room type.
+// ═════════════════════════════════════════════════════════════
+PAGE_MODULE.occupancy='rooms';NAV_ICON.occupancy='building';
+const _a17rp=renderPage;renderPage=function(page,el){if(page==='occupancy')return renderOccupancy(el);return _a17rp(page,el)};
+const OCC_P0=()=>({mode:'day',date:today(),mo:today().slice(0,7),block:'',cat:'',company:'',status:'',place:''});
+function occData(p){
+  const month=p.mode==='month';
+  let days=[p.date||today()];
+  if(month){const B=periodBounds(p.mo);const to=B.end>today()?today():B.end;days=B.start<=to?dateRange(B.start,to):[]}
+  const rooms=db.rooms.filter(r=>isBillableRoom(r)).filter(r=>(!p.block||r.block===p.block)&&(!p.cat||r.cat===p.cat)&&(!p.place||(p.place==='sub')===!!isSubLeaseRoom(r)))
+    .sort((a,b)=>String(a.block).localeCompare(String(b.block))||String(a.no).localeCompare(String(b.no),undefined,{numeric:true}));
+  const byRoom={};db.residents.forEach(r=>{(byRoom[r.roomNo]=byRoom[r.roomNo]||[]).push(r)});
+  const rows=rooms.map(rm=>{
+    const res=byRoom[rm.no]||[];let occ=0,avail=0,oosDays=0;const cos={};let last=[];
+    days.forEach(d=>{const oos=roomOOS(rm.no,d);const here=res.filter(r=>presentOn(r,d));occ+=here.length;if(oos)oosDays++;else avail+=rm.beds;here.forEach(r=>cos[r.company]=(cos[r.company]||0)+1);if(d===days[days.length-1])last=here});
+    const n=days.length||1;const occN=month?occ/n:occ;const space=rm.beds;const free=Math.max(0,month?(avail/n)-occN:(oosDays?0:space-occ));
+    const pct=avail?Math.round(occ/avail*1000)/10:(occ?100:0);
+    const status=oosDays&&!month?'oos':occN<=0?'vacant':occN>=space?'full':'partly';
+    return{no:rm.no,block:rm.block,cat:rm.cat,space,occ:occN,free,pct,status,oos:!!oosDays,over:!month&&occ>space,cos:Object.keys(cos).sort(),names:last.map(r=>r.name),sl:!!isSubLeaseRoom(rm)};
+  }).filter(r=>(!p.company||r.cos.includes(p.company))&&(!p.status||r.status===p.status));
+  const sum=list=>{const space=list.reduce((t,r)=>t+r.space,0),occ=list.reduce((t,r)=>t+r.occ,0),free=list.reduce((t,r)=>t+r.free,0);const oosBeds=list.filter(r=>r.oos).reduce((t,r)=>t+r.space,0);const usable=space-(month?0:oosBeds);return{rooms:list.length,space,occ,free,pct:usable?Math.round(occ/usable*1000)/10:0,vacantRooms:list.filter(r=>r.status==='vacant').length,fullRooms:list.filter(r=>r.status==='full').length}};
+  const group=k=>{const g={};rows.forEach(r=>(g[r[k]]=g[r[k]]||[]).push(r));return Object.entries(g).sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true})).map(([key,list])=>Object.assign({key},sum(list)))};
+  return{rows,total:sum(rows),byBlock:group('block'),byCat:group('cat'),days:days.length,month,label:month?periodBounds(p.mo).label+(periodBounds(p.mo).end>today()?' (to date)':''):fmtDate(p.date)};
+}
+const occN=(v,month)=>month?(Math.round(v*10)/10).toLocaleString('en-US'):Math.round(v).toLocaleString('en-US');
+function renderOccupancy(el){
+  const p=el._p=Object.assign(OCC_P0(),el._p||{});const D=occData(p);const m=D.month;
+  const cats=[...new Set(db.rooms.filter(isBillableRoom).map(r=>r.cat))].sort((a,b)=>String(a).localeCompare(String(b),undefined,{numeric:true}));
+  const set=(k)=>`onchange="occSet('${k}',this.value)"`;
+  const stB={vacant:['badge-gray','Vacant'],partly:['badge-orange','Partly'],full:['badge-green','Full'],oos:['badge-red','Out of service']};
+  const sumT=(title,G)=>`<div class="card"><div class="card-header"><span class="card-title">${title}</span></div><div class="scroll-x"><table><thead><tr><th>${title.replace('By ','').replace(/^\w/,c=>c.toUpperCase())}</th><th class="text-right">Rooms</th><th class="text-right">Total beds</th><th class="text-right">${m?'Avg occupied':'Occupied'}</th><th class="text-right">Free</th><th class="text-right">Occupancy</th></tr></thead><tbody>${G.map(g=>`<tr><td class="fw-bold">${esc(g.key)}</td><td class="num">${g.rooms}</td><td class="num">${g.space}</td><td class="num">${occN(g.occ,m)}</td><td class="num">${occN(g.free,m)}</td><td class="num">${g.pct}%</td></tr>`).join('')}</tbody></table></div></div>`;
+  el.innerHTML=`<div class="page-header"><div><div class="page-title">${ico('building')} Room Occupancy</div><div class="page-sub">Total space and occupied beds for every room · ${esc(D.label)}</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="occCSV()">${ico('download')} Excel (CSV)</button><button class="btn btn-ghost btn-sm" onclick="occPrint()">${ico('printer')} Print / PDF</button></div></div>
+<div class="res-filters">
+  <select ${set('mode')} aria-label="Report type">${opt('day','On a date',!m)}${opt('month','Month average',m)}</select>
+  ${m?`<input type="month" value="${esc(p.mo)}" ${set('mo')} aria-label="Month">`:`<input type="date" value="${esc(p.date)}" ${set('date')} aria-label="Date">`}
+  <select ${set('block')} aria-label="Block"><option value="">All blocks</option>${db.blocks.map(b=>opt(b.code,b.code+(b.type==='sublease'?' (sub-lease)':''),p.block===b.code)).join('')}</select>
+  <select ${set('cat')} aria-label="Room type"><option value="">All room types</option>${cats.map(c=>opt(c,c,p.cat===c)).join('')}</select>
+  <select ${set('company')} aria-label="Customer"><option value="">All customers</option>${db.companies.filter(c=>!['rejected','pending'].includes(c.status)).map(c=>opt(c.short,c.short,p.company===c.short)).join('')}</select>
+  <select ${set('status')} aria-label="Room status"><option value="">All rooms</option>${opt('vacant','Vacant',p.status==='vacant')}${opt('partly','Partly occupied',p.status==='partly')}${opt('full','Full',p.status==='full')}${m?'':opt('oos','Out of service',p.status==='oos')}</select>
+  <select ${set('place')} aria-label="Own or sub-lease"><option value="">Own camp + sub-lease</option>${opt('own','Own camp only',p.place==='own')}${opt('sub','Sub-lease only',p.place==='sub')}</select>
+  ${['block','cat','company','status','place'].some(k=>p[k])?`<button class="btn btn-ghost btn-sm" onclick="occClear()">Clear filters</button>`:''}
+</div>
+<div class="metrics occ-metrics">
+  <div class="metric-card"><div class="metric-label">Rooms</div><div class="metric-value">${D.total.rooms}</div><div class="metric-sub">${D.total.vacantRooms} vacant · ${D.total.fullRooms} full</div></div>
+  <div class="metric-card"><div class="metric-label">Total beds (space)</div><div class="metric-value">${D.total.space.toLocaleString('en-US')}</div></div>
+  <div class="metric-card"><div class="metric-label">${m?'Avg occupied beds':'Occupied beds'}</div><div class="metric-value">${occN(D.total.occ,m)}</div></div>
+  <div class="metric-card"><div class="metric-label">Free beds</div><div class="metric-value">${occN(D.total.free,m)}</div></div>
+  <div class="metric-card"><div class="metric-label">Occupancy</div><div class="metric-value">${D.total.pct}%</div><div class="occ-bar"><span style="width:${Math.min(100,D.total.pct)}%"></span></div></div>
+</div>
+<div class="two-col">${sumT('By block',D.byBlock)}${sumT('By room type',D.byCat)}</div>
+<div class="card"><div class="card-header"><span class="card-title">By room (${D.rows.length})</span><span class="text-muted" style="font-size:12px">${m?`Average over ${D.days} day${D.days===1?'':'s'}; names = residents on the last day`:'Residents staying that night (the check-out day is not counted as occupied)'}</span></div>
+<div class="scroll-x"><table class="occ-table"><thead><tr><th>Block</th><th>Room</th><th>Type</th><th class="text-right">Total beds</th><th class="text-right">${m?'Avg occupied':'Occupied'}</th><th class="text-right">Free</th><th style="width:140px">Occupancy</th><th>Status</th><th>Customers</th><th>Residents</th></tr></thead>
+<tbody>${D.rows.map(r=>`<tr><td>${esc(r.block)}${r.sl?' <span class="badge badge-orange">SL</span>':''}</td><td class="fw-bold">${esc(r.no)}</td><td>${esc(r.cat)}</td><td class="num">${r.space}</td><td class="num">${occN(r.occ,m)}${r.over?' <span class="badge badge-red" title="More residents than beds">over</span>':''}</td><td class="num">${occN(r.free,m)}</td>
+<td><div class="occ-cell"><div class="occ-bar"><span style="width:${Math.min(100,r.pct)}%"></span></div><span>${r.pct}%</span></div></td><td><span class="badge ${stB[r.status][0]}">${stB[r.status][1]}</span></td><td style="font-size:12px">${r.cos.map(esc).join(', ')}</td><td style="font-size:12px">${r.names.map(esc).join(', ')}</td></tr>`).join('')||'<tr><td colspan="10" class="text-center text-muted">No rooms match these filters</td></tr>'}</tbody>
+${D.rows.length?`<tfoot><tr><td colspan="3">TOTAL</td><td class="num">${D.total.space}</td><td class="num">${occN(D.total.occ,m)}</td><td class="num">${occN(D.total.free,m)}</td><td>${D.total.pct}%</td><td colspan="3"></td></tr></tfoot>`:''}</table></div></div>`;
+}
+function occSet(k,v){const el=document.getElementById('page-occupancy');el._p=Object.assign(OCC_P0(),el._p||{});if((k==='mo'&&!/^\d{4}-\d{2}$/.test(v))||(k==='date'&&!v))return;el._p[k]=v;if(k==='mode'&&v==='month'&&el._p.status==='oos')el._p.status='';renderOccupancy(el)}
+function occClear(){const el=document.getElementById('page-occupancy');Object.assign(el._p,{block:'',cat:'',company:'',status:'',place:''});renderOccupancy(el)}
+function occCSV(){
+  const p=document.getElementById('page-occupancy')._p||OCC_P0();const D=occData(p);const m=D.month;const st={vacant:'Vacant',partly:'Partly occupied',full:'Full',oos:'Out of service'};
+  const rows=[[`Room occupancy — ${D.label}`],[],['Block','Room','Room type','Own / sub-lease','Total beds',m?'Avg occupied beds':'Occupied beds','Free beds','Occupancy %','Status','Customers','Residents']];
+  D.rows.forEach(r=>rows.push([r.block,r.no,r.cat,r.sl?'Sub-lease':'Own camp',r.space,m?Math.round(r.occ*10)/10:r.occ,m?Math.round(r.free*10)/10:r.free,r.pct,st[r.status],r.cos.join('; '),r.names.join('; ')]));
+  rows.push(['TOTAL','','','',D.total.space,Math.round(D.total.occ*10)/10,Math.round(D.total.free*10)/10,D.total.pct]);
+  rows.push([],['By block','Rooms','Total beds','Occupied','Free','Occupancy %']);D.byBlock.forEach(g=>rows.push([g.key,g.rooms,g.space,Math.round(g.occ*10)/10,Math.round(g.free*10)/10,g.pct]));
+  rows.push([],['By room type','Rooms','Total beds','Occupied','Free','Occupancy %']);D.byCat.forEach(g=>rows.push([g.key,g.rooms,g.space,Math.round(g.occ*10)/10,Math.round(g.free*10)/10,g.pct]));
+  downloadCSV(rows,`room-occupancy-${m?p.mo:p.date}.csv`);
+}
+function occPrint(){
+  const p=document.getElementById('page-occupancy')._p||OCC_P0();const D=occData(p);const m=D.month;const st={vacant:'Vacant',partly:'Partly',full:'Full',oos:'Out of service'};
+  const g=(t,G)=>`<h2>${t}</h2><table><thead><tr><th>${t.replace('By ','')}</th><th>Rooms</th><th>Total beds</th><th>${m?'Avg occupied':'Occupied'}</th><th>Free</th><th>Occupancy</th></tr></thead><tbody>${G.map(x=>`<tr><td>${esc(x.key)}</td><td>${x.rooms}</td><td>${x.space}</td><td>${occN(x.occ,m)}</td><td>${occN(x.free,m)}</td><td>${x.pct}%</td></tr>`).join('')}</tbody></table>`;
+  const f=[p.block&&'Block '+p.block,p.cat,p.company,p.status&&st[p.status],p.place==='own'?'Own camp':p.place==='sub'?'Sub-lease':''].filter(Boolean).join(' · ');
+  const w=window.open('','_blank');if(!w)return uiAlert('Allow pop-ups for this site to print.');
+  w.document.write(`<html><head><title>Room occupancy ${esc(D.label)}</title><style>body{font-family:Arial,sans-serif;font-size:11px;padding:18px}h1{color:#1e3a5f;font-size:16px;margin:0}h2{font-size:13px;color:#1e3a5f;margin:16px 0 6px}p{color:#555;margin:4px 0}table{width:100%;border-collapse:collapse}th{background:#1e3a5f;color:#fff;padding:5px 7px;text-align:left}td{padding:4px 7px;border-bottom:1px solid #ddd}tfoot td{font-weight:bold;border-top:2px solid #1e3a5f}.k{display:flex;gap:24px;margin:10px 0}.k b{display:block;font-size:16px;color:#1e3a5f}</style></head><body>
+<h1>Room occupancy — ${esc(db.settings.company.nameEn)}</h1><p>${esc(D.label)}${m?' · month average':''}${f?' · '+esc(f):''}</p>
+<div class="k"><div>Rooms<b>${D.total.rooms}</b></div><div>Total beds<b>${D.total.space}</b></div><div>${m?'Avg occupied':'Occupied'}<b>${occN(D.total.occ,m)}</b></div><div>Free<b>${occN(D.total.free,m)}</b></div><div>Occupancy<b>${D.total.pct}%</b></div></div>
+${g('By block',D.byBlock)}${g('By room type',D.byCat)}
+<h2>By room</h2><table><thead><tr><th>Block</th><th>Room</th><th>Type</th><th>Total beds</th><th>${m?'Avg occupied':'Occupied'}</th><th>Free</th><th>Occupancy</th><th>Status</th><th>Customers</th></tr></thead><tbody>${D.rows.map(r=>`<tr><td>${esc(r.block)}</td><td>${esc(r.no)}</td><td>${esc(r.cat)}</td><td>${r.space}</td><td>${occN(r.occ,m)}</td><td>${occN(r.free,m)}</td><td>${r.pct}%</td><td>${st[r.status]}</td><td>${r.cos.map(esc).join(', ')}</td></tr>`).join('')}</tbody>
+<tfoot><tr><td colspan="3">TOTAL</td><td>${D.total.space}</td><td>${occN(D.total.occ,m)}</td><td>${occN(D.total.free,m)}</td><td>${D.total.pct}%</td><td colspan="2"></td></tr></tfoot></table>
+<p style="margin-top:14px">Printed ${new Date().toLocaleString('en-GB')}</p></body></html>`);
+  w.document.close();setTimeout(()=>w.print(),300);
+}
+// Reports page card + Rooms page button
+const _a17rr=renderReports;
+renderReports=function(el){_a17rr(el);if(!can('rooms','view'))return;const box=el.querySelector('.three-col');if(!box)return;
+  box.insertAdjacentHTML('afterbegin',`<div class="card"><div class="card-header"><span class="card-title">${ico('building')} Room Occupancy</span></div><div class="card-body"><p style="font-size:12px;color:var(--gray500);margin-bottom:14px">Every room: total beds, occupied, free and occupancy %, with totals by block and room type. On a date or as a month average.</p><div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-primary" onclick="nav('occupancy')">Open report</button></div></div></div>`)};
+Object.assign(AR,{'Room Occupancy':'إشغال الغرف','Total beds (space)':'إجمالي الأسرّة (السعة)','Occupied beds':'الأسرّة المشغولة','Free beds':'الأسرّة الشاغرة','Occupancy':'نسبة الإشغال','Avg occupied beds':'متوسط الأسرّة المشغولة','By block':'حسب المبنى','By room type':'حسب نوع الغرفة','Vacant':'شاغرة','Partly':'مشغولة جزئياً','Full':'ممتلئة','Out of service':'خارج الخدمة','Month average':'متوسط الشهر','On a date':'في تاريخ','Clear filters':'مسح الفلاتر','Clear selection':'إلغاء التحديد'});
 
 Lang.apply();if(Lang.cur==='ar')trTree(document.body);(()=>{const b=document.getElementById('auth-lang');if(b)b.textContent=Lang.cur==='ar'?'English':'العربية'})();
 const _v6nav=nav;nav=function(p){if(p==='rates')p='companies';document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
