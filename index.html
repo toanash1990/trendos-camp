@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.anthropic.com; frame-src 'self' blob: https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co https://api.trendosksa.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.trendosksa.com wss://api.trendosksa.com https://api.anthropic.com; frame-src 'self' blob: https://*.supabase.co https://api.trendosksa.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#132843">
@@ -838,6 +838,45 @@ body.ai-open #ai-panel{transform:none}
 .imp-radio{display:flex;flex-direction:column;gap:6px;font-size:13px}.imp-radio label{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.imp-radio input[type=radio]{width:auto}
 @media (max-width:700px){.imp-sum{grid-template-columns:repeat(3,1fr)}.imp-tp{grid-template-columns:1fr 1fr}}
 
+/* v6.8 catering, approval, rent */
+.cat-tabs{margin-bottom:14px;flex-wrap:wrap}
+.cat-day{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.cat-day input[type=date],.cat-day input[type=month]{width:160px}
+.cat-sheet th.c,.cat-sheet td.c{text-align:center}
+.cat-sheet input.cat-q{width:86px;text-align:center;font-size:15px;font-variant-numeric:tabular-nums;padding:7px 6px}
+.cat-sheet tfoot td{font-weight:700}.cat-u{font-weight:400;font-size:11px;color:var(--gray500,#6b7280);text-transform:none;letter-spacing:0}
+.cat-svc{font-size:11px;font-weight:400;color:var(--gray500,#6b7280)}
+.cat-foot{justify-content:space-between;flex-wrap:wrap;gap:8px}
+.cat-det>summary{cursor:pointer;list-style:none}.cat-det>summary::-webkit-details-marker{display:none}.cat-det>summary .card-title::before{content:'▸ ';color:var(--gray500,#6b7280)}.cat-det[open]>summary .card-title::before{content:'▾ '}
+.cl-cat{margin-top:12px}
+.appr-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-radius:10px;padding:12px 14px;margin-bottom:14px;background:#fff7ed;border:1px solid #fed7aa}
+.appr-bar.rejected{background:#fef2f2;border-color:#fecaca}
+.appr-bar>div:first-child{display:flex;gap:10px;align-items:flex-start}.appr-bar>div:first-child svg{flex:none;margin-top:2px}
+.appr-bar b{display:block}.appr-bar span{font-size:12.5px;color:var(--gray600,#4b5563)}
+.appr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cw-pend{display:flex;gap:6px;align-items:center;font-size:13px;padding:8px 0;color:#9a3412}
+.pf-tiles{margin:0}
+.cat-tabs{flex-wrap:nowrap;overflow-x:auto;max-width:100%}.cat-tabs button{white-space:nowrap}
+@media (max-width:720px){
+.cat-sheet{min-width:0!important;width:100%}.cat-sheet thead{display:none}.cat-sheet,.cat-sheet tbody,.cat-sheet tfoot{display:block}
+.cat-sheet tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;padding:12px 14px;border-bottom:1px solid var(--line,#e5e7eb)}
+.cat-sheet td{display:block;border:0!important;padding:0!important;text-align:start}
+.cat-sheet td:first-child{grid-column:1/-1}
+.cat-sheet td.c[data-l]::before{content:attr(data-l);display:block;font-size:11.5px;font-weight:500;color:var(--gray500,#6b7280);margin-bottom:4px}
+.cat-sheet input.cat-q{width:100%;font-size:16px}
+.cat-sheet td.cat-amt,.cat-sheet td.cat-gt{grid-column:1/-1;text-align:end}.cat-sheet td.cat-amt:empty{display:none}
+.cat-sheet tfoot tr{background:var(--gray50,#f9fafb)}.cat-sheet tfoot td.cat-tot{font-size:15px}
+}
+
+/* v6.9 price approval */
+.pa-card{border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.pa-card.pending{border-color:#fed7aa;background:#fffbf5}
+.pa-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px}
+.pa-sub{font-size:12px;color:var(--gray500,#6b7280)}
+.pa-rows{margin-top:4px}.pa-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.pa-users{display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.nav-badge{margin-left:auto;background:var(--pink,#c4006c);color:#fff;border-radius:999px;font-size:11px;font-weight:600;padding:1px 7px}
+.text-green{color:#15803d}
+
 .auth-panel{position:relative}.auth-lang{position:absolute;top:16px;inset-inline-end:16px;border:1px solid var(--line);background:#fff;border-radius:18px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'Readex Pro',var(--font)}
 </style>
 <!-- Cloud database client (Supabase). Ignored in local demo mode. -->
@@ -922,10 +961,12 @@ body.ai-open #ai-panel{transform:none}
       <div class="nav-item" onclick="nav('revenue')"><span class="icon">💰</span>Revenue</div>
       <div class="nav-item" onclick="nav('monthend')"><span class="icon">🗓️</span>Monthly Closing</div>
       <div class="nav-item" onclick="nav('invoices')"><span class="icon">🧾</span>Invoices</div>
+      <div class="nav-item" id="nav-pricereq" style="display:none" onclick="nav('pricereq')"><span class="icon">✅</span>Price approvals</div>
       <div class="nav-section">Food</div>
       <div class="nav-item" onclick="nav('catering')"><span class="icon">🍽️</span>Catering</div>
       <div class="nav-section">Sub-Lease</div>
       <div class="nav-item" onclick="nav('sublease')"><span class="icon">🔁</span>Sub-Lease Contracts</div>
+      <div class="nav-item" id="nav-rent" style="display:none" onclick="nav('rent')"><span class="icon">🔑</span>Rent</div>
       <div class="nav-section">Reports</div>
       <div class="nav-item" onclick="nav('drr')"><span class="icon">🗒️</span>Daily Rental Records</div>
       <div class="nav-item" onclick="nav('reports')"><span class="icon">📊</span>Reports & Export</div>
@@ -949,6 +990,8 @@ body.ai-open #ai-panel{transform:none}
       <div id="page-monthend" style="display:none"></div>
       <div id="page-invoices" style="display:none"></div>
       <div id="page-catering" style="display:none"></div>
+      <div id="page-rent" style="display:none"></div>
+      <div id="page-pricereq" style="display:none"></div>
       <div id="page-sublease" style="display:none"></div>
       <div id="page-reports" style="display:none"></div>
       <div id="page-companies" style="display:none"></div>
@@ -979,7 +1022,7 @@ const AUTH_LINK=(()=>{try{const h=new URLSearchParams((location.hash||'').replac
 //  When a future version changes the shape of the data, bump
 //  SCHEMA_VERSION and add a step to MIGRATIONS below.
 // ═════════════════════════════════════════════════════════════
-const APP_VERSION='6.7.0';
+const APP_VERSION='6.9.0';
 const SCHEMA_VERSION=6;
 const DB='trendos_v5';                 // local demo storage key (this browser only)
 const CFG_KEY='trendos_cloud_cfg';     // cloud settings saved in this browser (fallback when config.js is absent)
@@ -1168,7 +1211,7 @@ const Store={
       const cur=this.flatten();const ups=[];const next=new Map();
       cur.forEach((r,k)=>{const s=stable(r.data);if(this.synced.get(k)!==s){ups.push({collection:r.collection,id:r.id,data:r.data,deleted:false});next.set(k,s)}});
       this.synced.forEach((s,k)=>{if(!cur.has(k)){const i=k.indexOf('|');ups.push({collection:k.slice(0,i),id:k.slice(i+1),data:JSON.parse(s),deleted:true});next.set(k,null)}});
-      const denied=[...new Set(ups.map(u=>u.collection))].filter(c=>!canEditCollection(c));
+      const denied=[...new Set(ups.map(u=>u.collection))].filter(c=>!canEditCollection(c)||(c==='companies'&&!isAdmin()&&ups.some(u=>u.collection==='companies'&&!coChangeOK(u,this.synced))));
       if(denied.length){this.busy=false;toast('Your role cannot change '+denied.join(', ')+' — change not saved','err');this.revert();return}
       this.inflight=next;
       for(let i=0;i<ups.length;i+=500){
@@ -1754,7 +1797,7 @@ function computeMandays(periodStart,periodEnd,filterCompany){
   const results={};// key= company+cat+tier → {customerId,roomCat,tier,personDays,rate}
   const days=dateRange(periodStart,periodEnd);
   days.forEach(day=>{
-    const active=activeResidents(day);
+    const active=billedResidents(day);
     // group by room
     const byRoom={};
     active.forEach(r=>{
@@ -2186,7 +2229,7 @@ function _v5_openBulkCheckout(ids){
   showModal(list.length>1?`Check out ${list.length} residents`:'Check out resident',`
 <div class="form-row"><div class="form-group"><label class="form-label req">Check-out date</label><input type="date" id="bc-date" value="${today()}"></div>
 <div class="form-group"><label class="form-label">Remarks (movement log)</label><input id="bc-rem" placeholder="e.g. Demob / transferred"></div></div>
-<p class="auth-note">The check-out day is not billed. Residents count for every day up to the day before.</p>
+<p class="auth-note">${billOutNote()}</p>
 <div style="max-height:260px;overflow:auto;margin-top:8px"><table><thead><tr><th>Room</th><th>Name</th><th>Company</th><th>Check In</th></tr></thead><tbody>
 ${list.map(r=>`<tr><td>${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td>${esc(r.company)}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div>`,
   [{label:`Check out ${list.length}`,primary:true,action:()=>{
@@ -2601,7 +2644,7 @@ function _v5_renderMonthEnd(el){
   if(!el._yr){const pm=new Date(now.getFullYear(),now.getMonth()-1,1);el._yr=pm.getFullYear();el._mo=pm.getMonth()+1}
   const pd=`${el._yr}-${String(el._mo).padStart(2,'0')}`;const B=periodBounds(pd);
   const P=getPeriod(pd);const locked=!!(P&&P.stage>=1);
-  const cids=locked?[...new Set((P.mandaysRows||[]).map(r=>r.customerId))]:[];
+  const cids=locked?meCids(P):[];
   if(locked&&can('monthend','edit')){let made=false;cids.forEach(cid=>{if(!getClosing(pd,cid)){getClosing(pd,cid,true);made=true}});if(made)saveDB()}
   const cls=cids.map(cid=>getClosing(pd,cid)||{status:'pending',customerId:cid});
   const cnt=st=>cls.filter(c=>CL_STATUS.indexOf(c.status)>=CL_STATUS.indexOf(st)).length;
@@ -2628,15 +2671,15 @@ ${step(6,'Generate Invoice',locked?`${cnt('invoiced')}/${n} invoiced`:'Tax invoi
   if(!locked){
     const issues=validatePeriod(pd);const crit=issues.filter(i=>i.level==='critical');
     const rows=computeMandays(B.start,B.end);const byC={};
-    rows.forEach(r=>{const c=byC[r.customerId]=byC[r.customerId]||{short:r.companyShort,pd:0,amt:0};c.pd+=r.personDays;c.amt+=r.amount});
+    rows.forEach(r=>{const c=byC[r.customerId]=byC[r.customerId]||{short:r.companyShort,pd:0,amt:0};c.pd+=r.personDays;c.amt+=r.amount});const catR=computeCatering(B.start,B.end);catR.forEach(r=>{const c=byC[r.customerId]=byC[r.customerId]||{short:r.companyShort,pd:0,amt:0};c.cat=(c.cat||0)+r.amount});
     html+=`
 <div class="card"><div class="card-header"><span class="card-title">Step 1 · Validate the mandays report</span>
 <span>${crit.length?`<span class="badge badge-red">${crit.length} must fix</span>`:'<span class="badge badge-green">No blocking issues</span>'} ${issues.length-crit.length?`<span class="badge badge-gold">${issues.length-crit.length} warnings</span>`:''}</span></div>
 <div class="card-body">
 ${issues.length?`<div style="max-height:240px;overflow:auto;margin-bottom:12px">${issues.map(i=>`<div class="alert ${i.level==='critical'?'alert-warn':'alert-info'}" style="margin-bottom:6px;padding:7px 10px;font-size:12.5px">${i.level==='critical'?'⛔':'⚠️'} ${esc(i.text)}</div>`).join('')}</div>`:'<div class="alert alert-info">✓ All residents, rooms, Iqama numbers, bed capacities and rate agreements check out for this month.</div>'}
-<table><thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays amount (excl. VAT)</th><th></th></tr></thead>
-<tbody>${Object.entries(byC).map(([cid,c])=>`<tr><td class="fw-bold">${esc(c.short)}</td><td class="num">${c.pd}</td><td class="num">SAR ${fmt(c.amt)}</td><td><button class="btn btn-xs btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${jsa(c.short)}',block:'',cat:''})">Daily Rental Records</button></td></tr>`).join('')||'<tr><td colspan="4" class="text-center text-muted">No billable occupancy this month</td></tr>'}</tbody>
-<tfoot><tr><td>TOTAL</td><td class="num">${rows.reduce((t,r)=>t+r.personDays,0)}</td><td class="num">SAR ${fmt(rows.reduce((t,r)=>t+r.amount,0))}</td><td></td></tr></tfoot></table>
+<table><thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays amount (excl. VAT)</th><th class="text-right">Catering (excl. VAT)</th><th></th></tr></thead>
+<tbody>${Object.entries(byC).map(([cid,c])=>`<tr><td class="fw-bold">${esc(c.short)}</td><td class="num">${c.pd}</td><td class="num">SAR ${fmt(c.amt)}</td><td class="num">${c.cat?"SAR "+fmt(c.cat):""}</td><td>${c.pd?`<button class="btn btn-xs btn-outline" onclick="openDRR({yr:${B.y},mo:${B.m},company:'${jsa(c.short)}',block:'',cat:''})">Daily Rental Records</button>`:''}</td></tr>`).join('')||'<tr><td colspan="5" class="text-center text-muted">No billable occupancy or catering this month</td></tr>'}</tbody>
+<tfoot><tr><td>TOTAL</td><td class="num">${rows.reduce((t,r)=>t+r.personDays,0)}</td><td class="num">SAR ${fmt(rows.reduce((t,r)=>t+r.amount,0))}</td><td class="num">SAR ${fmt(catR.reduce((t,r)=>t+r.amount,0))}</td><td></td></tr></tfoot></table>
 </div>
 <div class="modal-footer"><button class="btn btn-primary" onclick="meLockMandays('${jsa(pd)}',${crit.length})">🔒 Lock mandays for ${B.label}</button></div></div>`;
   }else{
@@ -2655,13 +2698,13 @@ ${can('monthend','edit')?(()=>{const k=st=>cls.filter(c=>c.status===st).length;r
 ${k('pending')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','verify')">Verify all (${k('pending')})</button>`:''}
 ${k('verified')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','sent')">Mark all sent (${k('verified')})</button>`:''}
 ${k('confirmed')?`<button class="btn btn-sm btn-outline" onclick="meBulk('${jsa(pd)}','invoice')">Generate invoices (${k('confirmed')})</button>`:''}</span>`})():''}</div><div class="scroll-x"><table>
-<thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays</th><th class="text-right">Packages & extras</th><th class="text-right">Total excl. VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th><th>Status</th><th></th></tr></thead>
+<thead><tr><th>Customer</th><th class="text-right">Person-days</th><th class="text-right">Mandays</th><th class="text-right">Catering</th><th class="text-right">Packages & extras</th><th class="text-right">Total excl. VAT</th><th class="text-right">VAT</th><th class="text-right">Total</th><th>Status</th><th></th></tr></thead>
 <tbody>${cids.map(cid=>{const L=closingLines(pd,cid);const c=getClosing(pd,cid)||{status:'pending'};const co=getCompany(cid);return`<tr ${el._open===cid?'style="background:var(--pink-light)"':''}>
-<td class="fw-bold">${esc(co.short)}</td><td class="num">${L.personDays}</td><td class="num">${fmt(L.mandaysAmt)}</td><td class="num">${fmt(L.subtotal-L.mandaysAmt)}</td>
+<td class="fw-bold">${esc(co.short)}</td><td class="num">${L.personDays}</td><td class="num">${fmt(L.mandaysAmt)}</td><td class="num">${fmt(L.cateringAmt||0)}</td><td class="num">${fmt(L.subtotal-L.mandaysAmt-(L.cateringAmt||0))}</td>
 <td class="num">${fmt(L.subtotal)}</td><td class="num">${fmt(L.vat)}</td><td class="num fw-bold">${fmt(L.total)}</td>
 <td><span class="badge ${CL_BADGE[c.status]}">${CL_LABEL[c.status]}</span></td>
 <td><button class="btn btn-xs btn-outline" onclick="meOpen('${jsa(cid)}')">${el._open===cid?'Close':'Open'}</button></td></tr>`}).join('')}</tbody>
-<tfoot>${(()=>{const T=cids.map(cid=>closingLines(pd,cid));return`<tr><td>TOTAL</td><td class="num">${T.reduce((t,x)=>t+x.personDays,0)}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.mandaysAmt,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal-x.mandaysAmt,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.vat,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.total,0))}</td><td colspan="2"></td></tr>`})()}</tfoot>
+<tfoot>${(()=>{const T=cids.map(cid=>closingLines(pd,cid));return`<tr><td>TOTAL</td><td class="num">${T.reduce((t,x)=>t+x.personDays,0)}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.mandaysAmt,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+(x.cateringAmt||0),0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal-x.mandaysAmt-(x.cateringAmt||0),0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.subtotal,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.vat,0))}</td><td class="num">${fmt(T.reduce((t,x)=>t+x.total,0))}</td><td colspan="2"></td></tr>`})()}</tfoot>
 </table></div></div>
 ${el._open&&cids.includes(el._open)?closingPanel(pd,el._open):''}`;
   }
@@ -2717,10 +2760,10 @@ function _v5_closingPanel(pd,cid){
   const c=getClosing(pd,cid)||{status:'pending',extras:[],log:[]};const co=getCompany(cid);const L=closingLines(pd,cid);const B=periodBounds(pd);
   const si=CL_STATUS.indexOf(c.status);const ed=can('monthend','edit');
   const editable=ed&&si<=1;
-  const cat=(db.cateringExtras||[]).filter(x=>x.company===co.short&&(x.date||'').startsWith(pd));
+  const cat=(db.cateringExtras||[]).filter(x=>!x.code&&x.company===co.short&&(x.date||'').startsWith(pd));
   const pe=document.getElementById('page-monthend');const openSet=(pe&&pe._clOpen&&pe._clOpen[cid])||new Set();
   const inv0=db.invoices.find(i=>i.id===c.invoiceId);
-  const sums={2:c.verifiedAt?`Verified ${fmtDate(c.verifiedAt)}${c.verifiedBy?' by '+esc(c.verifiedBy):''}`:'',3:(c.extras||[]).length?`${c.extras.length} item${c.extras.length>1?'s':''} · SAR ${fmt(L.subtotal-L.mandaysAmt)}`:'None added',
+  const sums={2:c.verifiedAt?`Verified ${fmtDate(c.verifiedAt)}${c.verifiedBy?' by '+esc(c.verifiedBy):''}`:'',3:(c.extras||[]).length?`${c.extras.length} item${c.extras.length>1?'s':''} · SAR ${fmt(L.subtotal-L.mandaysAmt-(L.cateringAmt||0))}`:'None added',
     4:c.sentAt?`Sent ${fmtDate(c.sentAt)} to ${esc(c.sentTo||'')}`:'',5:c.confirmedBy?`Confirmed by ${esc(c.confirmedBy)} on ${fmtDate(c.confirmedAt)}`:'',6:inv0?`Invoice ${esc(inv0.no)}`:''};
   const sec=(num,title,state,body)=>{const collapsed=state!=='active'&&!openSet.has(num);return`<div class="cl-sec ${state}${collapsed?' collapsed':''}"><div class="cl-sec-h" role="button" tabindex="0" aria-expanded="${!collapsed}" onclick="clToggle('${jsa(cid)}',${num})"><span class="cl-num">${state==='done'?'✓':num}</span>${title}<span class="cl-sum">${state==='locked'?'Waiting for the previous step':sums[num]||''}</span>${ico('chevdown')}</div><div class="cl-sec-b">${body}</div></div>`};
   const st=i=>si>i?'done':si===i?'active':'locked';
@@ -2785,7 +2828,7 @@ function clAddExtra(pd,cid){
 async function clDelExtra(pd,cid,i){const c=getClosing(pd,cid);const x=c.extras[i];if(!x||!await uiConfirm('Remove "'+x.desc+'"?'))return;c.extras.splice(i,1);clLog(c,'Removed: '+x.desc);saveDB();meRerender()}
 function clImportCatering(pd,cid){
   const c=getClosing(pd,cid,true);const co=getCompany(cid);
-  const cat=(db.cateringExtras||[]).filter(x=>x.company===co.short&&(x.date||'').startsWith(pd)&&!(c.extras||[]).some(e=>e.srcId===x.id));
+  const cat=(db.cateringExtras||[]).filter(x=>!x.code&&x.company===co.short&&(x.date||'').startsWith(pd)&&!(c.extras||[]).some(e=>e.srcId===x.id));
   if(!cat.length)return toast('Catering extras already imported');
   cat.forEach(x=>c.extras.push({id:uid(),srcId:x.id,type:'extra',desc:`${x.item} (${fmtDate(x.date)})`,qty:x.qty,rate:x.rate,vatMode:'excl'}));
   clLog(c,`Imported ${cat.length} catering extras`);saveDB();meRerender();
@@ -2830,7 +2873,7 @@ function clPrintPack(pd,cid){
   const co=getCompany(cid);const L=closingLines(pd,cid);const B=periodBounds(pd);const s=db.settings;
   const p={yr:B.y,mo:B.m,company:co.short,block:'',cat:'',hold:0,prepared:currentUser.name,coord:'',approver:''};const d=drrBuild(p);
   const summary=`<div class="sum"><h1>${esc(s.company.nameEn)}</h1><div class="ar">${esc(s.company.nameAr||'')}</div>
-<h2>Accommodation Summary — ${B.label}</h2>
+<h2>${L.personDays?(L.cateringAmt?'Accommodation & Catering':'Accommodation'):'Catering'} Summary — ${B.label}</h2>
 <table class="meta"><tr><td>Customer</td><td><b>${esc(co.name)}</b>${co.vatNo?' · VAT '+esc(co.vatNo):''}</td></tr><tr><td>Period</td><td>${fmtDate(B.start)} to ${fmtDate(B.end)}</td></tr>${co.poNo?`<tr><td>PO No</td><td>${esc(co.poNo)}</td></tr>`:''}</table>
 <table class="lines"><thead><tr><th>#</th><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th><th>VAT</th><th>Net</th></tr></thead>
 <tbody>${L.lines.map((l,i)=>`<tr><td>${i+1}</td><td style="text-align:left">${esc(l.desc)}${l.vatMode==='none'?' <i>(no VAT)</i>':l.vatMode==='incl'?' <i>(price incl. VAT)</i>':''}</td><td>${l.qty}</td><td>${fmt(l.rate)}</td><td>${fmt(l.amount)}</td><td>${fmt(l.vat)}</td><td>${fmt(l.net)}</td></tr>`).join('')}</tbody>
@@ -3578,7 +3621,7 @@ function drrBuild(p){
     if(p.company&&r.company!==p.company)return;
     const room=getRoom(r.roomNo);if(!room||!isBillableRoom(room))return;
     if(p.block&&room.block!==p.block)return;if(p.cat&&room.cat!==p.cat)return;
-    const marks=days.map(d=>d<=cap&&presentOn(r,d)?1:0);const total=marks.reduce((a,b)=>a+b,0);
+    const marks=days.map(d=>d<=cap&&billedOn(r,d)?1:0);const total=marks.reduce((a,b)=>a+b,0);
     if(!total)return;
     const bk=getBlock(room.block)||{};const camp=(bk.camp||bk.name||'').toUpperCase();
     const key=room.cat+'|'+camp;
@@ -4633,7 +4676,7 @@ function openBulkCheckout(ids){
   showModal(one?`Check out ${esc(list[0].name)}`:`Check out ${list.length} residents`,`
 <div class="form-row"><div class="form-group"><label class="form-label req">Check-out date</label><input type="date" id="bc-date" value="${today()}"></div>
 <div class="form-group"><label class="form-label">Remarks (movement log)</label><input id="bc-rem" placeholder="e.g. Demob / transferred"></div></div>
-<p class="auth-note">The check-out day is not billed. Residents count for every day up to the day before.</p>
+<p class="auth-note">${billOutNote()}</p>
 ${withItems.length?`<div class="card-title" style="margin:12px 0 6px">Items to collect</div>${one?'':'<p class="auth-note" style="margin-top:0">Untick a person to record a missing or damaged item. Charges are added to the company at month-end closing.</p>'}${hoRows.replace(/class="ho-ret"/g,one?'class="ho-ret open"':'class="ho-ret"')}`:''}
 ${one?`<details class="more"${withItems.length?'':' style="margin-top:12px"'}><summary>Room photos at check-out</summary><div id="bc-ph" style="margin-top:8px"></div></details>`:''}
 ${one?'':`<div style="max-height:220px;overflow:auto;margin-top:12px"><table><thead><tr><th>Room</th><th>Name</th><th>Company</th><th>Check in</th></tr></thead><tbody>${list.map(r=>`<tr><td>${esc(r.roomNo)}</td><td>${esc(r.name)}</td><td>${esc(r.company)}</td><td>${fmtDate(r.checkIn)}</td></tr>`).join('')}</tbody></table></div>`}`,
@@ -4752,7 +4795,7 @@ async function emailCompanyBase(ids,kind){
   const inN=kind==='checkin-notice';const d=inN?list[0].checkIn:list[0].checkOut;const camp=cfg6().msg.camp;
   const subject=`${inN?'Check-in':'Check-out'} notice — ${co.short} — ${fmtDate(d)} — ${camp}`;
   const lines=list.map((r,i)=>`${i+1}. ${r.name} — Iqama ${r.docNo} — Room ${r.roomNo}${(getRoom(r.roomNo)||{}).cat?' ('+getRoom(r.roomNo).cat+')':''}${inN&&r.foodType?' — '+foodLabel(r.foodType):''}${!inN&&r.handover&&r.handover.returned&&r.handover.returned.some(x=>x.charge)?' — items charged SAR '+fmt(r.handover.returned.reduce((s,x)=>s+(x.charge||0),0),0):''}`).join('\n');
-  const body=`Dear ${co.contact||'Sir / Madam'},\n\nPlease note the following ${list.length} ${inN?'check-in':'check-out'}${list.length>1?'s':''} for ${co.name||co.short} on ${fmtDate(d)}:\n\n${lines}\n\n${inN?'Accommodation is billed from the check-in date.':'The check-out day is not billed.'}\n\nBest regards,\n${currentUser.name}\n${camp}`;
+  const body=`Dear ${co.contact||'Sir / Madam'},\n\nPlease note the following ${list.length} ${inN?'check-in':'check-out'}${list.length>1?'s':''} for ${co.name||co.short} on ${fmtDate(d)}:\n\n${lines}\n\n${inN?'Accommodation is billed from the check-in date.':billCfg().checkoutDay?'The check-out day is billed as a full day.':'The check-out day is not billed.'}\n\nBest regards,\n${currentUser.name}\n${camp}`;
   const a=document.createElement('a');a.href=`mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;a.target='_blank';document.body.appendChild(a);a.click();a.remove();
   logMsg({channel:'email',kind,to,residentIds:list.map(r=>r.id),company:co.short,status:'opened'});
   const b=document.querySelector('[data-mail]');if(b){b.classList.add('done');b.innerHTML=ico('check')+' Email opened'}
@@ -5309,7 +5352,7 @@ function addrText(a){a=a||{};const l1=[a.building,a.street].filter(Boolean).join
 function custEmails(c,kind){c=cust(c);const L=c.contacts.filter(x=>x.email&&(kind==='checkin'?x.notifyCheckin:x.notifyBilling)).map(x=>x.email);
   const bill=String(c.billing.invoiceEmails||'').split(/[;,]/).map(x=>x.trim()).filter(Boolean);return[...new Set(kind==='billing'?[...bill,...L]:L.length?L:bill)]}
 function custPO(c,date){c=cust(c);date=date||today();return c.pos.filter(p=>(!p.from||p.from<=date)&&(!p.to||p.to>=date)).sort((a,b)=>String(b.from).localeCompare(String(a.from)))[0]||null}
-function custOptions(sel){return db.companies.filter(c=>c.status!=='closed'&&c.status!=='prospect'||c.short===sel).map(c=>opt(c.short,c.short+(c.status==='hold'?' (on hold)':c.status==='prospect'?' (prospect)':''),sel===c.short)).join('')}
+function custOptions(sel){return db.companies.filter(c=>!['closed','prospect','pending','rejected'].includes(c.status)&&(c.contract||{}).service!=='Food Only'||c.short===sel).map(c=>opt(c.short,c.short+(c.status==='hold'?' (on hold)':c.status==='prospect'?' (prospect)':''),sel===c.short)).join('')}
 function custStats(c,mtd){
   const t=today();const act=activeResidents(t).filter(r=>r.company===c.short);const byCat={};act.forEach(r=>{const k=(getRoom(r.roomNo)||{}).cat||'?';byCat[k]=(byCat[k]||0)+1});
   const inv=db.invoices.filter(i=>i.customerId===c.id&&i.status!=='void');const open=inv.filter(i=>i.status!=='paid'&&i.status!=='draft');const terms=Number(cust(c).billing.terms)||30;
@@ -5323,14 +5366,16 @@ function custGaps(c){c=cust(c);const g=[];if(!c.vatNo)g.push('VAT no.');if(!c.cr
 function custLog(c,action){(c.log=c.log||[]).push({at:nowISO(),by:currentUser?currentUser.name:'',action});if(c.log.length>200)c.log.splice(0,c.log.length-200)}
 
 // ─── CUSTOMER LIST ───
+const CUST_ORDER={pending:0,active:1,hold:2,prospect:3,rejected:4,closed:5};
 function renderCompanies(el){
   const f=el._f=el._f||{q:'',st:''};const all=db.companies.map(cust);const q=f.q.toLowerCase();const ed=can('companies','edit');const rev=can('revenue','view');
   const mtd=mtdByCustomer();const cnt={};all.forEach(c=>cnt[c.status]=(cnt[c.status]||0)+1);
-  const list=all.filter(c=>(!f.st||c.status===f.st)&&(!q||[c.short,c.name,c.nameAr,c.vatNo,c.crNo,...c.contacts.map(x=>x.name+' '+x.email+' '+x.phone)].some(v=>v&&String(v).toLowerCase().includes(q)))).sort((a,b)=>({active:0,hold:1,prospect:2,closed:3}[a.status]-{active:0,hold:1,prospect:2,closed:3}[b.status])||a.short.localeCompare(b.short));
+  const list=all.filter(c=>(!f.st||c.status===f.st)&&(!q||[c.short,c.name,c.nameAr,c.vatNo,c.crNo,...c.contacts.map(x=>x.name+' '+x.email+' '+x.phone)].some(v=>v&&String(v).toLowerCase().includes(q)))).sort((a,b)=>((CUST_ORDER[a.status]??9)-(CUST_ORDER[b.status]??9))||a.short.localeCompare(b.short));
   const S=Object.fromEntries(list.map(c=>[c.id,custStats(db.companies.find(x=>x.id===c.id),mtd[c.short])]));
   el.innerHTML=`
 <div class="page-header"><div><div class="page-title">Customers</div><div class="page-sub">${cnt.active||0} active${cnt.prospect?` · ${cnt.prospect} prospect`:''}${cnt.hold?` · ${cnt.hold} on hold`:''} · ${activeResidents().length} people in camp</div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="exportCustomers()">${ico('download')} Export CSV</button>${ed?`<button class="btn btn-primary btn-sm" onclick="openCustomerForm()">${ico('plus')} New customer</button>`:''}</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="exportCustomers()">${ico('download')} Export CSV</button>${ed?`<button class="btn btn-primary btn-sm" onclick="openCustomerForm()">${ico('plus')} New customer</button>`:canSubmitCustomer()?`<button class="btn btn-primary btn-sm" onclick="openCustomerForm()">${ico('plus')} Request new customer</button>`:''}</div></div>
+${(()=>{const pend=all.filter(c=>c.status==='pending');if(!pend.length)return'';return`<div class="alert alert-warn appr-list"><b>${pend.length} new customer${pend.length>1?'s':''} waiting for ${isAdmin()?'your':'administrator'} approval:</b> ${pend.map(c=>`<a class="link" href="#" onclick="event.preventDefault();openCustomer('${jsa(c.id)}')">${esc(c.short)}</a>`).join(' · ')}</div>`})()}
 <div class="chip-row">${[['','All',all.length],...Object.entries(CUST_STATUS).map(([k,l])=>[k,l,cnt[k]||0])].map(([k,l,n])=>`<button class="chip ${f.st===k?'on':''}" onclick="custF('st','${jsa(k)}')">${l} <b>${n}</b></button>`).join('')}</div>
 <div style="margin-bottom:12px"><input id="cu-q" placeholder="Search name, VAT, CR, contact…" value="${esc(f.q)}" oninput="custF('q',this.value)" style="width:280px;max-width:100%"></div>
 <div class="cust-grid">${list.map(c=>{const s=S[c.id];const gaps=custGaps(c);const pct=s.alloc?Math.round(s.inCamp/s.alloc*100):0;const po=custPO(c);return`
@@ -5355,8 +5400,9 @@ let _cw=null;
 function openCompModal(co){openCustomerForm(co&&co.id)}
 function editComp(id){openCustomerForm(id)}
 function openCustomerForm(id,step){
-  if(!can('companies','edit'))return;
-  const src=id?db.companies.find(c=>c.id===id):null;const c=cust(src||{short:'',name:'',status:'active'});
+  const src=id?db.companies.find(c=>c.id===id):null;
+  if(!can('companies','edit')&&!(canSubmitCustomer()&&(!src||src.status==='pending'||src.status==='rejected')))return;
+  const asReq=!isAdmin();const c=cust(src||{short:'',name:'',status:asReq?'pending':'active'});
   _cw={id,step:step||1,docs:c.docs.slice(),rateFrom:''};
   const cats=c.contract.categories.length?c.contract.categories:id?[...new Set(db.rates.filter(r=>r.customerId===id).map(r=>r.roomCategory))]:[];
   const contactRow=x=>`<tr class="cw-ct cw-card"><td><input class="ct-name" value="${esc(x.name||'')}" placeholder="Name"></td><td><select class="ct-role">${CONTACT_ROLES.map(r=>opt(r,r,x.role===r)).join('')}</select></td><td><input class="ct-phone" type="tel" value="${esc(x.phone||'')}" placeholder="05XXXXXXXX"></td><td><input class="ct-email" type="email" value="${esc(x.email||'')}" placeholder="name@company.com"></td>
@@ -5370,7 +5416,7 @@ function openCustomerForm(id,step){
 <div class="form-group"><label class="form-label req">Short name</label><input id="cw-short" value="${esc(c.short)}" placeholder="e.g. NBC" ${id&&custInUse(src)?'disabled':''} style="text-transform:uppercase"><div class="room-free">${id&&custInUse(src)?`Used on residents and billing.${isAdmin()?` <a class="link" href="#" onclick="event.preventDefault();renameCustomer('${jsa(id)}')">Rename everywhere…</a>`:''}`:'Shown on resident lists, reports and invoices.'}</div></div>
 <div class="form-group" style="grid-column:span 2"><label class="form-label req">Full legal name</label><input id="cw-name" value="${esc(c.name)}" placeholder="As on the Commercial Registration"></div>
 <div class="form-group" style="grid-column:span 2"><label class="form-label">Name in Arabic</label><input id="cw-namear" value="${esc(c.nameAr||'')}" dir="rtl"></div>
-<div class="form-group"><label class="form-label">Status</label><select id="cw-status">${Object.entries(CUST_STATUS).map(([k,l])=>opt(k,l,c.status===k)).join('')}</select></div>
+<div class="form-group"><label class="form-label">Status</label>${asReq?`<input type="hidden" id="cw-status" value="pending"><div class="cw-pend">${ico('clock')} Sent to an administrator for approval</div>`:`<select id="cw-status">${Object.entries(CUST_STATUS).filter(([k])=>k!=='pending'&&k!=='rejected'||c.status===k).map(([k,l])=>opt(k,l,c.status===k)).join('')}</select>`}</div>
 <div class="form-group"><label class="form-label">Type</label><select id="cw-type">${opt('','—')}${CUST_TYPES.map(t=>opt(t,t,c.type===t)).join('')}</select></div>
 <div class="form-group"><label class="form-label">CR number</label><input id="cw-cr" inputmode="numeric" value="${esc(c.crNo||'')}" placeholder="10 digits"></div>
 <div class="form-group"><label class="form-label">CR expiry</label><input type="date" id="cw-crexp" value="${esc(c.crExpiry||'')}"></div>
@@ -5411,13 +5457,13 @@ function openCustomerForm(id,step){
 </section>
 <section class="cw-step" data-s="4">
 <div class="card-title" style="margin-bottom:6px">${ico('tag')} Rate card <span class="text-muted" style="font-weight:400;font-size:12px">— SAR per person per day, before VAT</span></div>
-${can('rates','edit')?`<div class="form-row" style="align-items:end"><div class="form-group"><label class="form-label">Effective from</label><input type="date" id="cw-rfrom" oninput="this.dataset.touched=1" value="${esc(c.contract.start&&!id?c.contract.start:today())}"></div>
+${canEnterPrices()?`${priceApprovalOn()?'<p class="auth-note" style="margin-top:0">Prices you enter here are sent for approval and apply after a price approver approves them.</p>':''}<div class="form-row" style="align-items:end"><div class="form-group"><label class="form-label">Effective from</label><input type="date" id="cw-rfrom" oninput="this.dataset.touched=1" value="${esc(c.contract.start&&!id?c.contract.start:today())}"></div>
 <div class="form-group"><label class="form-label">Copy rates from</label><select id="cw-rcopy" onchange="cwCopyRates(this.value)">${opt('','— choose a customer —')}${db.companies.filter(x=>x.id!==id&&db.rates.some(r=>r.customerId===x.id&&!r.archivedTier)).map(x=>opt(x.id,x.short)).join('')}</select></div></div>
-<div id="cw-rates" style="margin-top:10px"></div><p class="auth-note">One price per person per day for each room type: <b>Room only</b> for residents without food, <b>Room + food</b> for residents with a food type. Changing a price keeps the old one until the day before the new date, so past months bill at the old rate.</p>`:'<p class="auth-note">Your role cannot change rates.</p>'}
+<div id="cw-rates" style="margin-top:10px"></div><p class="auth-note">One price per person per day for each room type: <b>Room only</b> for residents without food, <b>Room + food</b> for residents with a food type. Changing a price keeps the old one until the day before the new date, so past months bill at the old rate.</p>`:(asReq?'<p class="auth-note">The administrator sets the prices when approving this customer. Write the agreed prices in Notes (step 3) if you know them.</p>':'<p class="auth-note">Your role cannot change rates.</p>')}
 <div class="card-title" style="margin:16px 0 6px">${ico('file')} Documents</div><div id="cw-docs"></div>
 </section>
 <section class="cw-step" data-s="5"><div id="cw-review"></div></section>`;
-  showModal(id?`Edit customer · ${esc(c.short)}`:'New customer',body,[{label:id?'Save':'Create customer',primary:true,action:saveCustomerForm},{label:'Back',action:()=>cwGo(_cw.step-1)},{label:'Next',action:()=>cwGo(_cw.step+1)},{label:'Cancel',action:closeModal}],'modal-xl cw-modal');
+  showModal(asReq?(id?`Change request · ${esc(c.short)}`:'Request a new customer'):id?`Edit customer · ${esc(c.short)}`:'New customer',body,[{label:asReq?'Send for approval':id?'Save':'Create customer',primary:true,action:saveCustomerForm},{label:'Back',action:()=>cwGo(_cw.step-1)},{label:'Next',action:()=>cwGo(_cw.step+1)},{label:'Cancel',action:closeModal}],'modal-xl cw-modal');
   window._cwRateCopy=null;cwRateGrid();cwDocs();cwGo(_cw.step,true);
 }
 function custInUse(c){return!!c&&(db.residents.some(r=>r.company===c.short)||db.invoices.some(i=>i.customerId===c.id))}
@@ -5513,13 +5559,15 @@ function applyRateCard(cid,card,_svc,ref){
 function prSave(cid){
   const box=document.getElementById('pr-grid');const card=gridChanges(box,document.getElementById('pr-from').value);
   if(!card)return toast('No price changed');const c=db.companies.find(x=>x.id===cid);
+  if(priceApprovalOn()){paSubmit(cid,card,'Customer prices');openCustomer(cid,'rates');return}
   const n=applyRateCard(cid,card,null,(c.contract||{}).no||'');custLog(c,`${n} price${n>1?'s':''} from ${card.from}: ${card.rows.map(r=>`${r.cat} ${SVC_LABEL[r.svc]} ${fmt(r.price)}`).join(', ')}`);
   saveDB();toast(`${n} price${n>1?'s':''} saved from ${fmtDate(card.from)}`,'ok');openCustomer(cid,'rates');
 }
 function prAddCat(cid,cat){if(!cat)return;window._prCats=[...new Set([...(window._prCats||[]),cat])];openCustomer(cid,'rates')}
 async function prEndCat(cid,cat){
   if(!await uiConfirm(`Stop the ${cat} prices from today? Past months keep their prices. Residents of this customer in ${cat} rooms would then bill at SAR 0.`,{title:'Stop room type prices',ok:'Stop prices',danger:true}))return;
-  const t=today();const prev=(()=>{const x=new Date(t+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)})();
+  const t=today();if(priceApprovalOn()){paSubmit(cid,{kind:'end',cat,from:t,rows:[]},'Stop room type prices');openCustomer(cid,'rates');return}
+  const prev=(()=>{const x=new Date(t+'T00:00:00');x.setDate(x.getDate()-1);return ymd(x)})();
   db.rates.filter(r=>r.customerId===cid&&!r.archivedTier&&r.roomCategory===cat&&(!r.effectiveTo||r.effectiveTo>=t)).forEach(r=>{if(r.effectiveFrom>=t)r.archivedTier=true;else r.effectiveTo=prev});
   custLog(db.companies.find(x=>x.id===cid),`${cat} prices stopped from ${t}`);window._prCats=(window._prCats||[]).filter(x=>x!==cat);saveDB();openCustomer(cid,'rates');
 }
@@ -5557,14 +5605,16 @@ async function saveCustomerForm(){
   const o=cwRead();const{errs,warn}=cwProblems(o);
   if(errs.length){cwGo(5,true);return}
   if(warn.length&&_cw.step!==5&&!await uiConfirm(warn.join('\n')+'\n\nSave anyway?',{title:'Please check',ok:'Save anyway'}))return;
+  const asReq=!isAdmin();if(asReq){o.status='pending';o.submittedBy=currentUser.name;o.submittedAt=nowISO();delete o.rejectReason}
   const card=cwRateRead();const id=_cw.id;let c;
   const primary=o.contacts.find(x=>x.primary)||{};
   const compat={address:addrText(o.addr),contact:primary.name||'',email:custEmails(o,'billing').join(', ')||primary.email||'',poNo:(custPO(o)||o.pos[o.pos.length-1]||{}).no||'',phone:o.phone||primary.phone||''};
   if(id){c=db.companies.find(x=>x.id===id);const was=cust(c);const short=c.short;Object.assign(c,o,compat,{short:c.short&&custInUse(c)?short:o.short,updatedAt:nowISO(),updatedBy:currentUser.name});
     const ch=[];if(was.status!==o.status)ch.push(`status ${CUST_STATUS[was.status]} → ${CUST_STATUS[o.status]}`);if(was.contract.end!==o.contract.end)ch.push('contract end '+(o.contract.end||'none'));if(was.docs.length!==o.docs.length)ch.push('documents');if(card)ch.push(`${card.rows.length} rates from ${card.from}`);custLog(c,'Updated'+(ch.length?': '+ch.join(', '):''))}
-  else{c=custNormalize(Object.assign({id:uid()},o,compat,{createdAt:nowISO(),createdBy:currentUser.name}));custLog(c,'Customer created');db.companies.push(c);}
-  if(card&&can('rates','edit'))applyRateCard(c.id,card,o.contract.service,o.contract.no);
-  saveDB();closeModal();toast(id?'Customer saved':`Customer ${c.short} created`,'ok');v6rerender();if(!id)openCustomer(c.id);
+  else{c=custNormalize(Object.assign({id:uid()},o,compat,{createdAt:nowISO(),createdBy:currentUser.name}));custLog(c,asReq?'Sent for approval':'Customer created');db.companies.push(c);}
+  if(card&&canEnterPrices())applyRateCard(c.id,card,o.contract.service,o.contract.no);
+  if(asReq&&id){delete c.rejectReason;custLog(c,'Request changed and sent again')}
+  saveDB();closeModal();toast(asReq?`${c.short} sent to the administrator for approval`:id?'Customer saved':`Customer ${c.short} created`,'ok');v6rerender();if(!id||asReq)openCustomer(c.id);
 }
 async function renameCustomer(id){
   const c=db.companies.find(x=>x.id===id);if(!c||!isAdmin())return;
@@ -5588,14 +5638,14 @@ ${s.alloc?`<div class="rev-bar-wrap"><div class="rev-bar-label"><span>Allocated 
 <div class="kv" style="margin-top:12px"><div>Legal name</div><div>${esc(c.name)}${c.nameAr?`<br><span dir="rtl">${esc(c.nameAr)}</span>`:''}</div><div>CR / VAT</div><div>${esc(c.crNo||'—')}${c.crExpiry?` (to ${fmtDate(c.crExpiry)})`:''} · ${esc(c.vatNo||'—')}</div>
 <div>Address</div><div>${esc(addrText(c.addr)||'—')}</div><div>Main contact</div><div>${(p=>p?esc([p.name,p.role].filter(Boolean).join(', '))+(p.phone?` · <a href="tel:${esc(p.phone)}">${esc(p.phone)}</a>`:'')+(p.email?` · <a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:''):'—')(c.contacts.find(x=>x.primary)||c.contacts[0])}</div>
 <div>By room type</div><div>${cats.map(([k,n])=>`${k}: <b>${n}</b>`).join(' · ')||'—'}</div><div>Current PO</div><div>${po?`${esc(po.no)}${po.to?` (to ${fmtDate(po.to)})`:''}`:c.billing.poRequired?'<span class="badge badge-orange">PO required — none valid today</span>':'—'}</div></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${can('residents','edit')&&c.status!=='closed'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openResidentModal(null,{company:'${jsa(c.short)}'})">${ico('user')} Check in for ${esc(c.short)}</button><button class="btn btn-sm btn-outline" onclick="closeModal();openMultiCheckin();setTimeout(()=>{const s=document.getElementById('mc-co');if(s)s.value='${jsa(c.short)}'},50)">${ico('users')} Group check-in</button>`:''}
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${can('residents','edit')&&!['closed','pending','rejected'].includes(c.status)&&(c.contract||{}).service!=='Food Only'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openResidentModal(null,{company:'${jsa(c.short)}'})">${ico('user')} Check in for ${esc(c.short)}</button><button class="btn btn-sm btn-outline" onclick="closeModal();openMultiCheckin();setTimeout(()=>{const s=document.getElementById('mc-co');if(s)s.value='${jsa(c.short)}'},50)">${ico('users')} Group check-in</button>`:''}
 ${can('reports','view')?`<button class="btn btn-sm btn-outline" onclick="closeModal();openDRR({company:'${jsa(c.short)}'})">${ico('clipboard')} Daily Rental Records</button>`:''}${custEmails(c,'billing').length?`<a class="btn btn-sm btn-outline" href="mailto:${esc(custEmails(c,'billing').join(','))}">${ico('mail')} Email</a>`:''}</div>`}
   if(tab==='ct')body=c.contacts.length?`<div class="scroll-x"><table><thead><tr><th>Name</th><th>Role</th><th>Phone</th><th>Email</th><th>Receives</th></tr></thead><tbody>${c.contacts.map(x=>`<tr><td>${esc(x.name)}${x.primary?' <span class="badge badge-navy">Main</span>':''}</td><td>${esc(x.role)}</td><td>${x.phone?`<a href="tel:${esc(x.phone)}">${esc(x.phone)}</a>`:''}</td><td>${x.email?`<a href="mailto:${esc(x.email)}">${esc(x.email)}</a>`:''}</td><td>${[x.notifyCheckin?'check-in notices':'',x.notifyBilling?'billing':''].filter(Boolean).join(', ')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="text-muted">No contacts yet.</p>';
   if(tab==='bill')body=`<div class="kv"><div>Payment terms</div><div>${c.billing.terms} days</div><div>Credit limit</div><div>${c.billing.creditLimit?'SAR '+fmt(c.billing.creditLimit,0):'—'}</div><div>Invoice emails</div><div>${esc(custEmails(c,'billing').join(', ')||'—')}</div><div>PO required</div><div>${c.billing.poRequired?'Yes':'No'}</div><div>Cost centre</div><div>${esc(c.billing.costCenter||'—')}</div>
 <div>Contract no.</div><div>${esc(c.contract.no||'—')}</div><div>Period</div><div>${c.contract.start?fmtDate(c.contract.start)+' to '+(fmtDate(c.contract.end)||'open'):'—'}</div><div>Allocated beds</div><div>${c.contract.beds||'—'}</div><div>Service</div><div>${esc(c.contract.service)}</div><div>Room types</div><div>${c.contract.categories.join(', ')||'—'}</div>${c.notes?`<div>Notes</div><div>${esc(c.notes)}</div>`:''}</div>
 <div class="card-title" style="margin:14px 0 6px">Purchase orders</div>${c.pos.length?`<table><thead><tr><th>PO</th><th>Valid</th><th class="text-right">Value</th><th class="text-right">Invoiced</th><th></th></tr></thead><tbody>${c.pos.map(p=>{const used=db.invoices.filter(i=>i.customerId===id&&i.poNo===p.no&&i.status!=='void').reduce((t,i)=>t+(+i.total||0),0);const live=(!p.from||p.from<=today())&&(!p.to||p.to>=today());return`<tr><td class="mono">${esc(p.no)}</td><td>${p.from?fmtDate(p.from):'…'} – ${p.to?fmtDate(p.to):'…'}</td><td class="num">${p.value?fmt(p.value,0):''}</td><td class="num">${fmt(used,0)}${p.value&&used>p.value?' <span class="badge badge-red">over</span>':''}</td><td>${live?'<span class="badge badge-green">Current</span>':p.to&&p.to<today()?'<span class="badge badge-gray">Expired</span>':''}</td></tr>`}).join('')}</tbody></table>`:'<p class="text-muted">No purchase orders.</p>'}`;
   if(tab==='rates'){const R=db.rates.filter(r=>r.customerId===id&&!r.archivedTier).sort((a,b)=>a.roomCategory.localeCompare(b.roomCategory)||String(a.serviceType).localeCompare(String(b.serviceType))||b.effectiveFrom.localeCompare(a.effectiveFrom));
-    const pe=can('rates','edit');const cats=custRateCats(id,[...(pe?c.contract.categories:[]),...(window._prCats||[])]);const conv=R.filter(r=>r.tierPrices);
+    const pe=canEnterPrices();const cats=custRateCats(id,[...(pe?c.contract.categories:[]),...(window._prCats||[])]);const conv=R.filter(r=>r.tierPrices);
     body=`<p class="auth-note" style="margin-top:0">SAR per person per day, before VAT. <b>Room only</b> applies to residents without a food type, <b>Room + food</b> to residents with one. If only one is agreed, it is used for everyone in that room type.</p>
 ${pe?`<div class="form-row" style="align-items:end;margin-bottom:6px"><div class="form-group"><label class="form-label">New prices start on</label><input type="date" id="pr-from" value="${today()}"></div>
 <div class="form-group"><label class="form-label">Add a room type</label><select onchange="prAddCat('${jsa(id)}',this.value)">${opt('','—')}${ALL_CATS.filter(k=>!cats.includes(k)).map(k=>opt(k)).join('')}</select></div></div>`:''}
@@ -6693,15 +6743,17 @@ function impMasterParse(){
     const ix={short:col(h,/short/),cat:col(h,/room type/),svc:col(h,/service/),price:col(h,/price/),from:col(h,/from/),to:col(h,/^to\b|to date|until/)};
     for(let i=H.row+1;i<sh.rows.length;i++){const r=sh.rows[i]||[];const short=ix.short>=0?impNorm(r[ix.short]).toUpperCase():'';if(!short||/^e\.?g\.?\b|^example/i.test(short))continue;
       const cat=impNorm(r[ix.cat]).toLowerCase().replace(/\s/g,'').replace('×','x');const svcRaw=ix.svc>=0?impNorm(r[ix.svc]):'';
-      const svc=/food|meal|\+/i.test(svcRaw)?'Accommodation+Food':'Accommodation';const price=Number(String(r[ix.price]??'').replace(/[^0-9.]/g,''));
+      const isCat=/^cater/i.test(cat);const catCode=/deliver|parcel/i.test(svcRaw)?'DEL':/\b3\b|three/i.test(svcRaw)?'F3':/\b2\b|two/i.test(svcRaw)?'F2':/\b1\b|one/i.test(svcRaw)?'F1':'';
+      const svc=isCat?catCode:/food|meal|\+/i.test(svcRaw)?'Accommodation+Food':'Accommodation';const price=Number(String(r[ix.price]??'').replace(/[^0-9.]/g,''));
       const from=ix.from>=0?impDate(r[ix.from]):'';const to=ix.to>=0?impDate(r[ix.to]):'';
-      const o={line:i+1,short,cat,svc,price,from:from&&from!=='?'?from:'',to:to&&to!=='?'?to:''};
-      if(!/^\d+x\d+$/.test(cat)){S.M.issues.push(`Rates line ${i+1} (${short}): room type "${impNorm(r[ix.cat])}" should look like 2x1`);continue}
+      const o={line:i+1,short,cat:isCat?'CATERING':cat,svc,price,from:from&&from!=='?'?from:'',to:to&&to!=='?'?to:''};
+      if(isCat&&!catCode){S.M.issues.push(`Rates line ${i+1} (${short}): catering service "${svcRaw}" should be 3 times food, 2 times food, 1 time food or Parcel delivery fee`);continue}
+      if(!isCat&&!/^\d+x\d+$/.test(cat)){S.M.issues.push(`Rates line ${i+1} (${short}): room type "${impNorm(r[ix.cat])}" should look like 2x1`);continue}
       if(!(price>0)){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): no price`);continue}
       if(!o.from){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): no "From date"`);continue}
       if(from==='?'||to==='?'){S.M.issues.push(`Rates line ${i+1} (${short} ${cat}): date not readable`);continue}
       if(!S.M.cust.some(c=>c.short===short)&&!db.companies.some(c=>(c.short||'').toUpperCase()===short)){S.M.issues.push(`Rates line ${i+1}: customer ${short} is not in the Customers sheet or the software`);continue}
-      const dup=S.M.rates.find(x=>x.short===short&&x.cat===cat&&x.svc===svc&&x.from===o.from);
+      const dup=S.M.rates.find(x=>x.short===short&&x.cat===o.cat&&x.svc===svc&&x.from===o.from);
       if(dup){S.M.issues.push(`Rates line ${i+1}: ${short} ${cat} from ${fmtDate(o.from)} is also on line ${dup.line} — line ${dup.line} is used`);continue}
       S.M.rates.push(o)}}
   S.M.plan=impMasterPlan();
@@ -6725,7 +6777,7 @@ function impMasterSection(){
   const S=Imp.s;if(!S||!S.M||(!S.M.custSheet&&!S.M.rateSheet))return'';const M=S.M,P=M.plan;
   const byCust={};M.rates.forEach(r=>{(byCust[r.short]=byCust[r.short]||[]).push(r)});
   const custList=M.cust.map(c=>{const st=P.newC.includes(c)?'<span class="badge badge-green">new</span>':P.updC.includes(c)?'<span class="badge badge-teal">update</span>':'<span class="badge badge-gray">same</span>';
-    const pr=(byCust[c.short]||[]).sort((a,b)=>a.cat.localeCompare(b.cat,undefined,{numeric:true})).map(r=>`${r.cat}${r.svc==='Accommodation+Food'?'+food':''} ${r.price}`).join(' · ');
+    const pr=(byCust[c.short]||[]).sort((a,b)=>a.cat.localeCompare(b.cat,undefined,{numeric:true})).map(r=>r.cat==='CATERING'?`${SVC_LABEL[r.svc]||r.svc} ${r.price}`:`${r.cat}${r.svc==='Accommodation+Food'?'+food':''} ${r.price}`).join(' · ');
     return`<tr><td class="fw-bold">${esc(c.short)}</td><td>${esc(c.name)}</td><td>${st}</td><td style="font-size:12px">${pr?esc(pr):'<span class="imp-bad">no prices</span>'}</td></tr>`}).join('');
   const extra=Object.keys(byCust).filter(s=>!M.cust.some(c=>c.short===s)).map(s=>`<tr><td class="fw-bold">${esc(s)}</td><td class="text-muted">already in the software</td><td></td><td style="font-size:12px">${esc(byCust[s].map(r=>r.cat+' '+r.price).join(' · '))}</td></tr>`).join('');
   return`<div class="imp-sec"><h4>Customers and prices in this file</h4>
@@ -6748,9 +6800,9 @@ function impMasterApply(){
   });
   const groups={};M.rates.forEach(x=>{const k=x.short+'|'+x.from;(groups[k]=groups[k]||[]).push(x)});
   Object.values(groups).forEach(g=>{const co=db.companies.find(k=>(k.short||'').toUpperCase()===g[0].short);if(!co)return;
-    r+=applyRateCard(co.id,{from:g[0].from,rows:g.map(x=>({cat:x.cat,svc:x.svc,price:x.price}))},null,'Excel import');
+    r+=applyRateCard(co.id,{from:g[0].from,rows:g.map(x=>({cat:x.cat,svc:x.svc,price:x.price,to:x.to||''}))},null,'Excel import');
     g.filter(x=>x.to).forEach(x=>{const rt=db.rates.find(q=>!q.archivedTier&&q.customerId===co.id&&q.roomCategory===x.cat&&q.serviceType===x.svc&&q.effectiveFrom===x.from);if(rt)rt.effectiveTo=x.to});
-    custNormalize(co).log.push({at,by:who,what:`Prices from ${fmtDate(g[0].from)} imported from Excel: ${g.map(x=>x.cat+' '+x.price).join(', ')}`})});
+    custNormalize(co).log.push({at,by:who,what:`Prices from ${fmtDate(g[0].from)} ${priceApprovalOn()?'sent for approval from Excel':'imported from Excel'}: ${g.map(x=>x.cat+' '+x.price).join(', ')}`})});
   return{c,u,r};
 }
 // a workbook with only Customers / Rates sheets
@@ -6775,10 +6827,11 @@ async function downloadImportTemplate(){
   const add=(name,rows,w)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,name)};
   add('Read me',[['Trendos import template'],[''],['1. Customers: one row per customer. "Short code" is how the customer appears everywhere (e.g. GSCA). Required: Short code, Customer name.'],
     ['2. Rates: one row per customer and room type. Price per bed per day in SAR excluding VAT. Service = "Room only" or "Room + food". Required: Short code, Room type, Price, From date.'],
+    ['   Catering prices go on the same sheet: Room type = "Catering", Service = "3 times food", "2 times food", "1 time food" or "Parcel delivery fee", Price = SAR per person per day (per delivery for the fee).'],
     ['3. Residents: one row per stay. Customer = the short code. Room empty = third-party accommodation (you choose the building when importing). Check-out empty = still staying.'],
     ['Dates as real Excel dates or DD/MM/YYYY. Delete the example rows. Then: Residents → Import from Excel → choose this file.']],[110]);
   add('Customers',[IMP_CUST_COLS.map(c=>c[1]),['EXAMPLE','Example Contracting Co.','Contractor','300000000000003','2050000000','Jubail','King Faisal Road','Mr. Ahmed','0500000000','ap@example.com',30,'active']],[12,30,14,18,13,10,24,18,13,22,10,9]);
-  add('Rates',[IMP_RATE_COLS.map(c=>c[1]),['EXAMPLE','2x1','Room only',65,t,''],['EXAMPLE','6x1','Room only',30,t,'']],[12,10,14,22,12,12]);
+  add('Rates',[IMP_RATE_COLS.map(c=>c[1]),['EXAMPLE','2x1','Room only',65,t,''],['EXAMPLE','6x1','Room only',30,t,''],['EXAMPLE','Catering','3 times food',18,t,''],['EXAMPLE','Catering','Parcel delivery fee',1,t,'']],[12,10,14,22,12,12]);
   add('Residents',[['Customer','Employee name','ID number','Room No.','Check-in date','Check-out date'],['EXAMPLE','MOHAMMED ALI','2412345678','A-101',t,'']],[14,30,14,10,13,13]);
   XLSX.writeFile(wb,'trendos-import-template.xlsx');
 }
@@ -6818,6 +6871,559 @@ function eraseData(){
   closeModal();uiAlert('Erased: '+done.join(', ')+'.\n\nNext: Residents → Import from Excel, and choose the workbook with your Customers, Rates and Residents sheets.',{title:'Data erased'});nav('dashboard');
 }
 Object.assign(AR,{'Erase data — start fresh':'مسح البيانات — بداية جديدة','Customers and prices in this file':'العملاء والأسعار في هذا الملف','new customers':'عملاء جدد','customers updated':'عملاء محدّثون','new prices':'أسعار جديدة','prices changed':'أسعار معدّلة','Download Excel template':'تنزيل قالب Excel'});
+
+// ═════════════════════════════════════════════════════════════
+//  v6.8 — CATERING BILLING, NEW-CUSTOMER APPROVAL, RENT & PROFITABILITY
+//  1. Catering: 3 times / 2 times / 1 time food and the parcel delivery fee, priced per customer.
+//     The team records the quantity delivered each day on one sheet; month-end bills it automatically.
+//     Some customers take food only (service "Food Only") and have no rooms.
+//  2. New customers: the entry team sends the request, an administrator approves it.
+//  3. Rent: camp rent and sub-lease rent are recorded (administrators); only the Management
+//     report shows the total rental cost and the profit after rent.
+// ═════════════════════════════════════════════════════════════
+
+// ─── 1. catering items and prices ───
+const CAT_ITEMS=[{k:'F3',l:'3 times food',u:'person per day'},{k:'F2',l:'2 times food',u:'person per day'},{k:'F1',l:'1 time food',u:'person per day'},{k:'DEL',l:'Parcel delivery fee',u:'delivery'}];
+const CAT_CAT='CATERING';
+const catItem=k=>CAT_ITEMS.find(x=>x.k===k)||{k,l:String(k),u:''};
+CAT_ITEMS.forEach(x=>SVC_LABEL[x.k]=x.l);
+// catering prices are kept with the other customer prices (room type "CATERING"); keep them out of the room price grid
+const _a15rc=custRateCats;custRateCats=function(cid,extra){return _a15rc(cid,extra).filter(c=>c!==CAT_CAT)};
+function catPrice(cid,k,date){const r=rateExact(cid,CAT_CAT,k,date);return r?+r.priceExclVat:null}
+function catHasPrices(cid){return db.rates.some(r=>!r.archivedTier&&r.customerId===cid&&r.roomCategory===CAT_CAT)}
+function coUsable(c){return!!c&&!['pending','rejected','closed','prospect'].includes(c.status)}
+function isFoodOnly(c){return!!c&&(c.contract||{}).service==='Food Only'}
+function catCustomers(date){
+  const has=new Set((db.cateringExtras||[]).filter(x=>x.code&&x.date===date).map(x=>x.company));
+  return db.companies.filter(c=>has.has(c.short)||(coUsable(c)&&(isFoodOnly(c)||catHasPrices(c.id)))).sort((a,b)=>a.short.localeCompare(b.short));
+}
+function catRec(date,short,k){return(db.cateringExtras||[]).find(x=>x.code===k&&x.date===date&&x.company===short)}
+function catShift(d,n){const x=new Date(d+'T00:00:00');x.setDate(x.getDate()+n);return ymd(x)}
+function monthLocked(date){const P=getPeriod(String(date).slice(0,7));return!!(P&&P.stage>=1)}
+// delivered quantities × the customer's price on each day, grouped by customer, item and price
+function computeCatering(from,to,cid){
+  const g={};
+  (db.cateringExtras||[]).forEach(x=>{
+    if(!x.code||!x.date||x.date<from||x.date>to||!(+x.qty>0))return;const co=getCompanyByShort(x.company);if(!co||(cid&&co.id!==cid))return;
+    const rate=catPrice(co.id,x.code,x.date);const key=co.id+'|'+x.code+'|'+(rate==null?'-':rate);
+    const r=g[key]=g[key]||{customerId:co.id,companyShort:co.short,code:x.code,item:catItem(x.code).l,qty:0,rate:rate||0,noPrice:rate==null,amount:0,days:{}};
+    r.qty+=+x.qty;r.amount=round2(r.qty*r.rate);r.days[x.date]=1});
+  const ix=k=>CAT_ITEMS.findIndex(i=>i.k===k);
+  return Object.values(g).map(r=>Object.assign(r,{days:Object.keys(r.days).length})).sort((a,b)=>a.companyShort.localeCompare(b.companyShort)||ix(a.code)-ix(b.code)||a.rate-b.rate);
+}
+
+// ─── catering page: daily sheet · month summary · prices · other items ───
+renderCatering=function(el){
+  const s=el._c=el._c||{tab:'day',date:today(),mo:today().slice(0,7)};
+  const ed=can('catering','edit');const money=can('rates','view')||can('revenue','view');
+  const tabs=[['day','Daily deliveries'],['month','Month summary'],['prices','Prices'],['other','Other items']];
+  const body=s.tab==='month'?catMonthHTML(s,money):s.tab==='prices'?catPricesHTML(money):s.tab==='other'?catOtherHTML(ed):catDayHTML(s,ed,money);
+  el.innerHTML=`<div class="page-header"><div><div class="page-title">${ico('utensils')} Catering</div><div class="page-sub">Meals delivered to each customer, billed at month-end</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">${s.tab==='month'?`<button class="btn btn-ghost btn-sm" onclick="catMonthCSV()">${ico('download')} Daily detail (CSV)</button>`:''}</div></div>
+<div class="seg cat-tabs" role="tablist" aria-label="Catering">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${s.tab===k}" class="${s.tab===k?'on':''}" onclick="catTab('${jsa(k)}')">${l}</button>`).join('')}</div>${body}`;
+  if(s.tab==='day')catSum();
+};
+function catTab(k){const el=document.getElementById('page-catering');el._c.tab=k;renderCatering(el)}
+function catDate(v){if(!v)return;const el=document.getElementById('page-catering');el._c.date=v>today()?today():v;renderCatering(el)}
+function catMonth(v){if(!/^\d{4}-\d{2}$/.test(v||''))return;const el=document.getElementById('page-catering');el._c.mo=v;renderCatering(el)}
+function catDayHTML(s,ed,money){
+  const d=s.date;const L=catCustomers(d);const locked=monthLocked(d);const live=ed&&!locked&&!Store.readOnly;
+  const prev=catShift(d,-1),next=catShift(d,1);
+  const rows=L.map(c=>`<tr><td class="fw-bold">${esc(c.short)}<div class="cat-svc">${isFoodOnly(c)?'Food only':'Rooms + catering'}</div></td>${CAT_ITEMS.map(it=>{const r=catRec(d,c.short,it.k);const p=catPrice(c.id,it.k,d);
+    return`<td class="c" data-l="${esc(it.l)}"><input type="number" class="cat-q" min="0" step="1" inputmode="numeric" data-co="${esc(c.short)}" data-k="${it.k}" data-p="${p==null?'':p}" value="${r?esc(r.qty):''}" placeholder="0" ${live?'':'disabled'} aria-label="${esc(c.short)} — ${esc(it.l)}" oninput="catSum()" onkeydown="catKey(event)"></td>`}).join('')}${money?'<td class="num cat-amt" data-l="Amount"></td>':''}</tr>`).join('');
+  return`<div class="card"><div class="card-header" style="flex-wrap:wrap;gap:8px"><span class="card-title">Delivered on ${fmtDate(d)}</span>
+<span class="cat-day"><button class="btn btn-ghost btn-sm" onclick="catDate('${jsa(prev)}')" aria-label="Previous day">‹</button><input type="date" value="${d}" max="${today()}" onchange="catDate(this.value)" aria-label="Date"><button class="btn btn-ghost btn-sm" onclick="catDate('${jsa(next)}')" aria-label="Next day" ${next>today()?'disabled':''}>›</button>${d!==today()?`<button class="btn btn-ghost btn-sm" onclick="catDate('${jsa(today())}')">Today</button>`:''}</span></div>
+${locked?`<div class="alert alert-info" style="margin:12px 16px 0">${fmtDate(d)} is in a month whose billing is locked. Unlock the month in Monthly Closing to change it.</div>`:''}
+${L.length?`<div class="scroll-x"><table class="cat-sheet"><thead><tr><th>Customer</th>${CAT_ITEMS.map(it=>`<th class="c">${it.l}<div class="cat-u">per ${it.u}</div></th>`).join('')}${money?'<th class="text-right">Amount (SAR)</th>':''}</tr></thead>
+<tbody>${rows}</tbody><tfoot><tr><td>Total</td>${CAT_ITEMS.map(it=>`<td class="c cat-tot" data-k="${it.k}" data-l="${esc(it.l)}"></td>`).join('')}${money?'<td class="num cat-gt" data-l="Amount"></td>':''}</tr></tfoot></table></div>
+${live?`<div class="modal-footer cat-foot"><button class="btn btn-ghost btn-sm" onclick="catCopyPrev()">Copy the last day with deliveries</button><button class="btn btn-primary" onclick="catSave()">${ico('check')} Save ${fmtDate(d)}</button></div>`:''}`
+:`<div class="empty-state"><div class="icon">${ico('utensils')}</div><p>No catering customers yet. A customer appears here when their service is <b>Food Only</b> or when catering prices are set for them.</p>${canEnterPrices()?`<button class="btn btn-primary btn-sm" onclick="catTab('prices')">Set catering prices</button>`:''}</div>`}</div>
+<p class="auth-note">Type the number delivered for each customer, then Save. Enter moves down the column. ${money?'Amounts use the customer’s catering price for that day. ':''}The month’s totals go on the customer’s month-end summary automatically.</p>`;
+}
+function catSum(){
+  const tb=document.querySelector('#page-catering .cat-sheet');if(!tb)return;const tot={};let gt=0;
+  tb.querySelectorAll('tbody tr').forEach(tr=>{let a=0,miss=false;tr.querySelectorAll('.cat-q').forEach(i=>{const q=Math.max(0,+i.value||0);tot[i.dataset.k]=(tot[i.dataset.k]||0)+q;if(q){if(i.dataset.p==='')miss=true;else a+=q*+i.dataset.p}});
+    const c=tr.querySelector('.cat-amt');if(c)c.innerHTML=(a?fmt(a):'')+(miss?' <span class="badge badge-orange" title="An item has no price for this customer">no price</span>':'');gt+=a});
+  tb.querySelectorAll('.cat-tot').forEach(td=>td.textContent=tot[td.dataset.k]?tot[td.dataset.k].toLocaleString('en-US'):'');
+  const g=tb.querySelector('.cat-gt');if(g)g.textContent=gt?fmt(gt):'';
+}
+function catKey(e){if(e.key!=='Enter')return;e.preventDefault();const i=e.target;const all=[...document.querySelectorAll('#page-catering .cat-q[data-k="'+i.dataset.k+'"]')];const n=all[all.indexOf(i)+1];
+  if(n){n.focus();n.select()}else{const k=CAT_ITEMS.findIndex(x=>x.k===i.dataset.k);const nx=CAT_ITEMS[k+1];const f=nx&&document.querySelector('#page-catering .cat-q[data-k="'+nx.k+'"]');if(f){f.focus();f.select()}}}
+function catSave(){
+  const el=document.getElementById('page-catering');const d=el._c.date;
+  if(!can('catering','edit'))return;if(monthLocked(d))return uiAlert('This month is locked in Monthly Closing. Unlock it there to change deliveries.');
+  if(d>today())return uiAlert('Deliveries cannot be recorded for a future date.');
+  db.cateringExtras=db.cateringExtras||[];let n=0;const bad=[];
+  document.querySelectorAll('#page-catering .cat-q').forEach(i=>{
+    const short=i.dataset.co,k=i.dataset.k;const raw=i.value.trim();const q=raw===''?0:Number(raw);
+    if(!Number.isFinite(q)||q<0||q>100000||Math.round(q)!==q){bad.push(`${short} · ${catItem(k).l}`);return}
+    const r=catRec(d,short,k);
+    if(q>0){if(!r){const co=getCompanyByShort(short);db.cateringExtras.push({id:uid(),date:d,company:short,customerId:co?co.id:'',code:k,item:catItem(k).l,qty:q,by:currentUser?currentUser.name:'',at:nowISO()});n++}
+      else if(+r.qty!==q){r.qty=q;r.by=currentUser?currentUser.name:'';r.at=nowISO();n++}}
+    else if(r){db.cateringExtras=db.cateringExtras.filter(x=>x!==r);n++}});
+  if(bad.length)return uiAlert('Use whole numbers of 0 or more for: '+bad.join(', '));
+  if(!n)return toast('No changes to save');
+  saveDB();toast(`${fmtDate(d)} saved · ${n} change${n>1?'s':''}`,'ok');renderCatering(el);
+}
+function catCopyPrev(){
+  const d=document.getElementById('page-catering')._c.date;
+  const ds=[...new Set((db.cateringExtras||[]).filter(x=>x.code&&x.date<d).map(x=>x.date))].sort();const p=ds[ds.length-1];
+  if(!p)return toast('No earlier deliveries to copy');let n=0;
+  document.querySelectorAll('#page-catering .cat-q').forEach(i=>{const r=catRec(p,i.dataset.co,i.dataset.k);if(r&&i.value===''){i.value=r.qty;n++}});
+  catSum();toast(n?`Copied ${n} figure${n>1?'s':''} from ${fmtDate(p)} — check them, then Save`:'Nothing to copy — the boxes are already filled');
+}
+function catMonthData(pd){
+  const B=periodBounds(pd);const rows=computeCatering(B.start,B.end);const by={};
+  rows.forEach(r=>{const c=by[r.customerId]=by[r.customerId]||{cid:r.customerId,short:r.companyShort,q:{},amt:0,miss:false,days:{}};c.q[r.code]=(c.q[r.code]||0)+r.qty;c.amt=round2(c.amt+r.amount);if(r.noPrice)c.miss=true});
+  (db.cateringExtras||[]).forEach(x=>{if(x.code&&x.date>=B.start&&x.date<=B.end&&+x.qty>0){const co=getCompanyByShort(x.company);if(co&&by[co.id])(by[co.id].days[x.date]=by[co.id].days[x.date]||{})[x.code]=+x.qty}});
+  return{B,rows,C:Object.values(by).sort((a,b)=>a.short.localeCompare(b.short))};
+}
+function catMonthHTML(s,money){
+  const{B,C}=catMonthData(s.mo);const P=getPeriod(s.mo);const tq={};let ta=0;C.forEach(c=>{CAT_ITEMS.forEach(it=>tq[it.k]=(tq[it.k]||0)+(c.q[it.k]||0));ta+=c.amt});
+  return`<div class="card"><div class="card-header" style="flex-wrap:wrap;gap:8px"><span class="card-title">${esc(B.label)}</span>
+<span class="cat-day"><input type="month" value="${s.mo}" onchange="catMonth(this.value)" aria-label="Month">${P&&P.stage>=1?`<span class="badge badge-navy">Locked ${fmtDate(P.lockedAt)}</span>`:'<span class="badge badge-gray">Open</span>'}</span></div>
+<div class="scroll-x"><table><thead><tr><th>Customer</th>${CAT_ITEMS.map(it=>`<th class="text-right">${it.l}</th>`).join('')}<th class="text-right">Days</th>${money?'<th class="text-right">Amount (SAR, before VAT)</th>':''}</tr></thead>
+<tbody>${C.map(c=>`<tr><td class="fw-bold">${esc(c.short)}</td>${CAT_ITEMS.map(it=>`<td class="num">${c.q[it.k]?c.q[it.k].toLocaleString('en-US'):''}</td>`).join('')}<td class="num">${Object.keys(c.days).length}</td>${money?`<td class="num">${fmt(c.amt)}${c.miss?' <span class="badge badge-orange">no price</span>':''}</td>`:''}</tr>`).join('')||`<tr><td colspan="${CAT_ITEMS.length+3}" class="text-center text-muted">No deliveries recorded in ${esc(B.label)}</td></tr>`}</tbody>
+${C.length?`<tfoot><tr><td>TOTAL</td>${CAT_ITEMS.map(it=>`<td class="num">${(tq[it.k]||0).toLocaleString('en-US')}</td>`).join('')}<td></td>${money?`<td class="num">${fmt(ta)}</td>`:''}</tr></tfoot>`:''}</table></div></div>
+${C.map(c=>{const ds=Object.keys(c.days).sort();return`<details class="card cat-det"><summary class="card-header"><span class="card-title">${esc(c.short)} · daily detail</span><span class="text-muted" style="font-size:12px">${ds.length} day${ds.length===1?'':'s'}</span></summary>
+<div class="scroll-x"><table><thead><tr><th>Date</th>${CAT_ITEMS.map(it=>`<th class="text-right">${it.l}</th>`).join('')}</tr></thead><tbody>${ds.map(d=>`<tr><td><a class="link" href="#" onclick="event.preventDefault();document.getElementById('page-catering')._c.tab='day';catDate('${jsa(d)}')">${fmtDate(d)}</a></td>${CAT_ITEMS.map(it=>`<td class="num">${c.days[d][it.k]||''}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`}).join('')}
+<p class="auth-note">At month-end these totals are added to each customer’s summary when the month is locked in Monthly Closing.</p>`;
+}
+function catMonthCSV(){
+  const pd=document.getElementById('page-catering')._c.mo;const{B}=catMonthData(pd);const rows=[['Date','Customer',...CAT_ITEMS.map(i=>i.l),'Recorded by']];
+  const by={};(db.cateringExtras||[]).filter(x=>x.code&&x.date>=B.start&&x.date<=B.end&&+x.qty>0).forEach(x=>{const k=x.date+'|'+x.company;const r=by[k]=by[k]||{date:x.date,co:x.company,q:{},by:new Set()};r.q[x.code]=+x.qty;if(x.by)r.by.add(x.by)});
+  Object.values(by).sort((a,b)=>a.date.localeCompare(b.date)||a.co.localeCompare(b.co)).forEach(r=>rows.push([r.date,r.co,...CAT_ITEMS.map(i=>r.q[i.k]||0),[...r.by].join(', ')]));
+  downloadCSV(rows,`catering-${pd}.csv`);
+}
+function catPricesHTML(money){
+  const ed=canEnterPrices();if(!money&&!ed)return'<div class="card"><div class="card-body text-muted">Your role cannot see prices.</div></div>';
+  const t=today();
+  const L=db.companies.filter(c=>coUsable(c)&&(isFoodOnly(c)||catHasPrices(c.id))).sort((a,b)=>a.short.localeCompare(b.short));
+  const others=db.companies.filter(c=>coUsable(c)&&!L.includes(c)).sort((a,b)=>a.short.localeCompare(b.short));
+  return`<div class="card"><div class="card-header"><span class="card-title">Catering prices today</span><span class="text-muted" style="font-size:12px">SAR, before VAT</span></div>
+<div class="scroll-x"><table><thead><tr><th>Customer</th>${CAT_ITEMS.map(it=>`<th class="text-right">${it.l}<div class="cat-u">per ${it.u}</div></th>`).join('')}<th></th></tr></thead><tbody>
+${L.map(c=>`<tr><td class="fw-bold">${esc(c.short)}${isFoodOnly(c)?' <span class="badge badge-teal">Food only</span>':''}</td>${CAT_ITEMS.map(it=>{const p=catPrice(c.id,it.k,t);return`<td class="num">${!money?'<span class="text-muted">hidden</span>':p==null?'<span class="text-muted">—</span>':fmt(p)}</td>`}).join('')}<td>${ed?`<button class="btn btn-xs btn-outline" onclick="openCatPrices('${jsa(c.id)}')">Change</button>`:''}</td></tr>`).join('')||`<tr><td colspan="${CAT_ITEMS.length+2}" class="text-center text-muted">No catering prices yet</td></tr>`}</tbody></table></div>
+${ed&&others.length?`<div class="modal-footer cat-foot" style="justify-content:flex-start"><select id="cp-add" aria-label="Customer">${others.map(c=>opt(c.id,c.short)).join('')}</select><button class="btn btn-primary btn-sm" onclick="openCatPrices(document.getElementById('cp-add').value)">${ico('plus')} Set catering prices</button></div>`:''}</div>
+<p class="auth-note">A new price starts on the date you choose; earlier days keep the old price. ${priceApprovalOn()?'Changes are sent for approval and apply after a price approver approves them.':ed?'':'Only administrators can change prices.'}</p>`;
+}
+function openCatPrices(cid){
+  const c=getCompany(cid);if(!c||!canEnterPrices())return;const t=today();
+  showModal(`Catering prices · ${esc(c.short)}`,`<div class="form-row"><div class="form-group"><label class="form-label req">Starts on</label><input type="date" id="cp-from" value="${t}"></div></div>
+<div class="form-row">${CAT_ITEMS.map(it=>{const p=can('rates','view')?catPrice(cid,it.k,t):null;return`<div class="form-group"><label class="form-label">${it.l} <span class="text-muted">· SAR per ${it.u}</span></label><input type="number" step="0.01" min="0" class="cp-p" data-k="${it.k}" value="${p==null?'':p}" placeholder="—"></div>`}).join('')}</div>
+<p class="auth-note">Prices are before VAT. Leave a box empty for an item this customer does not take.</p>`,
+  [{label:'Save prices',primary:true,action:()=>{
+    const from=document.getElementById('cp-from').value;if(!from)return uiAlert('Choose the date the prices start.');
+    const all=[...document.querySelectorAll('.cp-p')].filter(i=>i.value!=='');if(all.some(i=>!(+i.value>=0)))return uiAlert('Prices must be 0 or more.');
+    const rows=all.map(i=>({cat:CAT_CAT,svc:i.dataset.k,price:round2(+i.value)})).filter(r=>catPrice(cid,r.svc,from)!==r.price);
+    if(!rows.length)return uiAlert('No price was changed.');
+    if(priceApprovalOn()){paSubmit(cid,{from,rows},'Catering prices');closeModal();v6rerender();return}
+    const n=applyRateCard(cid,{from,rows},null,'Catering prices');custLog(c,`Catering prices from ${from}: ${rows.map(r=>catItem(r.svc).l+' '+fmt(r.price)).join(', ')}`);
+    saveDB();closeModal();toast(`${n} catering price${n>1?'s':''} saved for ${c.short}`,'ok');v6rerender();
+    if(monthLocked(from))uiAlert('The month this price starts in is already locked in Monthly Closing. Unlock and lock it again there to bill at the new price.');
+  }},{label:'Cancel',action:closeModal}]);
+}
+function catOtherHTML(ed){
+  const ex=(db.cateringExtras||[]).filter(x=>!x.code).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  return`<div class="card"><div class="card-header"><span class="card-title">Other catering items</span>${ed?`<button class="btn btn-primary btn-sm" onclick="openCatModal()">${ico('plus')} Add item</button>`:''}</div>
+<div class="scroll-x"><table><thead><tr><th>Date</th><th>Customer</th><th>Item</th><th class="text-right">Qty</th><th class="text-right">Rate</th><th class="text-right">Amount before VAT</th><th></th></tr></thead>
+<tbody>${ex.map(e=>`<tr><td>${fmtDate(e.date)}</td><td>${esc(e.company)}</td><td>${esc(e.item)}</td><td class="num">${esc(e.qty)}</td><td class="num">${fmt(e.rate)}</td><td class="num">${fmt((+e.qty||0)*(+e.rate||0))}</td><td>${ed?`<button class="btn btn-xs btn-danger" onclick="delCat('${jsa(e.id)}')" aria-label="Delete">×</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No other items</td></tr>'}</tbody></table></div></div>
+<p class="auth-note">One-off items such as Iftar or special meals. Add them to the customer’s summary in Monthly Closing, step 3 (“Import catering extras”).</p>`;
+}
+
+// ─── catering at month-end ───
+function meCids(P){return[...new Set([...(P.mandaysRows||[]).map(r=>r.customerId),...(P.cateringRows||[]).map(r=>r.customerId)])]}
+const _a15lock=meLockMandays;
+meLockMandays=async function(pd,critical){
+  await _a15lock(pd,critical);
+  const P=getPeriod(pd);if(!P||P.stage<1||P.cateringRows)return;
+  const B=periodBounds(pd);P.cateringRows=computeCatering(B.start,B.end).map(r=>({customerId:r.customerId,companyShort:r.companyShort,code:r.code,item:r.item,qty:r.qty,rate:r.rate,amount:r.amount,noPrice:r.noPrice,days:r.days}));
+  const md=new Set((P.mandaysRows||[]).map(r=>r.customerId));
+  [...new Set(P.cateringRows.map(r=>r.customerId))].filter(cid=>!md.has(cid)).forEach(cid=>{const c=getClosing(pd,cid,true);if(c.status!=='invoiced'){c.status='pending';clLog(c,'Catering locked')}});
+  saveDB();meRerender();
+};
+const _a15unlock=meUnlock;
+meUnlock=async function(pd){await _a15unlock(pd);const P=getPeriod(pd);if(P&&P.stage===0&&P.cateringRows){delete P.cateringRows;saveDB();meRerender()}};
+const _a15val=validatePeriod;
+validatePeriod=function(pd){
+  const issues=_a15val(pd);const B=periodBounds(pd);
+  const unknown=new Set((db.cateringExtras||[]).filter(x=>x.code&&x.date>=B.start&&x.date<=B.end&&+x.qty>0&&!getCompanyByShort(x.company)).map(x=>x.company));
+  unknown.forEach(s=>issues.push({level:'critical',text:`Catering for "${s}": this customer is not in the Customers list`}));
+  computeCatering(B.start,B.end).forEach(r=>{const co=getCompany(r.customerId);
+    if(r.noPrice)issues.push({level:'critical',text:`No catering price: ${r.companyShort} · ${r.item} — ${r.qty} would bill at SAR 0`});
+    if(co&&!coUsable(co)&&co.status!=='closed')issues.push({level:'warning',text:`${r.companyShort} has catering this month but is ${CUST_STATUS[co.status]||co.status}`})});
+  return issues;
+};
+const _a15cl=closingLines;
+closingLines=function(pd,cid){
+  const L=_a15cl(pd,cid);const P=getPeriod(pd);const cr=((P&&P.cateringRows)||[]).filter(r=>r.customerId===cid);
+  if(!cr.length)return Object.assign(L,{catRows:[],cateringAmt:0});
+  const vr=db.settings.vatRate;
+  const cl=cr.map(r=>{const amount=round2(r.amount),vat=round2(amount*vr/100);return{kind:'catering',desc:`Catering: ${r.item} (per ${catItem(r.code).u})`,qty:r.qty,rate:r.rate,vatMode:'excl',amount,vat,net:round2(amount+vat)}});
+  const lines=[...L.lines.filter(l=>l.kind==='mandays'),...cl,...L.lines.filter(l=>l.kind!=='mandays')];
+  const subtotal=round2(lines.reduce((t,l)=>t+l.amount,0)),vat=round2(lines.reduce((t,l)=>t+l.vat,0));
+  return Object.assign({},L,{lines,subtotal,vat,total:round2(subtotal+vat),catRows:cr,cateringAmt:round2(cr.reduce((t,r)=>t+r.amount,0))});
+};
+const _a15cp=closingPanel;
+closingPanel=function(pd,cid){
+  let h=_a15cp(pd,cid);const L=closingLines(pd,cid);if(!L.catRows.length)return h;
+  const t=`<table class="cl-cat"><thead><tr><th>Catering</th><th class="text-right">Quantity</th><th class="text-right">Rate</th><th class="text-right">Amount</th></tr></thead>
+<tbody>${L.catRows.map(r=>`<tr><td>${esc(r.item)} <span class="text-muted">per ${esc(catItem(r.code).u)}</span></td><td class="num">${(+r.qty).toLocaleString('en-US')}</td><td class="num">${fmt(r.rate)}</td><td class="num">${fmt(r.amount)}</td></tr>`).join('')}</tbody>
+<tfoot><tr><td>Catering total</td><td></td><td></td><td class="num">${fmt(L.cateringAmt)}</td></tr></tfoot></table>`;
+  const i=h.indexOf('Mandays total');if(i<0)return h;const j=h.indexOf('</table>',i);if(j<0)return h;
+  return h.slice(0,j+8)+t+h.slice(j+8);
+};
+const _a15ce=closingEmail;
+closingEmail=function(pd,cid){
+  const m=_a15ce(pd,cid);const L=closingLines(pd,cid);if(!L.cateringAmt)return m;
+  const what=L.personDays?'accommodation and catering':'catering';
+  m.subject=m.subject.replace('Accommodation summary',what.charAt(0).toUpperCase()+what.slice(1)+' summary');
+  m.body=m.body.replace('accommodation summary',what+' summary');if(!L.personDays)m.body=m.body.replace(' The Daily Rental Records are attached.','');
+  return m;
+};
+const _a15rme=renderMonthEnd;
+renderMonthEnd=function(el){
+  _a15rme(el);
+  try{const pd=`${el._yr}-${String(el._mo).padStart(2,'0')}`;const P=getPeriod(pd);if(!P||P.stage<1)return;const B=periodBounds(pd);
+    const cur={},was={};computeCatering(B.start,B.end).forEach(r=>{const k=r.companyShort+' · '+r.item;cur[k]=(cur[k]||0)+r.qty});
+    (P.cateringRows||[]).forEach(r=>{const k=r.companyShort+' · '+r.item;was[k]=(was[k]||0)+r.qty});
+    const diff=[...new Set([...Object.keys(cur),...Object.keys(was)])].filter(k=>(cur[k]||0)!==(was[k]||0)).map(k=>{const d=(cur[k]||0)-(was[k]||0);return`${k} ${d>0?'+':''}${d}`});
+    if(!diff.length)return;const card=el.querySelector('.card');if(!card)return;
+    card.insertAdjacentHTML('afterend',`<div class="alert alert-warn">Catering has changed since the month was locked — ${esc(diff.slice(0,8).join(' · '))}${diff.length>8?' …':''}. ${db.closings.some(c=>c.period===pd&&c.status==='invoiced')?'Invoices exist for this month; void them before unlocking.':'Unlock and lock again to include it.'}</div>`);
+  }catch(e){console.warn('catering drift',e)}
+};
+
+// ─── catering on the management dashboard ───
+const _a15mg=mgData;
+mgData=function(R){
+  const D=_a15mg(R);D.accAmt=D.amt;D.catAmt=0;
+  if(!D.days.length||!(can('mandays','view')||can('revenue','view')))return D;
+  const cr=computeCatering(R.from,D.to);D.catAmt=round2(cr.reduce((t,r)=>t+r.amount,0));D.amt=round2(D.amt+D.catAmt);
+  cr.forEach(r=>{let c=D.byCo.find(x=>x.short===r.companyShort);if(!c){c={short:r.companyShort,inCamp:0,ins:0,outs:0,pd:0,amt:0};D.byCo.push(c)}c.amt+=r.amount});
+  return D;
+};
+
+// ─── 2. new customers: the entry team sends the request, an administrator approves ───
+Object.assign(CUST_STATUS,{pending:'Waiting for approval',rejected:'Not approved'});
+Object.assign(CUST_BADGE,{pending:'badge-orange',rejected:'badge-red'});
+MODULES.splice(MODULES.findIndex(m=>m.k==='companies')+1,0,{k:'onboarding',label:'New customer requests'});
+const _a15eff=effPerm;
+effPerm=function(perms,k){
+  const onb=perms.onboarding||(perms.residents==='edit'?'edit':'none');
+  if(k==='onboarding')return onb;
+  if(k==='companies'&&!perms.companies&&onb==='edit')return'view';
+  return _a15eff(perms,k);
+};
+function canSubmitCustomer(){return isAdmin()||can('onboarding','edit')}
+const _a15cec=canEditCollection;
+canEditCollection=function(c){if(c==='companies'&&currentUser&&!isAdmin())return can('onboarding','edit');if(c==='rents')return isAdmin();return _a15cec(c)};
+// the database lets a non-administrator add or change a customer only while it waits for approval
+function coChangeOK(u,synced){
+  const old=synced.get('companies|'+u.id);let st=null;try{st=old?JSON.parse(old).status:null}catch(e){}
+  return(u.data||{}).status==='pending'&&(old==null||st==='pending');
+}
+const _a15nav=nav;
+nav=function(p){const r=_a15nav(p);if(p==='companies'&&currentUser&&!isAdmin()&&can('onboarding','edit')&&!Store.readOnly){document.body.classList.remove('readonly');const b=document.getElementById('ro-banner');if(b)b.textContent=''}return r};
+const _a15oc=openCustomer;
+openCustomer=function(id,tab){
+  _a15oc(id,tab);const c=db.companies.find(x=>x.id===id);if(!c)return;const mb=document.querySelector('#active-modal .modal-body');if(!mb)return;
+  if(c.status==='pending'||c.status==='rejected'){
+    const who=c.submittedBy||c.createdBy||'';const when=c.submittedAt||c.createdAt||'';
+    mb.insertAdjacentHTML('afterbegin',`<div class="appr-bar ${c.status}"><div>${ico(c.status==='pending'?'clock':'alert')}<div><b>${c.status==='pending'?'Waiting for administrator approval':'Not approved'}</b><span>${who?'Sent by '+esc(who):''}${when?' on '+fmtDate(String(when).slice(0,10)):''}${c.status==='rejected'&&c.rejectReason?' · Reason: '+esc(c.rejectReason):''}</span></div></div>
+<div class="appr-btns">${isAdmin()&&c.status==='pending'?`<button class="btn btn-sm btn-primary" onclick="approveCustomer('${jsa(c.id)}')">${ico('check')} Approve</button><button class="btn btn-sm btn-ghost" onclick="rejectCustomer('${jsa(c.id)}')">Not approve</button>`:''}${!isAdmin()&&canSubmitCustomer()&&c.status!=='closed'?`<button class="btn btn-sm btn-outline" onclick="closeModal();openCustomerForm('${jsa(c.id)}')">${c.status==='rejected'?'Correct and send again':'Change the request'}</button>`:''}</div></div>`);
+  }
+  if(tab==='rates'&&can('rates','view')&&(isFoodOnly(c)||catHasPrices(c.id))){const t=today();
+    mb.insertAdjacentHTML('beforeend',`<div class="card-title" style="margin:16px 0 6px">${ico('utensils')} Catering prices today</div><table><thead><tr>${CAT_ITEMS.map(it=>`<th class="text-right">${it.l}</th>`).join('')}</tr></thead><tbody><tr>${CAT_ITEMS.map(it=>{const p=catPrice(c.id,it.k,t);return`<td class="num">${p==null?'—':fmt(p)}</td>`}).join('')}</tr></tbody></table>${canEnterPrices()?`<button class="btn btn-sm btn-outline" style="margin-top:8px" onclick="openCatPrices('${jsa(c.id)}')">Change catering prices</button>`:''}`);}
+};
+async function approveCustomer(id){
+  const c=db.companies.find(x=>x.id===id);if(!c||!isAdmin()||c.status!=='pending')return;
+  const gaps=custGaps(c);
+  if(!await uiConfirm(`${c.short} — ${c.name} becomes an active customer and can be used for check-in${isFoodOnly(c)?' and catering':''} and billing.${gaps.length?`\n\nStill missing: ${gaps.join(', ')}.`:''}`,{title:'Approve this customer?',ok:'Approve'}))return;
+  c.status='active';c.approvedBy=currentUser.name;c.approvedAt=nowISO();delete c.rejectReason;custLog(c,'Approved');saveDB();closeModal();toast(`${c.short} approved`,'ok');v6rerender();
+  if(!db.rates.some(r=>r.customerId===id&&!r.archivedTier)&&await uiConfirm(`${c.short} has no prices yet. Set them now?`,{title:'Set prices',ok:'Set prices'})){if(isFoodOnly(c))openCatPrices(id);else openCustomerForm(id,4)}
+}
+async function rejectCustomer(id){
+  const c=db.companies.find(x=>x.id===id);if(!c||!isAdmin())return;
+  const why=await uiPrompt(`Why is ${c.short} not approved? The person who sent it will see this.`,{title:'Not approve',ok:'Not approve',value:''});if(why===null||why===undefined)return;
+  c.status='rejected';c.rejectReason=String(why).trim();c.rejectedBy=currentUser.name;c.rejectedAt=nowISO();custLog(c,'Not approved'+(c.rejectReason?': '+c.rejectReason:''));saveDB();closeModal();toast(`${c.short} not approved`);v6rerender();
+}
+function pendingCustomers(){return db.companies.filter(c=>c.status==='pending')}
+const _a15bn=buildNotifs;
+buildNotifs=async function(){const list=await _a15bn();if(isAdmin()){const p=pendingCustomers();if(p.length)list.unshift({i:'briefcase',t:`${p.length} new customer${p.length>1?'s':''} waiting for approval`,go:()=>{const el=document.getElementById('page-companies');el._f=Object.assign(el._f||{q:''},{st:'pending'});nav('companies')}})}return list};
+
+// ─── 3. rent: camp rent and sub-lease rent; totals only in the Management report ───
+COLLECTIONS.push('rents');COL_MODULE.rents=[];PAGE_MODULE.rent='_admin';NAV_ICON.rent='key';
+const RENT_BASIS={month:'per month',year:'per year',bedday:'per bed per day'};
+function slRentBasis(c){return c.rentBasis||'bedday'}
+function slRentAmount(c){const v=c.rentAmount!=null&&c.rentAmount!==''?c.rentAmount:c.ourCostPerBed;return+v||0}
+const dimOf=d=>new Date(+d.slice(0,4),+d.slice(5,7),0).getDate();
+const diyOf=d=>{const y=+d.slice(0,4);return(y%4===0&&y%100!==0)||y%400===0?366:365};
+function rentCost(from,to){
+  const days=from&&to&&from<=to?dateRange(from,to):[];const items=[];
+  (db.rents||[]).forEach(r=>{let a=0;const amt=+r.amount||0;days.forEach(d=>{if((r.from&&d<r.from)||(r.to&&d>r.to))return;a+=r.basis==='year'?amt/diyOf(d):amt/dimOf(d)});
+    if(a)items.push({kind:'camp',name:r.name||'Camp rent',sub:r.landlord||'',amount:round2(a)})});
+  (db.subleaseContracts||[]).forEach(c=>{if(c.status==='cancelled'||(c.status!=='active'&&!c.endDate))return;const b=slRentBasis(c),amt=slRentAmount(c);let a=0;
+    days.forEach(d=>{if((c.startDate&&d<c.startDate)||(c.endDate&&d>c.endDate))return;a+=b==='month'?amt/dimOf(d):b==='year'?amt/diyOf(d):amt*(+c.beds||0)});
+    if(a)items.push({kind:'sub',name:c.providerName||'Sub-lease',sub:[c.location,c.roomCategory,c.beds?c.beds+' beds':''].filter(Boolean).join(' · '),amount:round2(a)})});
+  const sum=k=>round2(items.filter(i=>i.kind===k).reduce((t,i)=>t+i.amount,0));
+  return{items,camp:sum('camp'),sub:sum('sub'),total:round2(items.reduce((t,i)=>t+i.amount,0))};
+}
+const _a15rp=renderPage;renderPage=function(page,el){if(page==='rent')return renderRent(el);return _a15rp(page,el)};
+const _a15enter=enterApp;enterApp=async function(){await _a15enter();const n=document.getElementById('nav-rent');if(n)n.style.display=isAdmin()?'flex':'none'};
+function renderRent(el){
+  if(!isAdmin()){el.innerHTML='';return}db.rents=db.rents||[];
+  const R=db.rents.slice().sort((a,b)=>String(b.from).localeCompare(String(a.from)));
+  const S=(db.subleaseContracts||[]).slice().sort((a,b)=>(a.status==='active'?0:1)-(b.status==='active'?0:1)||String(a.providerName).localeCompare(String(b.providerName)));
+  el.innerHTML=`<div class="page-header"><div><div class="page-title">${ico('key')} Rent</div><div class="page-sub">What we pay for the camp and for sub-leased rooms · totals and profit are in the Management report</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="nav('management')">${ico('gauge')} Management report</button><button class="btn btn-primary btn-sm" onclick="openRentModal()">${ico('plus')} Add camp rent</button></div></div>
+<div class="card"><div class="card-header"><span class="card-title">Camp rent</span></div><div class="scroll-x"><table><thead><tr><th>Property</th><th>Landlord</th><th class="text-right">Rent (SAR, before VAT)</th><th>From</th><th>To</th><th>Notes</th><th></th></tr></thead>
+<tbody>${R.map(r=>`<tr><td class="fw-bold">${esc(r.name)}</td><td>${esc(r.landlord||'')}</td><td class="num">${fmt(r.amount)} <span class="text-muted">${RENT_BASIS[r.basis]||''}</span></td><td>${fmtDate(r.from)}</td><td>${r.to?fmtDate(r.to):'Open'}</td><td style="font-size:12px">${esc(r.notes||'')}</td>
+<td style="white-space:nowrap"><button class="btn btn-xs btn-outline" onclick="openRentModal('${jsa(r.id)}')">Edit</button> <button class="btn btn-xs btn-danger" onclick="delRent('${jsa(r.id)}')" aria-label="Delete">×</button></td></tr>`).join('')||'<tr><td colspan="7" class="text-center text-muted">No camp rent recorded yet</td></tr>'}</tbody></table></div></div>
+<div class="card"><div class="card-header"><span class="card-title">Sub-lease rent</span><button class="btn btn-sm btn-ghost" onclick="nav('sublease')">Sub-lease contracts</button></div><div class="scroll-x"><table><thead><tr><th>Provider</th><th>Location</th><th>Room type</th><th class="text-right">Beds</th><th class="text-right">Rent (SAR, before VAT)</th><th>Period</th><th>Status</th><th></th></tr></thead>
+<tbody>${S.map(c=>`<tr><td class="fw-bold">${esc(c.providerName||'')}</td><td>${esc(c.location||'')}</td><td>${esc(c.roomCategory||'')}</td><td class="num">${esc(c.beds||'')}</td><td class="num">${fmt(slRentAmount(c))} <span class="text-muted">${RENT_BASIS[slRentBasis(c)]}</span></td><td style="font-size:12px">${fmtDate(c.startDate)} → ${c.endDate?fmtDate(c.endDate):'Open'}</td><td><span class="badge ${c.status==='active'?'badge-green':'badge-gray'}">${esc(c.status||'')}</span></td>
+<td><button class="btn btn-xs btn-outline" onclick="editSL('${jsa(c.id)}')">Edit</button></td></tr>`).join('')||'<tr><td colspan="8" class="text-center text-muted">No sub-lease contracts</td></tr>'}</tbody></table></div></div>
+<p class="auth-note">When the rent changes, end the old line on the day before and add a new line, so earlier months keep the old rent. Only administrators see this page.</p>`;
+}
+function openRentModal(id){
+  if(!isAdmin())return;const r=id?(db.rents||[]).find(x=>x.id===id):null;
+  showModal(r?'Edit camp rent':'Add camp rent',`<div class="form-row">
+<div class="form-group"><label class="form-label req">Property</label><input id="rt-name" value="${esc(r?r.name:'Main camp')}" placeholder="e.g. Main camp, Jubail"></div>
+<div class="form-group"><label class="form-label">Landlord</label><input id="rt-land" value="${esc(r?r.landlord||'':'')}"></div>
+<div class="form-group"><label class="form-label req">Rent (SAR, before VAT)</label><input type="number" id="rt-amt" step="0.01" min="0" value="${r?esc(r.amount):''}"></div>
+<div class="form-group"><label class="form-label">Paid</label><select id="rt-basis">${opt('month','Per month',!r||r.basis==='month')}${opt('year','Per year',r&&r.basis==='year')}</select></div>
+<div class="form-group"><label class="form-label req">From</label><input type="date" id="rt-from" value="${esc(r?r.from:today().slice(0,8)+'01')}"></div>
+<div class="form-group"><label class="form-label">To</label><input type="date" id="rt-to" value="${esc(r?r.to||'':'')}"></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Notes</label><input id="rt-notes" value="${esc(r?r.notes||'':'')}" placeholder="e.g. Contract no., payment terms"></div></div>`,
+  [{label:r?'Save':'Add rent',primary:true,action:()=>{
+    const g=k=>document.getElementById(k).value.trim();const o={name:g('rt-name'),landlord:g('rt-land'),amount:Number(g('rt-amt')),basis:g('rt-basis'),from:g('rt-from'),to:g('rt-to'),notes:g('rt-notes')};
+    if(!o.name||!(o.amount>0)||!o.from)return uiAlert('Enter the property, the rent and the start date.');if(o.to&&o.to<o.from)return uiAlert('“To” is before “From”.');
+    db.rents=db.rents||[];if(r)Object.assign(r,o,{updatedAt:nowISO(),updatedBy:currentUser.name});else db.rents.push(Object.assign({id:uid(),createdAt:nowISO(),createdBy:currentUser.name},o));
+    saveDB();closeModal();toast('Rent saved','ok');v6rerender();
+  }},{label:'Cancel',action:closeModal}]);
+}
+async function delRent(id){if(!isAdmin())return;const r=(db.rents||[]).find(x=>x.id===id);if(!r||!await uiConfirm(`Remove the rent line for ${r.name}?`,{title:'Delete rent?',ok:'Delete',danger:true}))return;db.rents=db.rents.filter(x=>x!==r);saveDB();v6rerender()}
+
+// sub-lease screen: record the contract and its rent; no cost or margin figures here
+const _a15sl=renderSublease;
+renderSublease=function(el){
+  _a15sl(el);const adm=isAdmin();
+  el.querySelectorAll('.metrics .metric-card').forEach((m,i)=>{if(i>=2)m.remove()});
+  const al=el.querySelector('.alert.alert-info');if(al)al.textContent='When our camp is full and a customer needs rooms, we rent rooms from other providers. Record each contract and its rent here; the total rental cost and profit are in the Management report.';
+  const tb=el.querySelector('.card table');if(!tb)return;
+  const hr=tb.querySelector('thead tr');if(hr&&hr.cells.length>=11){hr.cells[7].remove();hr.cells[6].remove();if(adm)hr.cells[5].textContent='Rent';else hr.cells[5].remove()}
+  const S=db.subleaseContracts||[];
+  tb.querySelectorAll('tbody tr').forEach((tr,i)=>{if(tr.cells.length<11)return;tr.cells[7].remove();tr.cells[6].remove();const c=S[i];if(adm&&c)tr.cells[5].innerHTML=`SAR ${fmt(slRentAmount(c))}<br><span class="text-muted" style="font-size:11px">${RENT_BASIS[slRentBasis(c)]}</span>`;else tr.cells[5].remove();
+    if(!can('sublease','edit')){const a=tr.cells[tr.cells.length-1];if(a)a.innerHTML=''}});
+  const ft=tb.querySelector('tfoot tr');if(ft&&ft.cells.length>=7){ft.cells[5].remove();ft.cells[4].remove();ft.cells[3].remove();if(adm)ft.insertCell(3)}
+  if(!adm)el.querySelectorAll('.card-header button[onclick^="exportSL"]').forEach(b=>b.remove());
+};
+openSLModal=function(sl){
+  if(!can('sublease','edit'))return;const edit=!!sl;const b=sl?slRentBasis(sl):'month';
+  showModal(edit?'Edit sub-lease contract':'New sub-lease contract',`
+<div class="form-row">
+<div class="form-group"><label class="form-label req">Provider</label><select id="sl-prov">${db.subleaseProviders.map(p=>`<option value="${esc(p.id)}" ${sl&&sl.providerId===p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select></div>
+<div class="form-group"><label class="form-label req">Room type</label><select id="sl-cat">${['1x1','2x1','3x1','4x1','6x1'].map(c=>opt(c,c,sl&&sl.roomCategory===c)).join('')}</select></div>
+<div class="form-group"><label class="form-label req">No. of rooms</label><input type="number" id="sl-rooms" min="1" value="${sl?esc(sl.noOfRooms):1}"></div>
+<div class="form-group"><label class="form-label req">No. of beds</label><input type="number" id="sl-beds" min="1" value="${sl?esc(sl.beds):2}"></div>
+<div class="form-group"><label class="form-label req">Customer</label><select id="sl-client">${db.companies.filter(c=>coUsable(c)||(sl&&sl.clientId===c.id)).map(c=>`<option value="${esc(c.id)}" ${sl&&sl.clientId===c.id?'selected':''}>${esc(c.short)}</option>`).join('')}</select></div>
+<div class="form-group"><label class="form-label">Location / address</label><input id="sl-loc" value="${sl?esc(sl.location||''):''}" placeholder="e.g. Kawther, Jubail"></div>
+<div class="form-group"><label class="form-label req">Rent we pay (SAR, before VAT)</label><input type="number" id="sl-rent" step="0.01" min="0" value="${sl?esc(slRentAmount(sl)):''}"></div>
+<div class="form-group"><label class="form-label">Rent is</label><select id="sl-basis">${opt('month','Per month (whole contract)',b==='month')}${opt('bedday','Per bed per day',b==='bedday')}${opt('year','Per year (whole contract)',b==='year')}</select></div>
+<div class="form-group"><label class="form-label">Start date</label><input type="date" id="sl-from" value="${sl?esc(sl.startDate||''):today()}"></div>
+<div class="form-group"><label class="form-label">End date</label><input type="date" id="sl-to" value="${sl?esc(sl.endDate||''):''}"></div>
+<div class="form-group"><label class="form-label">Status</label><select id="sl-status">${opt('active','Active',!sl||sl.status==='active')}${opt('expired','Expired',sl&&sl.status==='expired')}${opt('cancelled','Cancelled',sl&&sl.status==='cancelled')}</select></div>
+<div class="form-group"><label class="form-label">Remarks</label><input id="sl-rem" value="${sl?esc(sl.remarks||''):''}"></div>
+</div><p class="auth-note">The customer is billed at their normal room prices. The rent and the profit after rent show only in the Management report.</p>`,
+  [{label:edit?'Save':'Add contract',primary:true,action:()=>{
+    const g=k=>document.getElementById(k).value;const p=db.subleaseProviders.find(x=>x.id===g('sl-prov'));const c=getCompany(g('sl-client'));
+    if(!p||!c)return uiAlert('Choose the provider and the customer.');const rent=Number(g('sl-rent'));if(!(rent>=0)||g('sl-rent')==='')return uiAlert('Enter the rent we pay.');
+    if(g('sl-to')&&g('sl-from')&&g('sl-to')<g('sl-from'))return uiAlert('The end date is before the start date.');
+    const basis=g('sl-basis');
+    const obj={providerId:p.id,providerName:p.name,roomCategory:g('sl-cat'),noOfRooms:parseInt(g('sl-rooms'))||1,beds:parseInt(g('sl-beds'))||1,clientId:c.id,clientName:c.short,location:g('sl-loc').trim(),
+      rentAmount:rent,rentBasis:basis,ourCostPerBed:basis==='bedday'?rent:0,startDate:g('sl-from'),endDate:g('sl-to'),status:g('sl-status'),remarks:g('sl-rem').trim()};
+    if(edit)Object.assign(sl,obj);else db.subleaseContracts.push(Object.assign({id:uid(),clientRatePerBed:0},obj));
+    saveDB();closeModal();toast('Sub-lease contract saved','ok');v6rerender();
+  }},{label:'Cancel',action:closeModal}],'modal-lg');
+};
+
+// management report: rent & profitability (only here)
+function canSeeProfit(){return isAdmin()||(can('management','view')&&can('revenue','view'))}
+function mgProfitMonths(n){
+  const out=[];const t=new Date(today()+'T00:00:00');
+  for(let i=n-1;i>=0;i--){const s=new Date(t.getFullYear(),t.getMonth()-i,1),e=new Date(t.getFullYear(),t.getMonth()-i+1,0);const from=ymd(s),to=ymd(e)>today()?today():ymd(e);
+    const acc=round2(computeMandays(from,to).reduce((a,r)=>a+r.amount,0)),cat=round2(computeCatering(from,to).reduce((a,r)=>a+r.amount,0)),rc=rentCost(from,to);
+    out.push({label:s.toLocaleDateString('en-GB',{month:'long',year:'numeric'}),acc,cat,rev:round2(acc+cat),rent:rc.total,profit:round2(acc+cat-rc.total),partial:i===0})}
+  return out;
+}
+function profitHTML(D,det){
+  const R=D.R;const rc=rentCost(R.from,D.to);const rev=D.amt;const profit=round2(rev-rc.total);const mg=rev?Math.round(profit/rev*100):null;
+  const tile=(l,v,s,cls)=>`<div class="mg-tile ${cls||''}"><div class="mg-l">${l}</div><div class="mg-v">${v}</div>${s?`<div class="mg-s">${s}</div>`:''}</div>`;
+  const M=det?mgProfitMonths(6):[];
+  return`<div class="card pf-card"><div class="card-header"><span class="card-title">Rent & profitability</span><span class="text-muted" style="font-size:12px">${esc(R.label)} · SAR before VAT</span></div><div class="card-body">
+<div class="mg-tiles pf-tiles">${tile('Revenue','SAR '+fK(rev),`rooms ${fK(D.accAmt||0)} · catering ${fK(D.catAmt||0)}`)}${tile('Total rental cost','SAR '+fK(rc.total),`camp ${fK(rc.camp)} · sub-lease ${fK(rc.sub)}`)}${tile('Profit after rent','SAR '+fK(profit),rev?'revenue minus rent':'',profit<0?'warn':'hero')}${tile('Margin',mg==null?'—':mg+'%','profit ÷ revenue',mg!=null&&mg<0?'warn':'')}</div>
+${rc.items.length?`<div class="scroll-x"><table style="margin-top:12px"><thead><tr><th>Rent</th><th></th><th class="text-right">Cost in the period (SAR)</th></tr></thead><tbody>${rc.items.map(i=>`<tr><td class="fw-bold">${esc(i.name)} <span class="badge ${i.kind==='camp'?'badge-navy':'badge-orange'}">${i.kind==='camp'?'camp':'sub-lease'}</span></td><td class="text-muted" style="font-size:12px">${esc(i.sub)}</td><td class="num">${fmt(i.amount)}</td></tr>`).join('')}</tbody><tfoot><tr><td>Total rental cost</td><td></td><td class="num">${fmt(rc.total)}</td></tr></tfoot></table></div>`:''}
+${M.length?`<div class="scroll-x"><table style="margin-top:14px"><thead><tr><th>Month</th><th class="text-right">Rooms</th><th class="text-right">Catering</th><th class="text-right">Revenue</th><th class="text-right">Rent</th><th class="text-right">Profit after rent</th><th class="text-right">Margin</th></tr></thead><tbody>${M.map(m=>`<tr><td>${esc(m.label)}${m.partial?' <span class="text-muted">(to date)</span>':''}</td><td class="num">${fmt(m.acc,0)}</td><td class="num">${fmt(m.cat,0)}</td><td class="num">${fmt(m.rev,0)}</td><td class="num">${fmt(m.rent,0)}</td><td class="num ${m.profit<0?'text-red':''}">${fmt(m.profit,0)}</td><td class="num">${m.rev?Math.round(m.profit/m.rev*100)+'%':'—'}</td></tr>`).join('')}</tbody></table></div>`:''}
+<p class="mg-note">Revenue is room mandays and catering deliveries at the agreed prices, before VAT. Extras added at month-end and other running costs (food, staff, utilities) are not included.${rc.items.length?'':isAdmin()?` No rent recorded yet — <a class="link" href="#" onclick="event.preventDefault();nav('rent')">record camp and sub-lease rent</a>.`:' No rent recorded yet.'}${det?'':' Switch to Detailed for the last 6 months.'}</p></div></div>`;
+}
+const _a15rm=renderManagement;
+renderManagement=function(el){_a15rm(el);if(!canSeeProfit())return;const tiles=el.querySelector('.mg-tiles');if(tiles&&el._D)tiles.insertAdjacentHTML('afterend',profitHTML(el._D,el._m.view==='detailed'))};
+
+Object.assign(AR,{'Daily deliveries':'التوصيل اليومي','Month summary':'ملخص الشهر','Prices':'الأسعار','Other items':'أصناف أخرى','3 times food':'وجبات 3 مرات','2 times food':'وجبتان','1 time food':'وجبة واحدة','Parcel delivery fee':'رسوم توصيل الطرود',
+  'Save prices':'حفظ الأسعار','Set catering prices':'تحديد أسعار الإعاشة','Catering prices today':'أسعار الإعاشة اليوم','Food only':'إعاشة فقط','Rooms + catering':'سكن + إعاشة','Other catering items':'أصناف إعاشة أخرى',
+  'Waiting for approval':'بانتظار الموافقة','Not approved':'غير موافق عليه','Approve':'موافقة','Not approve':'رفض','Waiting for administrator approval':'بانتظار موافقة المسؤول','Request new customer':'طلب عميل جديد','New customer requests':'طلبات العملاء الجدد',
+  'Rent':'الإيجار','Camp rent':'إيجار السكن','Sub-lease rent':'إيجار الباطن','Add camp rent':'إضافة إيجار السكن','Rent & profitability':'الإيجار والربحية','Total rental cost':'إجمالي تكلفة الإيجار','Profit after rent':'الربح بعد الإيجار','Margin':'هامش الربح','Revenue':'الإيرادات','Management report':'تقرير الإدارة'});
+
+// ═════════════════════════════════════════════════════════════
+//  v6.9 — CHECK-OUT DAY BILLING · CUSTOMER PRICE APPROVAL
+//  1. The check-out day counts as a billable day (Settings switch, with a start date).
+//     A person moving room, or checking out and in again the same day, is billed once for that day.
+//  2. Price approval (Settings switch): anyone can enter or change a customer price; it is used for
+//     billing only after a chosen price approver approves it. Nobody approves their own change.
+// ═════════════════════════════════════════════════════════════
+
+// ─── 1. check-out day billing ───
+const BILL_CO_DEFAULT_FROM='2026-11-01'; // until the rule is saved in Settings, earlier months keep the old counting
+function billCfg(){const b=db&&db.settings&&db.settings.billing;if(!b)return{checkoutDay:true,from:BILL_CO_DEFAULT_FROM};return{checkoutDay:b.checkoutDay!==false,from:b.checkoutFrom||''}}
+function billOutNote(){return billCfg().checkoutDay?'The check-out day is billed as a full day.':'The check-out day is not billed. Residents count for every day up to the day before.'}
+function resKey(r){const d=String(r.docNo||'').trim().toUpperCase();return d?'d:'+d:'n:'+String(r.name||'').trim().toUpperCase()+'|'+r.company}
+function billedOn(r,d){
+  if(presentOn(r,d))return true;
+  if(!r.checkIn||!r.checkOut||r.checkOut!==d||r.checkIn>d)return false;
+  const b=billCfg();if(!b.checkoutDay||(b.from&&d<b.from))return false;
+  const k=resKey(r);
+  return!db.residents.some(x=>x!==r&&x.checkIn&&resKey(x)===k&&(presentOn(x,d)||x.checkIn===d)); // moved or back the same day: bill that day once
+}
+function billedResidents(d){return db.residents.filter(r=>billedOn(r,d))}
+
+// ─── 2. price approval ───
+function paCfg(){const p=(db&&db.settings&&db.settings.priceApproval)||{};return{on:!!p.on,approvers:Array.isArray(p.approvers)?p.approvers.filter(a=>a&&a.id):[]}}
+function priceApprovalOn(){return paCfg().on}
+function isPriceApprover(){return!!currentUser&&paCfg().on&&paCfg().approvers.some(a=>a.id===currentUser.id)}
+function hasAnyEdit(){return!!currentUser&&!Store.readOnly&&(isAdmin()||Object.values(currentUser.perms||{}).includes('edit'))}
+function canEnterPrices(){return priceApprovalOn()?hasAnyEdit():can('rates','edit')}
+function paCanDecide(q){return!!q&&q.status==='pending'&&isPriceApprover()&&q.byId!==currentUser.id}
+COLLECTIONS.push('priceRequests');COL_MODULE.priceRequests=[];PAGE_MODULE.pricereq='_prices';NAV_ICON.pricereq='check';
+const _a16can=can;
+can=function(m,l){if(m==='_prices')return priceApprovalOn()&&!!currentUser&&(isPriceApprover()||hasAnyEdit());return _a16can(m,l)};
+const _a16cec=canEditCollection;
+canEditCollection=function(c){
+  if(c==='priceRequests')return priceApprovalOn()&&(hasAnyEdit()||isPriceApprover());
+  if(c==='rates'&&isPriceApprover())return true;
+  return _a16cec(c);
+};
+// every change of customer prices goes through here; with approval on it becomes a request
+const _a16arc=applyRateCard;
+applyRateCard=function(cid,card,svc,ref){if(priceApprovalOn()&&!window._paApplying)return paSubmit(cid,card,ref||'');return _a16arc(cid,card,svc,ref)};
+function paSubmit(cid,card,source){
+  const c=getCompany(cid);db.priceRequests=db.priceRequests||[];
+  const rows=(card.rows||[]).map(r=>{const x=rateExact(cid,r.cat,r.svc,card.from);return{cat:r.cat,svc:r.svc,price:round2(+r.price),to:r.to||'',old:x?+x.priceExclVat:null}});
+  const q={id:uid(),customerId:cid,short:c?c.short:'',kind:card.kind==='end'?'end':'card',cat:card.cat||'',from:card.from,rows,source:source||'',status:'pending',by:currentUser.name,byId:currentUser.id,at:nowISO()};
+  db.priceRequests.push(q);saveDB();
+  setTimeout(()=>toast(`Sent for approval — ${q.short} prices apply after a price approver approves them`,'ok'),60);
+  return rows.length||1;
+}
+function paPending(){return(db.priceRequests||[]).filter(q=>q.status==='pending')}
+function paDesc(q){return q.kind==='end'?`Stop ${q.cat} prices`:`${q.rows.length} price${q.rows.length>1?'s':''}`}
+function paRowsHTML(q){
+  if(q.kind==='end')return`<p style="margin:6px 0">Stop all <b>${esc(q.cat)}</b> prices from ${fmtDate(q.from)}. Residents of this customer in ${esc(q.cat)} rooms would then bill at SAR 0.</p>`;
+  const seeOld=can('rates','view')||isPriceApprover();
+  return`<div class="scroll-x"><table class="pa-rows"><thead><tr><th>Room type</th><th>Service</th>${seeOld?'<th class="text-right">Current</th>':''}<th class="text-right">New</th>${seeOld?'<th class="text-right">Change</th>':''}<th>Until</th></tr></thead><tbody>${q.rows.map(r=>{
+    const cur=seeOld?(()=>{const x=rateExact(q.customerId,r.cat,r.svc,q.from);return x?+x.priceExclVat:r.old})():null;const ch=cur?Math.round((r.price-cur)/cur*1000)/10:null;
+    return`<tr><td>${esc(r.cat==='CATERING'?'Catering':r.cat)}</td><td>${esc(SVC_LABEL[r.svc]||r.svc)}</td>${seeOld?`<td class="num">${cur==null?'<span class="text-muted">new</span>':fmt(cur)}</td>`:''}<td class="num fw-bold">${fmt(r.price)}</td>${seeOld?`<td class="num ${ch>0?'text-green':ch<0?'text-red':''}">${ch==null?'':(ch>0?'+':'')+ch+'%'}</td>`:''}<td>${r.to?fmtDate(r.to):'—'}</td></tr>`}).join('')}</tbody></table></div>`;
+}
+function paCardHTML(q,compact){
+  const own=currentUser&&q.byId===currentUser.id;const st={pending:['badge-orange','Waiting for approval'],approved:['badge-green','Approved'],rejected:['badge-red','Not approved'],withdrawn:['badge-gray','Withdrawn']}[q.status]||['badge-gray',q.status];
+  const lock=q.status==='pending'&&typeof monthLocked==='function'&&monthLocked(q.from);
+  return`<div class="pa-card ${q.status}"><div class="pa-head"><div><b>${esc(q.short)}</b> · ${paDesc(q)} from ${fmtDate(q.from)} <span class="badge ${st[0]}">${st[1]}</span>${q.source?`<div class="pa-sub">${esc(q.source)}</div>`:''}</div>
+<div class="pa-sub">Sent by ${esc(q.by||'')}${own?' (you)':''} · ${fmtDate(String(q.at).slice(0,10))}${q.decidedBy?` · ${q.status==='approved'?'approved':q.status==='rejected'?'not approved':''} by ${esc(q.decidedBy)} ${fmtDate(String(q.decidedAt).slice(0,10))}`:''}</div></div>
+${paRowsHTML(q)}${q.reason?`<div class="pa-sub">Reason: ${esc(q.reason)}</div>`:''}
+${lock?`<div class="alert alert-warn" style="margin:8px 0 0">${fmtDate(q.from)} is in a month already locked in Monthly Closing. After approving, unlock and lock that month again to bill at the new price.</div>`:''}
+${q.status==='pending'?`<div class="pa-btns">${paCanDecide(q)?`<button class="btn btn-sm btn-primary" onclick="paApprove('${jsa(q.id)}')">${ico('check')} Approve</button><button class="btn btn-sm btn-ghost" onclick="paReject('${jsa(q.id)}')">Not approve</button>`:''}
+${own?`<button class="btn btn-sm btn-ghost" onclick="paWithdraw('${jsa(q.id)}')">Withdraw</button>`:''}${own&&isPriceApprover()?'<span class="pa-sub">Another approver must approve your own change.</span>':''}${!own&&!isPriceApprover()?'<span class="pa-sub">Waiting for a price approver.</span>':''}</div>`:''}</div>`;
+}
+function paApplyRequest(q){
+  window._paApplying=true;
+  try{
+    if(q.kind==='end'){const t=q.from;const x=new Date(t+'T00:00:00');x.setDate(x.getDate()-1);const prev=ymd(x);
+      db.rates.filter(r=>r.customerId===q.customerId&&!r.archivedTier&&r.roomCategory===q.cat&&(!r.effectiveTo||r.effectiveTo>=t)).forEach(r=>{if(r.effectiveFrom>=t)r.archivedTier=true;else r.effectiveTo=prev});}
+    else{_a16arc(q.customerId,{from:q.from,rows:q.rows.map(r=>({cat:r.cat,svc:r.svc,price:r.price}))},null,`Approved by ${currentUser.name}${q.source?' · '+q.source:''}`);
+      q.rows.filter(r=>r.to).forEach(r=>{const rt=db.rates.find(x=>!x.archivedTier&&x.customerId===q.customerId&&x.roomCategory===r.cat&&x.serviceType===r.svc&&x.effectiveFrom===q.from);if(rt)rt.effectiveTo=r.to});}
+  }finally{window._paApplying=false}
+}
+async function paApprove(id){
+  const q=(db.priceRequests||[]).find(x=>x.id===id);if(!paCanDecide(q))return uiAlert(q&&q.byId===currentUser.id?'You cannot approve your own price change. Another approver must approve it.':'Only a price approver can approve this.');
+  if(!await uiConfirm(`${q.short}: ${paDesc(q)} from ${fmtDate(q.from)}. Billing will use ${q.kind==='end'?'no price for this room type':'the new prices'} from that date.`,{title:'Approve price change?',ok:'Approve'}))return;
+  paApplyRequest(q);Object.assign(q,{status:'approved',decidedBy:currentUser.name,decidedById:currentUser.id,decidedAt:nowISO()});
+  saveDB();toast(`${q.short} prices approved`,'ok');paRefresh();
+}
+async function paReject(id){
+  const q=(db.priceRequests||[]).find(x=>x.id===id);if(!paCanDecide(q))return;
+  const why=await uiPrompt(`Why is this ${q.short} price change not approved? ${esc(q.by)} will see the reason.`,{title:'Not approve',ok:'Not approve',value:''});if(why===null||why===undefined)return;
+  Object.assign(q,{status:'rejected',reason:String(why).trim(),decidedBy:currentUser.name,decidedById:currentUser.id,decidedAt:nowISO()});saveDB();toast(`${q.short} price change not approved`);paRefresh();
+}
+async function paWithdraw(id){
+  const q=(db.priceRequests||[]).find(x=>x.id===id);if(!q||q.status!=='pending'||q.byId!==currentUser.id)return;
+  if(!await uiConfirm(`Withdraw your ${q.short} price change?`,{title:'Withdraw',ok:'Withdraw'}))return;q.status='withdrawn';saveDB();paRefresh();
+}
+function paRefresh(){const m=document.querySelector('#active-modal');const cid=m&&m.dataset.paCid;if(m&&cid&&document.getElementById('pa-cust')){openCustomer(cid,'rates')}else v6rerender();paNavBadge()}
+function paNavBadge(){const n=document.getElementById('nav-pricereq');if(!n)return;const c=isPriceApprover()?paPending().filter(q=>q.byId!==currentUser.id).length:0;let b=n.querySelector('.nav-badge');if(!b){b=document.createElement('span');b.className='nav-badge';n.appendChild(b)}b.textContent=c||'';b.style.display=c?'':'none';n.style.display=can('_prices','view')?'flex':'none'}
+const _a16rp=renderPage;renderPage=function(page,el){if(page==='pricereq')return renderPriceReq(el);return _a16rp(page,el)};
+function renderPriceReq(el){
+  const s=el._pa=el._pa||{tab:'pending'};const P=paPending().sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+  const D=(db.priceRequests||[]).filter(q=>q.status!=='pending').sort((a,b)=>String(b.decidedAt||b.at).localeCompare(String(a.decidedAt||a.at))).slice(0,60);
+  const cfg=paCfg();const mine=P.filter(q=>paCanDecide(q)).length;
+  el.innerHTML=`<div class="page-header"><div><div class="page-title">${ico('check')} Price approvals</div><div class="page-sub">New or changed customer prices are used for billing only after approval · Approvers: ${cfg.approvers.map(a=>esc(a.name)).join(', ')||'none chosen'}</div></div></div>
+${!cfg.approvers.length?`<div class="alert alert-warn">No price approvers are chosen yet. ${isAdmin()?'Choose them in Settings → Billing rules.':'Ask an administrator to choose them in Settings.'}</div>`:cfg.approvers.length===1?`<div class="alert alert-info">Only one approver is chosen, so that person’s own price changes cannot be approved. ${isAdmin()?'Add a second approver in Settings → Billing rules.':''}</div>`:''}
+<div class="seg cat-tabs" role="tablist"><button class="${s.tab==='pending'?'on':''}" onclick="document.getElementById('page-pricereq')._pa.tab='pending';renderPriceReq(document.getElementById('page-pricereq'))">Waiting (${P.length})${mine?` · ${mine} for you`:''}</button><button class="${s.tab==='done'?'on':''}" onclick="document.getElementById('page-pricereq')._pa.tab='done';renderPriceReq(document.getElementById('page-pricereq'))">Decided</button></div>
+${s.tab==='pending'?(P.map(q=>paCardHTML(q)).join('')||`<div class="empty-state"><div class="icon">${ico('check')}</div><p>No price changes are waiting.</p></div>`):(D.map(q=>paCardHTML(q)).join('')||'<div class="empty-state"><p>No decided price changes yet.</p></div>')}
+<p class="auth-note">Prices are SAR before VAT. Change prices from a customer’s Rates tab or Catering → Prices; the change appears here until it is approved.</p>`;
+  paNavBadge();
+}
+// customer profile → Rates tab: show this customer's requests
+const _a16oc=openCustomer;
+openCustomer=function(id,tab){
+  _a16oc(id,tab);if(tab!=='rates')return;const m=document.querySelector('#active-modal');if(!m)return;m.dataset.paCid=id;
+  const mb=m.querySelector('.modal-body');if(!mb)return;const L=(db.priceRequests||[]).filter(q=>q.customerId===id&&(q.status==='pending'||(q.decidedAt&&daysBetween(String(q.decidedAt).slice(0,10),today())<=30))).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  if(priceApprovalOn()||L.length)mb.insertAdjacentHTML('afterbegin',`<div id="pa-cust">${priceApprovalOn()?`<div class="alert alert-info" style="margin-bottom:10px">${ico('check')} Price approval is on: changes you save here are sent for approval and used for billing only after a price approver approves them.</div>`:''}${L.map(q=>paCardHTML(q,true)).join('')}</div>`);
+};
+// legacy price screens
+['openRateModal','delRate'].forEach(n=>{if(typeof window[n]==='function'){const f=window[n];window[n]=function(...a){if(priceApprovalOn())return uiAlert('Price approval is on. Change prices from the customer’s Rates tab so the change can be approved.');return f.apply(this,a)}}});
+// approver notifications
+const _a16bn=buildNotifs;
+buildNotifs=async function(){const list=await _a16bn();if(isPriceApprover()){const n=paPending().filter(q=>q.byId!==currentUser.id).length;if(n)list.unshift({i:'check',t:`${n} price change${n>1?'s':''} waiting for your approval`,go:()=>nav('pricereq')})}
+  if(currentUser&&priceApprovalOn()){const r=(db.priceRequests||[]).filter(q=>q.byId===currentUser.id&&q.status==='rejected'&&q.decidedAt&&daysBetween(String(q.decidedAt).slice(0,10),today())<=7);if(r.length)list.push({i:'alert',t:`${r.length} of your price changes ${r.length>1?'were':'was'} not approved`,go:()=>{const el=document.getElementById('page-pricereq');el._pa={tab:'done'};nav('pricereq')}})}return list};
+const _a16enter=enterApp;enterApp=async function(){await _a16enter();paNavBadge()};
+
+// ─── Settings → Billing rules ───
+const _a16rs=renderSettings;
+renderSettings=function(el){
+  _a16rs(el);if(!currentUser)return;const b=billCfg(),p=paCfg();const ed=isAdmin()&&!Store.readOnly;const dis=ed?'':'disabled';
+  el.insertAdjacentHTML('beforeend',`<div class="card" id="bill-rules" style="margin-top:14px"><div class="card-header"><span class="card-title">${ico('banknote')} Billing rules</span></div><div class="card-body"><fieldset ${dis} style="border:0;padding:0;margin:0">
+<label class="chk-line" style="margin-top:0"><input type="checkbox" id="br-co" ${b.checkoutDay?'checked':''}> Bill the check-out day (count it as a full day)</label>
+<div class="form-row"><div class="form-group"><label class="form-label">For check-outs from</label><input type="date" id="br-from" value="${esc(b.from)}"></div></div>
+<p class="auth-note">Example: in on 1 Nov, out on 3 Nov = 3 days (2 days when switched off). Someone moving room, or checking out and in again the same day, is billed once for that day. Months already locked in Monthly Closing keep their figures.</p>
+<div class="divider"></div>
+<label class="chk-line"><input type="checkbox" id="pa-on" ${p.on?'checked':''}> Customer prices need approval</label>
+<p class="auth-note">When on, any user can enter or change a customer price. The price is used for billing only after a price approver approves it, and nobody can approve their own change.</p>
+<div class="form-label">Price approvers</div><div id="pa-users" class="pa-users"><span class="text-muted">Loading users…</span></div>
+${ed?`<button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="saveBillRules()">Save billing rules</button>`:'<p class="auth-note">Only administrators can change these rules.</p>'}
+</fieldset></div></div>`);
+  (async()=>{let users=[];try{users=(await UserStore.list()).filter(u=>u.active!==false&&!(typeof isPending==='function'&&isPending(u)))}catch(e){}
+    const box=document.getElementById('pa-users');if(!box)return;const sel=new Set(p.approvers.map(a=>a.id));
+    box.innerHTML=users.length?users.map(u=>`<label class="chk-line"><input type="checkbox" class="pa-u" value="${esc(u.id)}" data-n="${esc(u.name||u.username||u.email||'')}" ${sel.has(u.id)?'checked':''} ${dis}> ${esc(u.name||u.username||u.email||'')} <span class="text-muted">· ${esc(u.role||'')}</span></label>`).join(''):(p.approvers.map(a=>`<label class="chk-line"><input type="checkbox" class="pa-u" value="${esc(a.id)}" data-n="${esc(a.name)}" checked ${dis}> ${esc(a.name)}</label>`).join('')||'<span class="text-muted">No users found</span>');})();
+};
+async function saveBillRules(){
+  if(!isAdmin())return;const old=billCfg(),oldP=paCfg();
+  const co=document.getElementById('br-co').checked,from=document.getElementById('br-from').value;
+  const on=document.getElementById('pa-on').checked;const approvers=[...document.querySelectorAll('.pa-u:checked')].map(i=>({id:i.value,name:i.dataset.n}));
+  if(on&&!approvers.length)return uiAlert('Choose at least one price approver, or switch price approval off.');
+  if(on&&approvers.length===1&&!await uiConfirm(`Only ${approvers[0].name} is a price approver, so price changes entered by ${approvers[0].name} cannot be approved by anyone. Save anyway?`,{title:'One approver',ok:'Save anyway'}))return;
+  if((co!==old.checkoutDay||from!==old.from)&&!await uiConfirm(`Mandays for months that are not locked yet will be recalculated ${co?'with':'without'} the check-out day${co&&from?` (check-outs from ${fmtDate(from)})`:''}. Locked months keep their figures.`,{title:'Change billing rule?',ok:'Change'}))return;
+  if(!on&&oldP.on&&paPending().length&&!await uiConfirm(`${paPending().length} price change${paPending().length>1?'s are':' is'} still waiting. Switching approval off leaves them waiting and lets administrators change prices directly again.`,{title:'Switch approval off?',ok:'Switch off'}))return;
+  db.settings.billing={checkoutDay:co,checkoutFrom:from};db.settings.priceApproval={on,approvers};saveDB();toast('Billing rules saved','ok');paNavBadge();v6rerender();
+}
+
+Object.assign(AR,{'Billing rules':'قواعد الفوترة','Bill the check-out day (count it as a full day)':'احتساب يوم المغادرة يوماً كاملاً','For check-outs from':'للمغادرة ابتداءً من','Customer prices need approval':'أسعار العملاء تحتاج إلى موافقة','Price approvers':'معتمدو الأسعار','Save billing rules':'حفظ قواعد الفوترة',
+  'Price approvals':'اعتماد الأسعار','The check-out day is billed as a full day.':'يُحتسب يوم المغادرة يوماً كاملاً.','Withdraw':'سحب','Decided':'تم البت','Waiting for a price approver.':'بانتظار معتمد الأسعار.','Another approver must approve your own change.':'يجب أن يعتمد تغييرك معتمد آخر.'});
 
 Lang.apply();if(Lang.cur==='ar')trTree(document.body);(()=>{const b=document.getElementById('auth-lang');if(b)b.textContent=Lang.cur==='ar'?'English':'العربية'})();
 const _v6nav=nav;nav=function(p){if(p==='rates')p='companies';document.body.classList.toggle('ai-ready',AI.ready());return _v6nav(p)};
